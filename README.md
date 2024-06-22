@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-This template was created to have a base for projects with PWA integrated by using [@ducanh2912/next-pwa](https://ducanh-next-pwa.vercel.app/docs/next-pwa/getting-started).
+This template was created to have a base for projects with PWA integrated by using [@serwist/next](https://serwist.pages.dev/).
 
 This template also install `sass` for styling.
 
@@ -14,11 +14,7 @@ with <b>PWA</b> integrated and set to obtaing <b>100%</b> average on
 
 <center>
 
-![Score](./public/screenshots/100%20516x186.gif)
+![Score](./public/screenshots/100 577x182.webp)
 ![Installable](./public/screenshots/UI%201252x1164.webp)
 
 </center>
-
-## To Do
-
-- Migrate to `serwist`

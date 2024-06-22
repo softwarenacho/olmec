@@ -1,6 +1,6 @@
 {
   "name": "pwa-next-template",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ducanh2912/next-pwa": "^10.2.7",
+    "@serwist/next": "^9.0.3",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",
@@ -21,6 +21,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "^14.2.3",
+    "serwist": "^9.0.3",
     "typescript": "^5"
   }
 }

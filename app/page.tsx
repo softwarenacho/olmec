@@ -1,8 +1,14 @@
+'use client';
+
 import Image from 'next/image';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import styles from './page.module.scss';
 
-export default function Home() {
+const Home = () => {
+  const [loadImages, setImages] = useState(false);
+  useEffect(() => {
+    setImages(true);
+  }, []);
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <main className={styles.main}>
@@ -11,23 +17,28 @@ export default function Home() {
         <p>
           Use this template to bootstrap your <b>Next.js</b> web application
           with <b>PWA</b> integrated and set to obtaing <b>100%</b> average on
-          <b>Lighthouse</b> reports
+          <b> Lighthouse</b> reports
         </p>
-        <section>
-          <Image
-            src='/screenshots/100 516x186.gif'
-            alt='Score'
-            width={386}
-            height={144}
-          />
-          <Image
-            src='/screenshots/UI 1252x1164.webp'
-            alt='Score'
-            width={386}
-            height={360}
-          />
-        </section>
+        {loadImages && (
+          <section>
+            <Image
+              src='/screenshots/100 577x182.webp'
+              alt='Score'
+              width={385}
+              height={121}
+            />
+            <Image
+              src='/screenshots/UI 1252x1164.webp'
+              alt='Score'
+              width={386}
+              height={360}
+              priority
+            />
+          </section>
+        )}
       </main>
     </Suspense>
   );
-}
+};
+
+export default Home;
