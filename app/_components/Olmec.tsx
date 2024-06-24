@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import styles from '../_styles/Olmec.module.scss';
-import Culture from './Culture';
+import Game from './Game';
 
 const Olmec = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -15,11 +15,12 @@ const Olmec = () => {
       <div className={styles.backgroundPattern}></div>
       <div className={styles.olmecHead}></div>
       <div className={styles.mainElement}>
-        <h1 className={styles.title}>Olmecs</h1>
-        <div className={styles.summary}>
+        <h1 className={styles.title}>Olmec</h1>
+        <Game />
+        {/* <div className={styles.summary}>
           <Culture />
           <button className={styles.knowMoreButton}>Know More</button>
-        </div>
+        </div> */}
       </div>
       <div className={styles.footer}>
         <div className={styles.pyramid}>
