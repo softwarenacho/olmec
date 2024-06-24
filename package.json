@@ -1,6 +1,6 @@
 {
-  "name": "pwa-next-template",
-  "version": "0.1.1",
+  "name": "olmec",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",

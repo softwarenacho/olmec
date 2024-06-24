@@ -1,16 +1,15 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.scss';
 
-const APP_NAME = 'pwa-next-template';
-const APP_DEFAULT_TITLE = 'PWA Next.js template';
-const APP_DESCRIPTION =
-  'Next.js template with PWA integrated and scoring average 100';
+const APP_NAME = 'Olmec';
+const APP_DEFAULT_TITLE = 'Olmec Game';
+const APP_DESCRIPTION = 'Olmec inspired games';
 
 export const metadata: Metadata = {
   title: APP_NAME,
   description: APP_DESCRIPTION,
   manifest: '/manifest.json',
-  keywords: ['next.js', 'template', 'ts', 'sass'],
+  keywords: ['next.js', 'game', 'ts', 'sass'],
   authors: [{ name: 'Nacho Betancourt' }],
   appleWebApp: {
     capable: true,

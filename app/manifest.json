@@ -1,14 +1,14 @@
 {
-  "name": "PWA Next.js template",
-  "short_name": "pwa-next-template",
-  "id": "pwa-next-template",
-  "description": "Next.js template with PWA integrated and scoring average 100",
+  "name": "Olmec",
+  "short_name": "Olmec",
+  "id": "olmec",
+  "description": "Olmec inspired games",
   "display": "standalone",
   "start_url": "/",
   "scope": "/",
   "orientation": "portrait",
-  "theme_color": "#a6d6d8",
-  "background_color": "#a6d6d8",
+  "theme_color": "#04a96d",
+  "background_color": "#04a96d",
   "dir": "ltr",
   "lang": "en",
   "icons": [
@@ -43,28 +43,6 @@
     "minimal-ui",
     "fullscreen",
     "window-controls-overlay"
-  ],
-  "screenshots": [
-    {
-      "src": "/screenshots/Mobile 742x1292.webp",
-      "sizes": "742x1292",
-      "type": "image/webp",
-      "form_factor": "narrow",
-      "label": "Mobile"
-    },
-    {
-      "src": "/screenshots/Desktop 1526x970.webp",
-      "sizes": "1526x970",
-      "type": "image/webp",
-      "form_factor": "wide",
-      "label": "Desktop"
-    },
-    {
-      "src": "/screenshots/UI 1252x1164.webp",
-      "sizes": "1252x1164",
-      "type": "image/webp",
-      "label": "UI"
-    }
   ],
   "launch_handler": {
     "client_mode": ["focus-existing", "auto"]
