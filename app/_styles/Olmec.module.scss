@@ -42,10 +42,25 @@ $basalt: #4b4b4b;
 }
 
 .summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   max-height: calc(100vh - 45rem);
   overflow: scroll;
   margin: 20px 0;
   padding: 0 20px;
+  p,
+  li {
+    margin: 1rem 0;
+  }
+  ol {
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
 }
 
 .knowMoreButton {
@@ -79,6 +94,7 @@ $basalt: #4b4b4b;
       align-items: center;
       gap: 1rem;
       a {
+        cursor: pointer;
         font-weight: bold;
         padding: 0.5rem 1rem;
         border: 1px solid $jade;
@@ -91,10 +107,10 @@ $basalt: #4b4b4b;
 .sidebar {
   position: fixed;
   top: 0;
-  right: -300px;
-  width: 300px;
+  right: -50%;
+  width: 50%;
   height: 100%;
-  background-color: $jade;
+  background-color: $basalt;
   transition: right 0.3s ease-in-out;
   z-index: 3;
 }

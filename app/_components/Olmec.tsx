@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useState } from 'react';
 import styles from '../_styles/Olmec.module.scss';
 import Culture from './Culture';
@@ -40,14 +41,29 @@ const Olmec = () => {
         <div className={styles.sidebarContent}>
           <ul>
             <li>Game</li>
-            <li>About</li>
-            <li>Settings</li>
-            <li>Profile</li>
+            <li>Rules</li>
+            <li>History</li>
+            <li>More</li>
           </ul>
         </div>
       </div>
       <div className={styles.sidebarToggle} onClick={toggleSidebar}>
-        menu
+        {sidebarOpen && (
+          <Image
+            src='/icons/basalt.webp'
+            alt='Close Menu'
+            width={32}
+            height={32}
+          />
+        )}
+        {!sidebarOpen && (
+          <Image
+            src='/icons/jade.webp'
+            alt='Open Menu'
+            width={32}
+            height={32}
+          />
+        )}
       </div>
     </div>
   );
