@@ -185,12 +185,14 @@ $snake-start: #cd3569;
 
 .snake {
   stroke: $snake-start;
-  animation: dash 3s ease-out infinite alternate;
+  animation: dash 3s ease-out infinite;
+  animation-direction: reverse;
 }
 
 .ladder {
   stroke: $ladder-end;
-  animation: dash 2.5s ease-in infinite alternate;
+  animation: dash 2.5s ease-in infinite;
+  animation-direction: reverse;
 }
 
 @keyframes dash {
