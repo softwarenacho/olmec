@@ -74,7 +74,7 @@
       "icons": [
         {
           "src": "/icons/olmec.png",
-          "sizes": "96x96",
+          "sizes": "512x512",
           "type": "image/png"
         }
       ]
