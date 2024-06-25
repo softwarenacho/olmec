@@ -181,15 +181,16 @@ $snake-start: #cd3569;
   opacity: 0.5;
   stroke-dasharray: 32;
   fill: none;
-  animation: dash 2.5s linear infinite alternate;
 }
 
 .snake {
   stroke: $snake-start;
+  animation: dash 3s ease-out infinite alternate;
 }
 
 .ladder {
   stroke: $ladder-end;
+  animation: dash 2.5s ease-in infinite alternate;
 }
 
 @keyframes dash {
