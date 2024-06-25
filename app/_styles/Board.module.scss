@@ -39,11 +39,11 @@ $snake-start: #cd3569;
   justify-content: center;
   background: url('/icons/pattern.svg') repeat;
   background-color: $jade;
-  background-blend-mode: color-dodge;
   background-position: center;
   background-size: contain;
   z-index: 1;
   font-size: 1rem;
+  border: 0.25rem solid $jade;
   border-radius: 8px;
   @include shadow;
 }
@@ -58,21 +58,21 @@ $snake-start: #cd3569;
 }
 
 .index {
-  top: 8px;
+  top: 4px;
 }
 
 .end {
   font-weight: bold;
-  bottom: 8px;
+  bottom: 4px;
 }
 
 .reverse {
   .index {
-    bottom: 8px !important;
+    bottom: 4px !important;
     top: unset;
   }
   .end {
-    top: 8px !important;
+    top: 4px !important;
     bottom: unset;
   }
 }
