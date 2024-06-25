@@ -257,8 +257,6 @@ $snake-start: #cd3569;
   height: 70%;
   top: 15%;
   left: 5%;
-  background: url('/icons/pattern.svg') repeat;
-  background-position: center;
   background-color: $jade;
   .images {
     @include flex-center;
@@ -272,7 +270,7 @@ $snake-start: #cd3569;
     }
   }
   h2 {
-    color: $snake-start;
+    color: $basalt;
     font-size: 2rem;
     margin-top: 1rem;
   }

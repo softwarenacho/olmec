@@ -47,15 +47,6 @@ const Dice: React.FC<DiceProps> = ({
     setRolling(true);
   };
 
-  let diceSrc;
-  if (rolling) {
-    diceSrc = `/icons/dice${result ? `-${result}` : ''}.webp`;
-  } else if (result !== null) {
-    diceSrc = `/icons/dice-${result}.webp`;
-  } else {
-    diceSrc = '/icons/dice.webp';
-  }
-
   let statusText;
   if (rolling) {
     statusText = 'Rolling';
@@ -65,6 +56,17 @@ const Dice: React.FC<DiceProps> = ({
     statusText = 'Wait';
   } else {
     statusText = 'Roll';
+  }
+
+  let diceSrc;
+  if (rolling) {
+    diceSrc = `/icons/dice${result ? `-${result}` : ''}.webp`;
+  } else if (statusText === 'Roll') {
+    diceSrc = '/icons/dice.webp';
+  } else if (result !== null) {
+    diceSrc = `/icons/dice-${result}.webp`;
+  } else {
+    diceSrc = '/icons/dice.webp';
   }
 
   return (
