@@ -36,46 +36,42 @@ const Board: React.FC<BoardProps> = ({
     ladders: SnakeOrLadder[],
   ) => {
     const lines: React.JSX.Element[] = [];
-    const offsetX = 120;
-    const offsetY = 0;
+    const offsetX = 200;
+    const offsetY = 40;
+    const createLine = (
+      element: SnakeOrLadder,
+      index: number,
+      className: string,
+    ) => {
+      const startElement = document.getElementById(`tile-${element.start}`);
+      const endElement = document.getElementById(`tile-${element.end}`);
+      if (startElement && endElement) {
+        const startRect = startElement.getBoundingClientRect();
+        const endRect = endElement.getBoundingClientRect();
+        return (
+          <line
+            key={`${className}-${index}`}
+            x1={startRect.x + startRect.width / 2 - offsetX}
+            y1={startRect.y + startRect.height / 2 - offsetY}
+            x2={endRect.x + endRect.width / 2 - offsetX}
+            y2={endRect.y + endRect.height / 2 - offsetY}
+            className={className}
+          />
+        );
+      }
+      return null;
+    };
+
     ladders.forEach((ladder: SnakeOrLadder, index: number) => {
-      const ladderStart = document.getElementById(`tile-${ladder.start}`);
-      const ladderEnd = document.getElementById(`tile-${ladder.end}`);
-      if (ladderStart && ladderEnd) {
-        const startRect = ladderStart.getBoundingClientRect();
-        const endRect = ladderEnd.getBoundingClientRect();
-        const line = (
-          <line
-            key={`ladder-${index}`}
-            x1={startRect.x - offsetX}
-            y1={startRect.y + offsetY}
-            x2={endRect.x - offsetX}
-            y2={endRect.y + offsetY}
-            className={styles.ladder}
-          />
-        );
-        lines.push(line);
-      }
+      const line = createLine(ladder, index, styles.ladder);
+      if (line) lines.push(line);
     });
+
     snakes.forEach((snake: SnakeOrLadder, index: number) => {
-      const snakeStart = document.getElementById(`tile-${snake.start}`);
-      const snakeEnd = document.getElementById(`tile-${snake.end}`);
-      if (snakeStart && snakeEnd) {
-        const startRect = snakeStart.getBoundingClientRect();
-        const endRect = snakeEnd.getBoundingClientRect();
-        const line = (
-          <line
-            key={`snake-${index}`}
-            x1={startRect.x - offsetX}
-            y1={startRect.y + offsetY}
-            x2={endRect.x - offsetX}
-            y2={endRect.y + offsetY}
-            className={styles.snake}
-          />
-        );
-        lines.push(line);
-      }
+      const line = createLine(snake, index, styles.snake);
+      if (line) lines.push(line);
     });
+
     return lines;
   };
 
