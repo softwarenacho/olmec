@@ -124,6 +124,7 @@ $snake-start: #cd3569;
 .ladderStart,
 .ladderEnd {
   border: 0.25rem solid;
+  background-blend-mode: hard-light;
 }
 
 .snakeStart {
