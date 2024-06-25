@@ -1,6 +1,7 @@
 const Culture = () => {
   return (
     <>
+      <h1>Olmec Culture</h1>
       <p>
         <b>
           The Olmec civilization, often considered the mother culture of

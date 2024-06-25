@@ -2,20 +2,20 @@
 
 import Link from 'next/link';
 import { Suspense } from 'react';
-import Game from '../_components/Game';
-import styles from '../_styles/Game.module.scss';
+import Instructions from '../_components/Instructions';
+import styles from '../_styles/Instructions.module.scss';
 
-const GamePage = () => {
+const RulesPage = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <main className={styles.main}>
-        <Game />
+        <Instructions />
         <Link href='/' role='button'>
-          Go Home
+          Go Back
         </Link>
       </main>
     </Suspense>
   );
 };
 
-export default GamePage;
+export default RulesPage;

@@ -27,5 +27,7 @@ $basalt: #4b4b4b;
   position: relative;
   background-color: $jade;
   background: url('/icons/pattern.svg') repeat;
-  color: #fff;
+  a {
+    color: white;
+  }
 }

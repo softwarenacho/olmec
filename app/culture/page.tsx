@@ -2,20 +2,20 @@
 
 import Link from 'next/link';
 import { Suspense } from 'react';
-import Game from '../_components/Game';
-import styles from '../_styles/Game.module.scss';
+import Culture from '../_components/Culture';
+import styles from '../_styles/Culture.module.scss';
 
-const GamePage = () => {
+const CulturePage = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <main className={styles.main}>
-        <Game />
+        <Culture />
         <Link href='/' role='button'>
-          Go Home
+          Go Back
         </Link>
       </main>
     </Suspense>
   );
 };
 
-export default GamePage;
+export default CulturePage;
