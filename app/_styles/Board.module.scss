@@ -1,5 +1,16 @@
 $jade: #04a96d;
 $basalt: #4b4b4b;
+$ladder-start: #4ddfff;
+$ladder-end: #2264e6;
+$snake-start: #e1c5ce;
+$snake-end: #cd3569;
+
+@mixin flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 @mixin shadow {
   box-shadow: 2px 2px 2px $basalt;
@@ -10,8 +21,9 @@ $basalt: #4b4b4b;
 
 .board {
   display: grid;
-  grid-template-columns: repeat(10, 2.5rem);
-  grid-gap: 1px;
+  grid-template-columns: repeat(10, 5rem);
+  grid-gap: 0.25rem;
+  padding: 1rem;
   width: fit-content;
   position: relative;
   background-color: $basalt;
@@ -20,14 +32,14 @@ $basalt: #4b4b4b;
 
 .tile {
   position: relative;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 5rem;
+  height: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #000;
   background: url('/icons/pattern.svg') repeat;
   background-color: $jade;
+  background-blend-mode: color-dodge;
   background-position: center;
   background-size: contain;
   z-index: 1;
@@ -36,28 +48,22 @@ $basalt: #4b4b4b;
   @include shadow;
 }
 
-.snakeStart {
-  border: 1px solid;
-  border-color: red;
-}
-
-.snakeEnd {
-  border: 1px solid;
-  border-color: pink;
-}
-
-.ladderStart {
-  border: 1px solid;
-  border-color: green;
-}
-
-.ladderEnd {
-  border: 1px solid;
-  border-color: lightgreen;
+.dualIndex {
+  @include flex-center;
+  span {
+    display: flex;
+    position: absolute;
+    font-size: smaller;
+  }
 }
 
 .index {
-  display: flex;
+  top: 8px;
+}
+
+.end {
+  font-weight: bold;
+  bottom: 8px;
 }
 
 .player,
@@ -66,21 +72,21 @@ $basalt: #4b4b4b;
   position: absolute;
   padding: 0.5rem;
   border-radius: 8px;
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 4rem;
+  height: 4rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .player {
-  background-color: $basalt;
+  // background-color: $basalt;
   // left: 0;
   // top: 0;
 }
 
 .ai {
-  background-color: $jade;
+  // background-color: $jade;
   // right: 0;
   // bottom: 0;
 }
@@ -88,6 +94,11 @@ $basalt: #4b4b4b;
 .dualPlayer {
   display: flex;
   justify-content: space-between;
+  .player,
+  .ai {
+    max-width: 2.5rem;
+    max-height: 2.5rem;
+  }
   .player {
     left: 0;
     top: 0;
@@ -95,6 +106,41 @@ $basalt: #4b4b4b;
   .ai {
     right: 0;
     bottom: 0;
+  }
+}
+
+.snakeStart,
+.snakeEnd,
+.ladderStart,
+.ladderEnd {
+  border: 0.25rem solid;
+}
+
+.snakeStart {
+  border-color: $snake-start;
+  span {
+    color: $snake-start;
+  }
+}
+
+.snakeEnd {
+  border-color: $snake-end;
+  span {
+    color: $snake-end;
+  }
+}
+
+.ladderStart {
+  border-color: $ladder-end;
+  span {
+    color: $ladder-end;
+  }
+}
+
+.ladderEnd {
+  border-color: $ladder-start;
+  span {
+    color: $ladder-start;
   }
 }
 

@@ -19,13 +19,22 @@ const Board: React.FC<BoardProps> = ({
   const renderTile = useCallback(
     (index: number) => {
       let tileClass = '';
-      if (snakes.some((s) => s.start === index)) tileClass = styles.snakeStart;
-      if (snakes.some((s) => s.end === index)) tileClass = styles.snakeEnd;
-      if (ladders.some((l) => l.start === index))
-        tileClass = styles.ladderStart;
-      if (ladders.some((l) => l.end === index)) tileClass = styles.ladderEnd;
+      const snakeStart = snakes.find((s) => s.start === index);
+      const snakeEnd = snakes.find((s) => s.end === index);
+      const ladderStart = ladders.find((l) => l.start === index);
+      const ladderEnd = ladders.find((l) => l.end === index);
+      if (snakeStart) tileClass = styles.snakeStart;
+      if (snakeEnd) tileClass = styles.snakeEnd;
+      if (ladderStart) tileClass = styles.ladderStart;
+      if (ladderEnd) tileClass = styles.ladderEnd;
 
-      let content = <span className={styles.index}>{index}</span>;
+      let content = (
+        <div className={styles.dualIndex}>
+          <span className={styles.index}>{index}</span>
+          {ladderStart && <span className={styles.end}>{ladderStart.end}</span>}
+          {snakeStart && <span className={styles.end}>{snakeStart.end}</span>}
+        </div>
+      );
       if (index === playerPosition && index === aiPosition) {
         content = (
           <div className={styles.dualPlayer}>
@@ -33,16 +42,16 @@ const Board: React.FC<BoardProps> = ({
               <Image
                 src='/icons/jaguar.png'
                 alt='Player Jaguar'
-                width={24}
-                height={24}
+                width={48}
+                height={48}
               />
             </span>
             <span className={styles.ai}>
               <Image
                 src='/icons/eagle.png'
                 alt='CPU Head'
-                width={24}
-                height={24}
+                width={48}
+                height={48}
               />
             </span>
           </div>
@@ -53,8 +62,8 @@ const Board: React.FC<BoardProps> = ({
             <Image
               src='/icons/jaguar.png'
               alt='Player Jaguar'
-              width={24}
-              height={24}
+              width={48}
+              height={48}
             />
           </span>
         );
@@ -64,8 +73,8 @@ const Board: React.FC<BoardProps> = ({
             <Image
               src='/icons/eagle.png'
               alt='CPU Head'
-              width={24}
-              height={24}
+              width={48}
+              height={48}
             />
           </span>
         );
