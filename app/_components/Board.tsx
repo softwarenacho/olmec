@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import styles from '../_styles/Board.module.scss';
 import { SnakeOrLadder } from '../_utils/generateBoard';
 
@@ -16,6 +16,22 @@ const Board: React.FC<BoardProps> = ({
   playerPosition,
   aiPosition,
 }) => {
+  const specificDivRef = useRef<HTMLDivElement>(null);
+
+  const scrollPlayerIntoView = () => {
+    if (specificDivRef.current) {
+      specificDivRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      });
+    }
+  };
+
+  useEffect(() => {
+    scrollPlayerIntoView();
+  }, [playerPosition]);
+
   const renderTile = useCallback(
     (index: number) => {
       let tileClass = '';
@@ -60,7 +76,7 @@ const Board: React.FC<BoardProps> = ({
       if (index === playerPosition && index === aiPosition) {
         content = (
           <div className={styles.dualPlayer}>
-            <span className={styles.player}>
+            <span className={styles.player} ref={specificDivRef}>
               <Image
                 src='/icons/jaguar.png'
                 alt='Player Jaguar'
@@ -80,7 +96,7 @@ const Board: React.FC<BoardProps> = ({
         );
       } else if (index === playerPosition) {
         content = (
-          <span className={styles.player}>
+          <span className={styles.player} ref={specificDivRef}>
             <Image
               src='/icons/jaguar.png'
               alt='Player Jaguar'

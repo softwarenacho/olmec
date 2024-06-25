@@ -28,6 +28,12 @@ $snake-start: #cd3569;
   position: relative;
   background-color: $basalt;
   border-radius: 8px;
+  max-width: 85vw;
+  max-height: 65vh;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .tile {

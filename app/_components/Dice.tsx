@@ -58,11 +58,11 @@ const Dice: React.FC<DiceProps> = ({
 
   let statusText;
   if (rolling) {
-    statusText = 'Rolling...';
+    statusText = 'Rolling';
   } else if (playerIsMoving) {
-    statusText = 'Moving...';
+    statusText = 'Moving';
   } else if (aiIsMoving) {
-    statusText = 'Wait...';
+    statusText = 'Wait';
   } else {
     statusText = 'Roll Dice';
   }
