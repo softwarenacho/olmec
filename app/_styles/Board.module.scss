@@ -28,8 +28,8 @@ $snake-start: #cd3569;
   position: relative;
   background-color: $basalt;
   border-radius: 8px;
-  max-width: 85vw;
-  max-height: 65vh;
+  max-width: 90vw;
+  max-height: calc(100vh - 10rem);
   overflow: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -48,6 +48,10 @@ $snake-start: #cd3569;
   background-position: center;
   background-size: contain;
   z-index: 1;
+  &:has(.player),
+  &:has(.ai) {
+    z-index: 5;
+  }
   font-size: 1rem;
   border: 0.25rem solid $jade;
   border-radius: 8px;
@@ -130,6 +134,7 @@ $snake-start: #cd3569;
 .ladderEnd {
   border: 0.25rem solid;
   background-blend-mode: hard-light;
+  z-index: 3;
 }
 
 .snakeStart {
@@ -166,35 +171,30 @@ $snake-start: #cd3569;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
+  z-index: 2;
+}
+
+.snake,
+.ladder {
+  stroke-width: 16;
+  stroke-linecap: round;
+  opacity: 0.5;
+  stroke-dasharray: 32;
+  fill: none;
+  animation: dash 2.5s linear infinite alternate;
 }
 
 .snake {
-  stroke: red;
-  stroke-width: 4;
-  fill: none;
-  marker-end: url(#snake-head);
+  stroke: $snake-start;
 }
 
 .ladder {
-  stroke: green;
-  stroke-width: 4;
-  fill: none;
-  marker-end: url(#ladder-top);
+  stroke: $ladder-end;
 }
 
-.markerHead {
-  overflow: visible;
-}
-
-#snake-head {
-  fill: red;
-  stroke: red;
-  stroke-width: 1;
-}
-
-#ladder-top {
-  fill: green;
-  stroke: green;
-  stroke-width: 1;
+@keyframes dash {
+  to {
+    stroke-dasharray: 24;
+    stroke-dashoffset: 100;
+  }
 }

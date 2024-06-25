@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from '../_styles/Board.module.scss';
 import { SnakeOrLadder } from '../_utils/generateBoard';
 
@@ -16,16 +16,67 @@ const Board: React.FC<BoardProps> = ({
   playerPosition,
   aiPosition,
 }) => {
-  const specificDivRef = useRef<HTMLDivElement>(null);
+  const [tiles, setTiles] = useState<React.JSX.Element[]>([]);
+  const [arrows, setArrows] = useState<React.JSX.Element[]>([]);
+  const playerRef = useRef<HTMLDivElement>(null);
+  const boardRef = useRef<HTMLDivElement>(null);
 
   const scrollPlayerIntoView = () => {
-    if (specificDivRef.current) {
-      specificDivRef.current.scrollIntoView({
+    if (playerRef.current) {
+      playerRef.current.scrollIntoView({
         behavior: 'smooth',
         block: 'center',
         inline: 'center',
       });
     }
+  };
+
+  const getConnections = (
+    snakes: SnakeOrLadder[],
+    ladders: SnakeOrLadder[],
+  ) => {
+    const lines: React.JSX.Element[] = [];
+    const offsetX = 200;
+    const offsetY = 10;
+    ladders.forEach((ladder: SnakeOrLadder, index: number) => {
+      const ladderStart = document.getElementById(`tile-${ladder.start}`);
+      const ladderEnd = document.getElementById(`tile-${ladder.end}`);
+      if (ladderStart && ladderEnd) {
+        const startRect = ladderStart.getBoundingClientRect();
+        const endRect = ladderEnd.getBoundingClientRect();
+        const line = (
+          <line
+            key={`ladder-${index}`}
+            x1={startRect.x - offsetX}
+            y1={startRect.y + offsetY}
+            x2={endRect.x - offsetX}
+            y2={endRect.y + offsetY}
+            className={styles.ladder}
+          />
+        );
+        lines.push(line);
+      }
+    });
+    snakes.forEach((snake: SnakeOrLadder, index: number) => {
+      const snakeStart = document.getElementById(`tile-${snake.start}`);
+      const snakeEnd = document.getElementById(`tile-${snake.end}`);
+      if (snakeStart && snakeEnd) {
+        const startRect = snakeStart.getBoundingClientRect();
+        const endRect = snakeEnd.getBoundingClientRect();
+        const line = (
+          <line
+            key={`snake-${index}`}
+            x1={startRect.x - offsetX}
+            y1={startRect.y + offsetY}
+            x2={endRect.x - offsetX}
+            y2={endRect.y + offsetY}
+            className={styles.snake}
+          />
+        );
+        lines.push(line);
+      }
+    });
+    return lines;
   };
 
   useEffect(() => {
@@ -76,7 +127,7 @@ const Board: React.FC<BoardProps> = ({
       if (index === playerPosition && index === aiPosition) {
         content = (
           <div className={styles.dualPlayer}>
-            <span className={styles.player} ref={specificDivRef}>
+            <span className={styles.player} ref={playerRef}>
               <Image
                 src='/icons/jaguar.png'
                 alt='Player Jaguar'
@@ -96,7 +147,7 @@ const Board: React.FC<BoardProps> = ({
         );
       } else if (index === playerPosition) {
         content = (
-          <span className={styles.player} ref={specificDivRef}>
+          <span className={styles.player} ref={playerRef}>
             <Image
               src='/icons/jaguar.png'
               alt='Player Jaguar'
@@ -119,7 +170,11 @@ const Board: React.FC<BoardProps> = ({
       }
 
       return (
-        <div key={index} className={`${styles.tile} ${tileClass}`}>
+        <div
+          id={`tile-${index}`}
+          key={index}
+          className={`${styles.tile} ${tileClass}`}
+        >
           {content}
         </div>
       );
@@ -127,15 +182,30 @@ const Board: React.FC<BoardProps> = ({
     [aiPosition, ladders, playerPosition, snakes],
   );
 
-  const tiles = [];
-  for (let i = 100; i > 0; i--) {
-    tiles.push(renderTile(i));
-  }
+  useEffect(() => {
+    const arrows = getConnections(snakes, ladders);
+    setArrows(arrows);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tiles]);
+
+  useEffect(() => {
+    const boardTiles = [];
+    for (let i = 100; i > 0; i--) {
+      boardTiles.push(renderTile(i));
+    }
+    setTiles(boardTiles);
+  }, [snakes, ladders, aiPosition, playerPosition, renderTile]);
 
   return (
-    <div className={styles.board}>
+    <div className={styles.board} ref={boardRef}>
       {tiles}
-      {/* <svg className={styles.connections}>{renderConnections()}</svg> */}
+      <svg
+        className={styles.connections}
+        width={boardRef.current?.offsetWidth}
+        height={boardRef.current?.offsetHeight}
+      >
+        {arrows}
+      </svg>
     </div>
   );
 };

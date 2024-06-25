@@ -31,13 +31,13 @@ const Dice: React.FC<DiceProps> = ({
         const rollResult = Math.floor(Math.random() * 6) + 1;
         resultRef.current = rollResult;
         setResult(rollResult);
-      }, 100);
+      }, 50);
 
       setTimeout(() => {
         clearInterval(rollInterval);
         setRolling(false);
         rollDice(resultRef.current!);
-      }, 3000);
+      }, 1000);
 
       return () => clearInterval(rollInterval);
     }
@@ -47,13 +47,13 @@ const Dice: React.FC<DiceProps> = ({
     setRolling(true);
   };
 
-  let displayImageSrc;
+  let diceSrc;
   if (rolling) {
-    displayImageSrc = `/icons/dice-${result}.png`;
+    diceSrc = `/icons/dice${result ? `-${result}` : ''}.png`;
   } else if (result !== null) {
-    displayImageSrc = `/icons/dice-${result}.png`;
+    diceSrc = `/icons/dice-${result}.png`;
   } else {
-    displayImageSrc = '/icons/dice.png';
+    diceSrc = '/icons/dice.png';
   }
 
   let statusText;
@@ -70,7 +70,8 @@ const Dice: React.FC<DiceProps> = ({
   return (
     <div className={styles.diceContainer}>
       <Image
-        src={displayImageSrc}
+        priority
+        src={diceSrc}
         alt={statusText}
         width={100}
         height={100}

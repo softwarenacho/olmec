@@ -36,7 +36,7 @@ const Game: React.FC = () => {
         setIsAnimating(false);
         setTimeout(() => {
           setResetDice(true);
-        }, result * 500);
+        }, result * 200);
       });
     });
   };
