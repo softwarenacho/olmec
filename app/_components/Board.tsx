@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, { useCallback } from 'react';
 import styles from '../_styles/Board.module.scss';
 import { SnakeOrLadder } from '../_utils/generateBoard';
@@ -24,18 +25,50 @@ const Board: React.FC<BoardProps> = ({
         tileClass = styles.ladderStart;
       if (ladders.some((l) => l.end === index)) tileClass = styles.ladderEnd;
 
-      let content = <span>{index}</span>;
+      let content = <span className={styles.index}>{index}</span>;
       if (index === playerPosition && index === aiPosition) {
         content = (
           <div className={styles.dualPlayer}>
-            <span className={styles.player}>P</span>
-            <span className={styles.ai}>C</span>
+            <span className={styles.player}>
+              <Image
+                src='/icons/jaguar.png'
+                alt='Player Jaguar'
+                width={24}
+                height={24}
+              />
+            </span>
+            <span className={styles.ai}>
+              <Image
+                src='/icons/eagle.png'
+                alt='CPU Head'
+                width={24}
+                height={24}
+              />
+            </span>
           </div>
         );
       } else if (index === playerPosition) {
-        content = <span className={styles.player}>P</span>;
+        content = (
+          <span className={styles.player}>
+            <Image
+              src='/icons/jaguar.png'
+              alt='Player Jaguar'
+              width={24}
+              height={24}
+            />
+          </span>
+        );
       } else if (index === aiPosition) {
-        content = <span className={styles.ai}>C</span>;
+        content = (
+          <span className={styles.ai}>
+            <Image
+              src='/icons/eagle.png'
+              alt='CPU Head'
+              width={24}
+              height={24}
+            />
+          </span>
+        );
       }
 
       return (

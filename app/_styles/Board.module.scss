@@ -1,6 +1,13 @@
 $jade: #04a96d;
 $basalt: #4b4b4b;
 
+@mixin shadow {
+  box-shadow: 2px 2px 2px $basalt;
+  &:hover {
+    box-shadow: 4px 4px 4px $basalt;
+  }
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(10, 2.5rem);
@@ -19,10 +26,14 @@ $basalt: #4b4b4b;
   align-items: center;
   justify-content: center;
   border: 1px solid #000;
-  position: relative;
+  background: url('/icons/pattern.svg') repeat;
+  background-color: $jade;
+  background-position: center;
+  background-size: contain;
   z-index: 1;
   font-size: 1rem;
   border-radius: 8px;
+  @include shadow;
 }
 
 .snakeStart {
@@ -45,6 +56,10 @@ $basalt: #4b4b4b;
   border-color: lightgreen;
 }
 
+.index {
+  display: flex;
+}
+
 .player,
 .ai {
   transition: transform 0.5s;
@@ -59,13 +74,13 @@ $basalt: #4b4b4b;
 }
 
 .player {
-  background-color: blue;
+  background-color: $basalt;
   // left: 0;
   // top: 0;
 }
 
 .ai {
-  background-color: purple;
+  background-color: $jade;
   // right: 0;
   // bottom: 0;
 }
