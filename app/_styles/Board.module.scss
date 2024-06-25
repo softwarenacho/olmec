@@ -1,9 +1,9 @@
 $jade: #04a96d;
 $basalt: #4b4b4b;
-$ladder-start: #4ddfff;
-$ladder-end: #2264e6;
-$snake-start: #e1c5ce;
-$snake-end: #cd3569;
+$ladder-end: #4ddeff;
+$ladder-start: #2264e6;
+$snake-end: #e1c5ce;
+$snake-start: #cd3569;
 
 @mixin flex-center {
   display: flex;
@@ -79,16 +79,14 @@ $snake-end: #cd3569;
   align-items: center;
 }
 
-.player {
-  // background-color: $basalt;
-  // left: 0;
-  // top: 0;
+.arrowUp {
+  transform: rotate(270deg);
+  margin-left: 4px;
 }
 
-.ai {
-  // background-color: $jade;
-  // right: 0;
-  // bottom: 0;
+.arrowDown {
+  transform: rotate(90deg);
+  margin-left: -4px;
 }
 
 .dualPlayer {

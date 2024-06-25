@@ -31,6 +31,26 @@ const Board: React.FC<BoardProps> = ({
       let content = (
         <div className={styles.dualIndex}>
           <span className={styles.index}>{index}</span>
+          {ladderStart && (
+            <i className={styles.arrowUp}>
+              <Image
+                src='/icons/arrowUp.png'
+                alt='Ladder Up'
+                width={16}
+                height={16}
+              />
+            </i>
+          )}
+          {snakeStart && (
+            <i className={styles.arrowDown}>
+              <Image
+                src='/icons/arrowDown.png'
+                alt='Snake Down'
+                width={16}
+                height={16}
+              />
+            </i>
+          )}
           {ladderStart && <span className={styles.end}>{ladderStart.end}</span>}
           {snakeStart && <span className={styles.end}>{snakeStart.end}</span>}
         </div>
