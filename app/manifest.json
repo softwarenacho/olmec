@@ -47,17 +47,17 @@
       "label": "Game Desktop"
     },
     {
-      "src": "/screenshots/landing 1132x744.webp",
-      "sizes": "1132x744",
-      "type": "image/webp",
-      "label": "Game landing page"
-    },
-    {
       "src": "/screenshots/almost 787x962.webp",
       "sizes": "787x962",
       "type": "image/webp",
       "form_factor": "narrow",
-      "label": "Game Mobile"
+      "label": "Game"
+    },
+    {
+      "src": "/screenshots/landing 1132x744.webp",
+      "sizes": "1132x744",
+      "type": "image/webp",
+      "label": "Game landing page"
     },
     {
       "src": "/screenshots/up 777x962.webp",
