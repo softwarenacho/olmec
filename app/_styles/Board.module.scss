@@ -53,7 +53,7 @@ $snake-start: #cd3569;
   span {
     display: flex;
     position: absolute;
-    font-size: smaller;
+    color: $basalt;
   }
 }
 
@@ -64,6 +64,18 @@ $snake-start: #cd3569;
 .end {
   font-weight: bold;
   bottom: 8px;
+}
+
+.reverse {
+  .index {
+    bottom: 8px !important;
+    top: unset;
+  }
+  .end {
+    font-weight: bold;
+    top: 8px !important;
+    bottom: unset;
+  }
 }
 
 .player,

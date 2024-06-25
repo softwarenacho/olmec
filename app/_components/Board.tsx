@@ -29,15 +29,17 @@ const Board: React.FC<BoardProps> = ({
       if (ladderEnd) tileClass = styles.ladderEnd;
 
       let content = (
-        <div className={styles.dualIndex}>
+        <div
+          className={`${styles.dualIndex} ${ladderStart ? styles.reverse : ''}`}
+        >
           <span className={styles.index}>{index}</span>
           {ladderStart && (
             <i className={styles.arrowUp}>
               <Image
                 src='/icons/arrowUp.png'
                 alt='Ladder Up'
-                width={16}
-                height={16}
+                width={12}
+                height={12}
               />
             </i>
           )}
@@ -46,8 +48,8 @@ const Board: React.FC<BoardProps> = ({
               <Image
                 src='/icons/arrowDown.png'
                 alt='Snake Down'
-                width={16}
-                height={16}
+                width={12}
+                height={12}
               />
             </i>
           )}
