@@ -22,7 +22,7 @@ $snake-start: #cd3569;
 .board {
   display: grid;
   grid-template-columns: repeat(10, 5rem);
-  grid-gap: 0.25rem;
+  grid-gap: 0.5rem;
   padding: 1rem;
   width: fit-content;
   position: relative;
@@ -72,7 +72,6 @@ $snake-start: #cd3569;
     top: unset;
   }
   .end {
-    font-weight: bold;
     top: 8px !important;
     bottom: unset;
   }
@@ -106,8 +105,8 @@ $snake-start: #cd3569;
   justify-content: space-between;
   .player,
   .ai {
-    max-width: 2.5rem;
-    max-height: 2.5rem;
+    max-width: 2rem;
+    max-height: 2rem;
   }
   .player {
     left: 0;

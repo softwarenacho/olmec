@@ -64,16 +64,16 @@ const Board: React.FC<BoardProps> = ({
               <Image
                 src='/icons/jaguar.png'
                 alt='Player Jaguar'
-                width={48}
-                height={48}
+                width={36}
+                height={36}
               />
             </span>
             <span className={styles.ai}>
               <Image
                 src='/icons/eagle.png'
                 alt='CPU Head'
-                width={48}
-                height={48}
+                width={36}
+                height={36}
               />
             </span>
           </div>
