@@ -17,7 +17,7 @@ const Dice: React.FC<DiceProps> = ({
 }) => {
   const [rolling, setRolling] = useState(false);
   const [result, setResult] = useState<number | null>(null);
-  const resultRef = useRef<number | null>(null); // Ref to hold the current rolling result
+  const resultRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (resetDice) {
@@ -64,7 +64,7 @@ const Dice: React.FC<DiceProps> = ({
   } else if (aiIsMoving) {
     statusText = 'Wait';
   } else {
-    statusText = 'Roll Dice';
+    statusText = 'Roll';
   }
 
   return (
@@ -73,8 +73,8 @@ const Dice: React.FC<DiceProps> = ({
         priority
         src={diceSrc}
         alt={statusText}
-        width={100}
-        height={100}
+        width={50}
+        height={50}
         className={`${styles.dice} ${rolling ? styles.rolling : ''}`}
         onClick={
           !rolling && !playerIsMoving && !aiIsMoving ? handleRoll : undefined

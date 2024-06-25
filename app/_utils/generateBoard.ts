@@ -53,8 +53,8 @@ export const generateSnakesAndLadders = () => {
   const usedIndices = new Set<number>();
   const allIndices = new Set<number>();
 
-  const snakes = generateSnakesOrLadders(5, true, usedIndices, allIndices);
-  const ladders = generateSnakesOrLadders(10, false, usedIndices, allIndices);
+  const snakes = generateSnakesOrLadders(10, true, usedIndices, allIndices);
+  const ladders = generateSnakesOrLadders(30, false, usedIndices, allIndices);
 
   return { snakes, ladders };
 };

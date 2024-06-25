@@ -18,6 +18,7 @@ const Board: React.FC<BoardProps> = ({
 }) => {
   const [tiles, setTiles] = useState<React.JSX.Element[]>([]);
   const [arrows, setArrows] = useState<React.JSX.Element[]>([]);
+  const [gameOver, setGameOver] = useState<boolean>(false);
   const playerRef = useRef<HTMLDivElement>(null);
   const boardRef = useRef<HTMLDivElement>(null);
 
@@ -75,10 +76,6 @@ const Board: React.FC<BoardProps> = ({
     return lines;
   };
 
-  useEffect(() => {
-    scrollPlayerIntoView();
-  }, [playerPosition]);
-
   const renderTile = useCallback(
     (index: number) => {
       let tileClass = '';
@@ -123,46 +120,14 @@ const Board: React.FC<BoardProps> = ({
       if (index === playerPosition && index === aiPosition) {
         content = (
           <div className={styles.dualPlayer}>
-            <span className={styles.player} ref={playerRef}>
-              <Image
-                src='/icons/jaguar.webp'
-                alt='Player Jaguar'
-                width={36}
-                height={36}
-              />
-            </span>
-            <span className={styles.ai}>
-              <Image
-                src='/icons/eagle.webp'
-                alt='CPU Head'
-                width={36}
-                height={36}
-              />
-            </span>
+            <span className={styles.player} ref={playerRef}></span>
+            <span className={styles.ai}></span>
           </div>
         );
       } else if (index === playerPosition) {
-        content = (
-          <span className={styles.player} ref={playerRef}>
-            <Image
-              src='/icons/jaguar.webp'
-              alt='Player Jaguar'
-              width={48}
-              height={48}
-            />
-          </span>
-        );
+        content = <span className={styles.player} ref={playerRef}></span>;
       } else if (index === aiPosition) {
-        content = (
-          <span className={styles.ai}>
-            <Image
-              src='/icons/eagle.webp'
-              alt='CPU Head'
-              width={48}
-              height={48}
-            />
-          </span>
-        );
+        content = <span className={styles.ai}></span>;
       }
 
       return (
@@ -179,29 +144,71 @@ const Board: React.FC<BoardProps> = ({
   );
 
   useEffect(() => {
+    if (playerPosition === 100 || aiPosition === 100) {
+      setGameOver(true);
+    }
+  }, [playerPosition, aiPosition]);
+
+  useEffect(() => {
+    scrollPlayerIntoView();
+  }, [playerPosition]);
+
+  useEffect(() => {
     const arrows = getConnections(snakes, ladders);
     setArrows(arrows);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tiles]);
 
   useEffect(() => {
-    const boardTiles = [];
-    for (let i = 100; i > 0; i--) {
-      boardTiles.push(renderTile(i));
+    if (!gameOver) {
+      const boardTiles = [];
+      for (let i = 100; i > 0; i--) {
+        boardTiles.push(renderTile(i));
+      }
+      setTiles(boardTiles);
     }
-    setTiles(boardTiles);
-  }, [snakes, ladders, aiPosition, playerPosition, renderTile]);
+  }, [snakes, ladders, aiPosition, playerPosition, renderTile, gameOver]);
 
   return (
     <div className={styles.board} ref={boardRef}>
+      {gameOver && (
+        <div className={styles.gameOver}>
+          <div className={styles.images}>
+            <Image
+              src='/icons/olmec.png'
+              alt='Game Over Olmec'
+              width={100}
+              height={100}
+            />
+            <Image
+              src={`/icons/${playerPosition === 100 ? 'jaguar' : 'eagle'}.webp`}
+              alt='Player'
+              width={200}
+              height={200}
+            />
+            <Image
+              src='/icons/olmec.png'
+              alt='Game Over Olmec'
+              width={100}
+              height={100}
+            />
+          </div>
+          <h2>
+            {playerPosition === 100 ? 'Jaguar' : 'Eagle'} Won
+            {playerPosition === 100 ? '!!!' : ''}
+          </h2>
+        </div>
+      )}
+      {!gameOver && (
+        <svg
+          className={styles.connections}
+          width={boardRef.current?.offsetWidth}
+          height={boardRef.current?.offsetHeight}
+        >
+          {arrows}
+        </svg>
+      )}
       {tiles}
-      <svg
-        className={styles.connections}
-        width={boardRef.current?.offsetWidth}
-        height={boardRef.current?.offsetHeight}
-      >
-        {arrows}
-      </svg>
     </div>
   );
 };
