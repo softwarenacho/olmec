@@ -194,7 +194,7 @@ const Board: React.FC<BoardProps> = ({
             />
           </div>
           <h2>
-            {playerPosition === 100 ? 'Jaguar' : 'Eagle'} Won
+            {playerPosition === 100 ? 'Jaguar' : 'Eagle'} Warrior Won
             {playerPosition === 100 ? '!!!' : ''}
           </h2>
         </div>
