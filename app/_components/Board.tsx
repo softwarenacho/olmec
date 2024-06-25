@@ -36,8 +36,8 @@ const Board: React.FC<BoardProps> = ({
     ladders: SnakeOrLadder[],
   ) => {
     const lines: React.JSX.Element[] = [];
-    const offsetX = 200;
-    const offsetY = 10;
+    const offsetX = 120;
+    const offsetY = 0;
     ladders.forEach((ladder: SnakeOrLadder, index: number) => {
       const ladderStart = document.getElementById(`tile-${ladder.start}`);
       const ladderEnd = document.getElementById(`tile-${ladder.end}`);
@@ -103,20 +103,20 @@ const Board: React.FC<BoardProps> = ({
           {ladderStart && (
             <i className={styles.arrowUp}>
               <Image
-                src='/icons/arrowUp.png'
+                src='/icons/arrowUp.webp'
                 alt='Ladder Up'
-                width={12}
-                height={12}
+                width={20}
+                height={20}
               />
             </i>
           )}
           {snakeStart && (
             <i className={styles.arrowDown}>
               <Image
-                src='/icons/arrowDown.png'
+                src='/icons/arrowDown.webp'
                 alt='Snake Down'
-                width={12}
-                height={12}
+                width={20}
+                height={20}
               />
             </i>
           )}
@@ -129,7 +129,7 @@ const Board: React.FC<BoardProps> = ({
           <div className={styles.dualPlayer}>
             <span className={styles.player} ref={playerRef}>
               <Image
-                src='/icons/jaguar.png'
+                src='/icons/jaguar.webp'
                 alt='Player Jaguar'
                 width={36}
                 height={36}
@@ -137,7 +137,7 @@ const Board: React.FC<BoardProps> = ({
             </span>
             <span className={styles.ai}>
               <Image
-                src='/icons/eagle.png'
+                src='/icons/eagle.webp'
                 alt='CPU Head'
                 width={36}
                 height={36}
@@ -149,7 +149,7 @@ const Board: React.FC<BoardProps> = ({
         content = (
           <span className={styles.player} ref={playerRef}>
             <Image
-              src='/icons/jaguar.png'
+              src='/icons/jaguar.webp'
               alt='Player Jaguar'
               width={48}
               height={48}
@@ -160,7 +160,7 @@ const Board: React.FC<BoardProps> = ({
         content = (
           <span className={styles.ai}>
             <Image
-              src='/icons/eagle.png'
+              src='/icons/eagle.webp'
               alt='CPU Head'
               width={48}
               height={48}

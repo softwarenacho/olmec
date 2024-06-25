@@ -49,11 +49,11 @@ const Dice: React.FC<DiceProps> = ({
 
   let diceSrc;
   if (rolling) {
-    diceSrc = `/icons/dice${result ? `-${result}` : ''}.png`;
+    diceSrc = `/icons/dice${result ? `-${result}` : ''}.webp`;
   } else if (result !== null) {
-    diceSrc = `/icons/dice-${result}.png`;
+    diceSrc = `/icons/dice-${result}.webp`;
   } else {
-    diceSrc = '/icons/dice.png';
+    diceSrc = '/icons/dice.webp';
   }
 
   let statusText;

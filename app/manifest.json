@@ -38,6 +38,48 @@
       "purpose": "maskable"
     }
   ],
+  "screenshots": [
+    {
+      "src": "/screenshots/moving 847x454.webp",
+      "sizes": "847x454",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Game Desktop"
+    },
+    {
+      "src": "/screenshots/landing 1051x433.webp",
+      "sizes": "1051x433",
+      "type": "image/webp",
+      "label": "Game landing page"
+    },
+    {
+      "src": "/screenshots/almost 787x962.webp",
+      "sizes": "787x962",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "Game Mobile"
+    },
+    {
+      "src": "/screenshots/up 777x962.webp",
+      "sizes": "777x962",
+      "type": "image/webp",
+      "label": "Up"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Game",
+      "url": "/game",
+      "description": "Game",
+      "icons": [
+        {
+          "src": "/icons/olmec.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
   "display_override": [
     "standalone",
     "minimal-ui",
