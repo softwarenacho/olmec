@@ -1,9 +1,9 @@
 $jade: #04a96d;
 $basalt: #4b4b4b;
-$ladder-end: #4ddeff;
-$ladder-start: #2264e6;
-$snake-end: #e1c5ce;
-$snake-start: #cd3569;
+$ladder-end: #176b7e;
+$ladder-start: #3258a5;
+$snake-end: #c4b4b9;
+$snake-start: #b46f86;
 $sulfur: #fee082;
 
 @mixin flex-center {
@@ -211,15 +211,19 @@ $sulfur: #fee082;
 .ladderStart,
 .ladderEnd {
   border: 2px solid;
+  background-color: $jade;
   @media screen and (min-width: 600px) {
     border: 0.25rem solid;
   }
-  background-blend-mode: hard-light;
   z-index: 3;
 }
 
 .snakeStart {
   border-color: $snake-start;
+  background: url('/icons/snake.png') repeat;
+  background-position: center;
+  background-size: contain;
+  background-color: $jade;
   span {
     color: $snake-start;
   }
@@ -233,6 +237,10 @@ $sulfur: #fee082;
 }
 
 .ladderStart {
+  background: url('/icons/stair.png') repeat;
+  background-position: center;
+  background-size: contain;
+  background-color: $jade;
   border-color: $ladder-end;
   span {
     color: $ladder-end;
@@ -294,7 +302,9 @@ $sulfur: #fee082;
   button {
     background-color: $jade;
     margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
     cursor: pointer;
+    font-size: 0.75rem;
     font-weight: bold;
     padding: 1rem 2rem;
     border: 0.5rem solid $basalt;
@@ -317,6 +327,9 @@ $sulfur: #fee082;
     margin-top: 1rem;
   }
   @media screen and (min-width: 600px) {
+    button {
+      font-size: 1rem;
+    }
     .images {
       gap: 3rem;
       img {

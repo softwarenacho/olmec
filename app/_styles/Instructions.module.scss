@@ -1,19 +1,14 @@
-.main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 3rem;
-  margin-top: 3rem;
-}
+$jade: #04a96d;
+$basalt: #4b4b4b;
 
 .container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 95%;
+  max-height: 50%;
+  padding: 3rem 2rem;
+  background-color: $jade;
+  color: $basalt;
+  border: 0.5rem solid $basalt;
+  border-radius: 0.5rem;
 }
 
 .subtitle {
@@ -23,10 +18,11 @@
 }
 
 .instructions {
-  list-style-type: decimal;
   margin-left: 20px;
   font-size: 1.1em;
-
+  max-height: 50%;
+  overflow: scroll;
+  list-style-type: decimal;
   li {
     margin-bottom: 10px;
   }

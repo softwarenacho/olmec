@@ -1,7 +1,6 @@
-import React from 'react';
 import styles from '../_styles/Instructions.module.scss';
 
-const Instructions: React.FC = () => {
+const Instructions = () => {
   return (
     <div className={styles.container}>
       <h2 className={styles.subtitle}>How to Play Olmec</h2>

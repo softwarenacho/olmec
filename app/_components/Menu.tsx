@@ -1,16 +1,21 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
 import { useState } from 'react';
 import styles from '../_styles/Menu.module.scss';
+import Culture from './Culture';
+import Instructions from './Instructions';
 
 const Menu = ({ resetBoard }: { resetBoard?: () => void }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showRules, setShowRules] = useState<boolean>(false);
+  const [showCulture, setShowCulture] = useState<boolean>(false);
   const pathname = usePathname();
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
+    setShowCulture(false);
+    setShowRules(false);
   };
 
   return (
@@ -53,10 +58,14 @@ const Menu = ({ resetBoard }: { resetBoard?: () => void }) => {
                 height={32}
               />
             </li>
-            <li>
-              <Link href='/rules' role='button'>
-                Game Rules
-              </Link>
+            <li
+              onClick={() => {
+                setShowRules(true);
+                setShowCulture(false);
+                setSidebarOpen(false);
+              }}
+            >
+              <a>Game Rules</a>
               <Image
                 src='/icons/pyramid.webp'
                 alt='Pyramid'
@@ -64,10 +73,14 @@ const Menu = ({ resetBoard }: { resetBoard?: () => void }) => {
                 height={32}
               />
             </li>
-            <li>
-              <Link href='/culture' role='button'>
-                Olmec Culture
-              </Link>
+            <li
+              onClick={() => {
+                setShowRules(false);
+                setShowCulture(true);
+                setSidebarOpen(false);
+              }}
+            >
+              <a>Olmec Culture</a>
               <Image
                 src='/icons/calendar.webp'
                 alt='Calendar'
@@ -89,6 +102,21 @@ const Menu = ({ resetBoard }: { resetBoard?: () => void }) => {
           </ul>
         </div>
       </div>
+      {(showRules || showCulture) && (
+        <div className={styles.modal}>
+          {showRules && <Instructions />}
+          {showCulture && <Culture />}
+          <button
+            className={styles.close}
+            onClick={() => {
+              setShowRules(false);
+              setShowCulture(false);
+            }}
+          >
+            Close
+          </button>
+        </div>
+      )}
     </>
   );
 };

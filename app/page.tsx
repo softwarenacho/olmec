@@ -1,11 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
+import Culture from './_components/Culture';
+import Instructions from './_components/Instructions';
 import Menu from './_components/Menu';
 import styles from './page.module.scss';
 
 const Home = () => {
+  const [showRules, setShowRules] = useState<boolean>(false);
+  const [showCulture, setShowCulture] = useState<boolean>(false);
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <main className={styles.main}>
@@ -33,6 +38,21 @@ const Home = () => {
             </Link>
           </div>
         </div>
+        {(showRules || showCulture) && (
+          <div className={styles.modal}>
+            {showRules && <Instructions />}
+            {showCulture && <Culture />}
+            <button
+              className={styles.close}
+              onClick={() => {
+                setShowRules(false);
+                setShowCulture(false);
+              }}
+            >
+              Close
+            </button>
+          </div>
+        )}
         <div className={styles.footer}>
           <div className={styles.pyramid}>
             <div className={styles.top}>
@@ -41,12 +61,22 @@ const Home = () => {
               </Link>
             </div>
             <div className={styles.middle}>
-              <Link href='/rules' role='button'>
+              <a
+                onClick={() => {
+                  setShowRules(true);
+                  setShowCulture(false);
+                }}
+              >
                 Rules
-              </Link>
-              <Link href='/culture' role='button'>
+              </a>
+              <a
+                onClick={() => {
+                  setShowRules(false);
+                  setShowCulture(true);
+                }}
+              >
                 Culture
-              </Link>
+              </a>
             </div>
           </div>
         </div>

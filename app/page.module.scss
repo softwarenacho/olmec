@@ -84,6 +84,19 @@ $basalt: #4b4b4b;
   cursor: pointer;
 }
 
+.close {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-color: $jade;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  border: 0.5rem solid $basalt;
+  border-radius: 0.5rem;
+  color: $basalt;
+}
+
 .footer {
   background-color: $basalt;
   padding-top: 3rem;
@@ -92,7 +105,8 @@ $basalt: #4b4b4b;
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 100%;
+  width: 30rem;
+  left: calc(50% - 15rem);
   .pyramid {
     display: flex;
     flex-direction: column;
@@ -116,29 +130,11 @@ $basalt: #4b4b4b;
   }
 }
 
-.sidebar {
-  position: fixed;
-  top: 0;
-  right: -50%;
-  width: 50%;
-  height: 100%;
-  background-color: $basalt;
-  transition: right 0.3s ease-in-out;
-  z-index: 3;
-}
-
-.sidebar.open {
-  right: 0;
-}
-
-.sidebarContent {
-  padding: 20px;
-}
-
-.sidebarToggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
-  z-index: 4;
+.modal {
+  @include flex-center;
+  justify-content: flex-start;
+  position: absolute;
+  z-index: 10;
+  top: 20%;
+  overflow: hidden;
 }

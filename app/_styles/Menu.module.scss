@@ -1,6 +1,13 @@
 $jade: #04a96d;
 $basalt: #4b4b4b;
 
+@mixin flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .sidebar {
   position: fixed;
   top: 0;
@@ -30,6 +37,7 @@ $basalt: #4b4b4b;
     a {
       font-weight: bold;
       color: $jade;
+      white-space: nowrap;
       &:hover {
         color: white;
       }
@@ -51,4 +59,26 @@ $basalt: #4b4b4b;
   right: 1rem;
   cursor: pointer;
   z-index: 11;
+}
+
+.close {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-color: $jade;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  border: 0.5rem solid $basalt;
+  border-radius: 0.5rem;
+  color: $basalt;
+}
+
+.modal {
+  @include flex-center;
+  justify-content: flex-start;
+  position: absolute;
+  z-index: 10;
+  top: 20%;
+  overflow: hidden;
 }

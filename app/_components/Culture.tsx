@@ -1,6 +1,8 @@
+import styles from '../_styles/Culture.module.scss';
+
 const Culture = () => {
   return (
-    <>
+    <div className={styles.main}>
       <h1>Olmec Culture</h1>
       <p>
         <b>
@@ -72,7 +74,7 @@ const Culture = () => {
           historical tapestry.
         </li>
       </ol>
-    </>
+    </div>
   );
 };
 
