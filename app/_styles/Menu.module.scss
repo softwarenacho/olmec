@@ -1,0 +1,54 @@
+$jade: #04a96d;
+$basalt: #4b4b4b;
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -50%;
+  width: 50%;
+  @media screen and (min-width: 600px) {
+    right: -25%;
+    width: 25%;
+  }
+  height: 100%;
+  background-color: $basalt;
+  transition: right 0.3s ease-in-out;
+  z-index: 10;
+  border-left: 1rem solid $jade;
+  padding-top: 5rem;
+  li {
+    cursor: pointer;
+    list-style: none;
+    margin-left: 2.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    a {
+      font-weight: bold;
+      color: $jade;
+      &:hover {
+        color: white;
+      }
+    }
+  }
+}
+
+.sidebar.open {
+  right: 0;
+}
+
+.sidebarContent {
+  padding: 1rem;
+}
+
+.sidebarToggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+  z-index: 11;
+}

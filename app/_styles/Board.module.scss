@@ -291,6 +291,15 @@ $sulfur: #fee082;
   top: 15%;
   left: 5%;
   background-color: $jade;
+  button {
+    background-color: $jade;
+    margin-top: 2.5rem;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 1rem 2rem;
+    border: 0.5rem solid $basalt;
+    color: $basalt;
+  }
   .images {
     @include flex-center;
     flex-direction: row;

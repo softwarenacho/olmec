@@ -6,6 +6,7 @@ import {
 } from '../_utils/generateBoard';
 import Board from './Board';
 import Dice from './Dice';
+import Menu from './Menu';
 
 const Game: React.FC = () => {
   const [playerPosition, setPlayerPosition] = useState(1);
@@ -79,6 +80,7 @@ const Game: React.FC = () => {
 
   return (
     <div className={styles.game}>
+      <Menu resetBoard={resetBoard} />
       <Board
         snakes={snakesAndLadders.snakes}
         ladders={snakesAndLadders.ladders}

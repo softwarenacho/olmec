@@ -1,22 +1,17 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
+import Menu from './_components/Menu';
 import styles from './page.module.scss';
 
 const Home = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <main className={styles.main}>
         <div className={styles.backgroundPattern}></div>
         <div className={styles.olmecHead}></div>
+        <Menu />
         <div className={styles.mainElement}>
           <h1 className={styles.title}>Olmec</h1>
           <div className={styles.summary}>
@@ -54,45 +49,6 @@ const Home = () => {
               </Link>
             </div>
           </div>
-        </div>
-        <div className={`${styles.sidebar} ${sidebarOpen ? styles.open : ''}`}>
-          <div className={styles.sidebarContent}>
-            <ul>
-              <li>
-                <Link href='/game' role='button'>
-                  Play Game
-                </Link>
-              </li>
-              <li>
-                <Link href='/rules' role='button'>
-                  Game Rules
-                </Link>
-              </li>
-              <li>
-                <Link href='/culture' role='button'>
-                  Olmec Culture
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className={styles.sidebarToggle} onClick={toggleSidebar}>
-          {sidebarOpen && (
-            <Image
-              src='/icons/basalt.webp'
-              alt='Close Menu'
-              width={32}
-              height={32}
-            />
-          )}
-          {!sidebarOpen && (
-            <Image
-              src='/icons/jade.webp'
-              alt='Open Menu'
-              width={32}
-              height={32}
-            />
-          )}
         </div>
       </main>
     </Suspense>
