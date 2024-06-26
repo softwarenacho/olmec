@@ -48,8 +48,8 @@ $basalt: #4b4b4b;
 }
 
 .title {
-  font-size: 2em;
-  margin-top: 20px;
+  font-size: 4rem;
+  margin-top: 1rem;
 }
 
 .summary {
@@ -58,6 +58,7 @@ $basalt: #4b4b4b;
   justify-content: flex-start;
   align-items: center;
   max-height: calc(100dvh - 45rem);
+  max-width: 60rem;
   overflow: scroll;
   margin: 20px 0;
   padding: 0 20px;
@@ -78,10 +79,16 @@ $basalt: #4b4b4b;
 }
 
 .knowMoreButton {
-  margin-top: 2rem;
-  color: $jade;
-  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-color: $jade;
   cursor: pointer;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  border: 0.5rem solid $basalt;
+  border-radius: 0.5rem;
+  color: $basalt;
 }
 
 .close {
