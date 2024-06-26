@@ -30,7 +30,7 @@ $sulfur: #fee082;
   background-color: $basalt;
   border-radius: 8px;
   max-width: 90vw;
-  max-height: calc(100vh - 12rem);
+  max-height: calc(100dvh - 12rem);
   overflow: scroll;
   @media screen and (min-width: 600px) {
     grid-template-columns: repeat(10, 3.5rem);
@@ -84,7 +84,7 @@ $sulfur: #fee082;
 .borderBottom,
 .borderLeft,
 .borderRight {
-  border-width: 1px;
+  border-width: 2px;
   border-style: solid;
   border-color: transparent;
   @media screen and (min-width: 600px) {
@@ -210,7 +210,7 @@ $sulfur: #fee082;
 .snakeEnd,
 .ladderStart,
 .ladderEnd {
-  border: 1px solid;
+  border: 2px solid;
   @media screen and (min-width: 600px) {
     border: 0.25rem solid;
   }
