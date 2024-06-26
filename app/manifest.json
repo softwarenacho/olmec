@@ -73,9 +73,9 @@
       "description": "Game",
       "icons": [
         {
-          "src": "/icons/olmec.png",
+          "src": "/icons/jaguar.webp",
           "sizes": "512x512",
-          "type": "image/png"
+          "type": "image/webp"
         }
       ]
     }

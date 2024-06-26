@@ -153,11 +153,11 @@ const Board: React.FC<BoardProps> = ({
     scrollPlayerIntoView();
   }, [playerPosition]);
 
-  useEffect(() => {
-    const arrows = getConnections(snakes, ladders);
-    setArrows(arrows);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tiles]);
+  // useEffect(() => {
+  //   const arrows = getConnections(snakes, ladders);
+  //   setArrows(arrows);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [tiles]);
 
   useEffect(() => {
     if (!gameOver) {
@@ -199,7 +199,7 @@ const Board: React.FC<BoardProps> = ({
           </h2>
         </div>
       )}
-      {!gameOver && (
+      {/* {!gameOver && (
         <svg
           className={styles.connections}
           width={boardRef.current?.offsetWidth}
@@ -207,7 +207,7 @@ const Board: React.FC<BoardProps> = ({
         >
           {arrows}
         </svg>
-      )}
+      )} */}
       {tiles}
     </div>
   );
