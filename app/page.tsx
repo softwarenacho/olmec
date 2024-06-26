@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense, useState } from 'react';
 import Culture from './_components/Culture';
@@ -23,10 +24,30 @@ const Home = () => {
             <p>
               Olmec is an exciting twist on the classic Snakes and Ladders game.
             </p>
+            <div className={styles.images}>
+              <Image
+                src='/icons/pyramid.webp'
+                alt='Pyramid'
+                width={32}
+                height={32}
+              />
+              <Image
+                src='/icons/figure.webp'
+                alt='Jade Figure'
+                width={32}
+                height={32}
+              />
+            </div>
             <p>
               In this version, you control the mighty Jaguar warrior, navigating
               your way to the top of the pyramid.
             </p>
+            <Image
+              src='/icons/jaguar.webp'
+              alt='Jaguar Warrior'
+              width={64}
+              height={64}
+            />
             <p>
               Each game board is uniquely generated, providing a fresh challenge
               every time you play. The board follows a spiral path, adding an

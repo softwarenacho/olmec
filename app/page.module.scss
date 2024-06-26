@@ -35,7 +35,7 @@ $basalt: #4b4b4b;
 .mainElement {
   position: relative;
   text-align: center;
-  padding: 20px;
+  padding: 1rem;
   z-index: 2;
 }
 
@@ -53,18 +53,20 @@ $basalt: #4b4b4b;
 }
 
 .summary {
-  display: flex;
-  flex-direction: column;
+  @include flex-center;
   justify-content: flex-start;
-  align-items: center;
-  max-height: calc(100dvh - 45rem);
-  max-width: 60rem;
+  max-height: calc(100dvh - 40rem);
+  max-width: 50rem;
   overflow: scroll;
-  margin: 20px 0;
-  padding: 0 20px;
+  margin: 1rem 0;
   background: $basalt;
   border-radius: 8px;
-  padding: 1rem;
+  padding: 1rem 4rem;
+  .images {
+    @include flex-center;
+    flex-direction: row;
+    gap: 1rem;
+  }
   p,
   li {
     margin: 1rem 0;
