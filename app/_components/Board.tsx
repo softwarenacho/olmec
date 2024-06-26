@@ -1,5 +1,12 @@
 import Image from 'next/image';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styles from '../_styles/Board.module.scss';
 import { SnakeOrLadder } from '../_utils/generateBoard';
 
@@ -8,17 +15,22 @@ interface BoardProps {
   ladders: SnakeOrLadder[];
   playerPosition: number;
   aiPosition: number;
+  gameOver: boolean;
+  setGameOver: Dispatch<SetStateAction<boolean>>;
+  resetBoard: () => void;
 }
 
-const Board: React.FC<BoardProps> = ({
+const Board = ({
   snakes,
   ladders,
   playerPosition,
   aiPosition,
-}) => {
-  const [tiles, setTiles] = useState<React.JSX.Element[]>([]);
-  const [arrows, setArrows] = useState<React.JSX.Element[]>([]);
-  const [gameOver, setGameOver] = useState<boolean>(false);
+  gameOver,
+  setGameOver,
+  resetBoard,
+}: BoardProps) => {
+  const [tiles, setTiles] = useState<JSX.Element[]>([]);
+  const [arrows, setArrows] = useState<JSX.Element[]>([]);
   const playerRef = useRef<HTMLDivElement>(null);
   const boardRef = useRef<HTMLDivElement>(null);
 
@@ -32,49 +44,49 @@ const Board: React.FC<BoardProps> = ({
     }
   };
 
-  const getConnections = (
-    snakes: SnakeOrLadder[],
-    ladders: SnakeOrLadder[],
-  ) => {
-    const lines: React.JSX.Element[] = [];
-    const offsetX = 200;
-    const offsetY = 40;
-    const createLine = (
-      element: SnakeOrLadder,
-      index: number,
-      className: string,
-    ) => {
-      const startElement = document.getElementById(`tile-${element.start}`);
-      const endElement = document.getElementById(`tile-${element.end}`);
-      if (startElement && endElement) {
-        const startRect = startElement.getBoundingClientRect();
-        const endRect = endElement.getBoundingClientRect();
-        return (
-          <line
-            key={`${className}-${index}`}
-            x1={startRect.x + startRect.width / 2 - offsetX}
-            y1={startRect.y + startRect.height / 2 - offsetY}
-            x2={endRect.x + endRect.width / 2 - offsetX}
-            y2={endRect.y + endRect.height / 2 - offsetY}
-            className={className}
-          />
-        );
-      }
-      return null;
-    };
+  // const getConnections = (
+  //   snakes: SnakeOrLadder[],
+  //   ladders: SnakeOrLadder[],
+  // ) => {
+  //   const lines: JSX.Element[] = [];
+  //   const offsetX = 250;
+  //   const offsetY = 100;
+  //   const createLine = (
+  //     element: SnakeOrLadder,
+  //     index: number,
+  //     className: string,
+  //   ) => {
+  //     const startElement = document.getElementById(`tile-${element.start}`);
+  //     const endElement = document.getElementById(`tile-${element.end}`);
+  //     if (startElement && endElement) {
+  //       const startRect = startElement.getBoundingClientRect();
+  //       const endRect = endElement.getBoundingClientRect();
+  //       return (
+  //         <line
+  //           key={`${className}-${index}`}
+  //           x1={startRect.x + startRect.width / 2 - offsetX}
+  //           y1={startRect.y + startRect.height / 2 - offsetY}
+  //           x2={endRect.x + endRect.width / 2 - offsetX}
+  //           y2={endRect.y + endRect.height / 2 - offsetY}
+  //           className={className}
+  //         />
+  //       );
+  //     }
+  //     return null;
+  //   };
 
-    ladders.forEach((ladder: SnakeOrLadder, index: number) => {
-      const line = createLine(ladder, index, styles.ladder);
-      if (line) lines.push(line);
-    });
+  //   ladders.forEach((ladder: SnakeOrLadder, index: number) => {
+  //     const line = createLine(ladder, index, styles.ladder);
+  //     if (line) lines.push(line);
+  //   });
 
-    snakes.forEach((snake: SnakeOrLadder, index: number) => {
-      const line = createLine(snake, index, styles.snake);
-      if (line) lines.push(line);
-    });
+  //   snakes.forEach((snake: SnakeOrLadder, index: number) => {
+  //     const line = createLine(snake, index, styles.snake);
+  //     if (line) lines.push(line);
+  //   });
 
-    return lines;
-  };
+  //   return lines;
+  // };
 
   const generateSpiralBoard = (size: number) => {
     const board = Array.from({ length: size }, () => Array(size).fill(null));
@@ -221,6 +233,7 @@ const Board: React.FC<BoardProps> = ({
     if (playerPosition === 100 || aiPosition === 100) {
       setGameOver(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playerPosition, aiPosition]);
 
   useEffect(() => {
@@ -272,6 +285,7 @@ const Board: React.FC<BoardProps> = ({
             {playerPosition === 100 ? 'Jaguar' : 'Eagle'} Warrior Won
             {playerPosition === 100 ? '!!!' : ''}
           </h2>
+          <button onClick={resetBoard}>Reset</button>
         </div>
       )}
       {/* {!gameOver && (

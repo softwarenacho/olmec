@@ -18,6 +18,7 @@ const Game: React.FC = () => {
   const [resetDice, setResetDice] = useState(false);
   const [playerIsMoving, setPlayerIsMoving] = useState(false);
   const [aiIsMoving, setAiIsMoving] = useState(false);
+  const [gameOver, setGameOver] = useState<boolean>(false);
 
   useEffect(() => {
     setSnakesAndLadders(generateSnakesAndLadders());
@@ -69,6 +70,13 @@ const Game: React.FC = () => {
     }, 500);
   };
 
+  const resetBoard = () => {
+    setSnakesAndLadders(generateSnakesAndLadders());
+    setPlayerPosition(1);
+    setAiPosition(1);
+    setGameOver(false);
+  };
+
   return (
     <div className={styles.game}>
       <Board
@@ -76,12 +84,16 @@ const Game: React.FC = () => {
         ladders={snakesAndLadders.ladders}
         playerPosition={playerPosition}
         aiPosition={aiPosition}
+        gameOver={gameOver}
+        setGameOver={setGameOver}
+        resetBoard={resetBoard}
       />
       <Dice
         rollDice={rollDice}
         resetDice={resetDice}
         playerIsMoving={playerIsMoving}
         aiIsMoving={aiIsMoving}
+        gameOver={gameOver}
       />
     </div>
   );

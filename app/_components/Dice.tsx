@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from '../_styles/Dice.module.scss';
 
 interface DiceProps {
@@ -7,14 +7,16 @@ interface DiceProps {
   resetDice: boolean;
   playerIsMoving: boolean;
   aiIsMoving: boolean;
+  gameOver: boolean;
 }
 
-const Dice: React.FC<DiceProps> = ({
+const Dice = ({
   rollDice,
   resetDice,
   playerIsMoving,
   aiIsMoving,
-}) => {
+  gameOver,
+}: DiceProps) => {
   const [rolling, setRolling] = useState(false);
   const [result, setResult] = useState<number | null>(null);
   const resultRef = useRef<number | null>(null);
@@ -67,6 +69,10 @@ const Dice: React.FC<DiceProps> = ({
     diceSrc = `/icons/dice-${result}.webp`;
   } else {
     diceSrc = '/icons/dice.webp';
+  }
+
+  if (gameOver) {
+    return null;
   }
 
   return (
