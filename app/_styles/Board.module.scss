@@ -4,6 +4,7 @@ $ladder-end: #4ddeff;
 $ladder-start: #2264e6;
 $snake-end: #e1c5ce;
 $snake-start: #cd3569;
+$sulfur: #fee082;
 
 @mixin flex-center {
   display: flex;
@@ -58,7 +59,7 @@ $snake-start: #cd3569;
   background-color: $jade;
   background-position: center;
   background-size: contain;
-  border: 1px solid $jade;
+  border: 2px solid $jade;
   border-radius: 8px;
   z-index: 1;
   @include shadow;
@@ -77,6 +78,34 @@ $snake-start: #cd3569;
   &:has(.ai) {
     z-index: 5;
   }
+}
+
+.borderTop,
+.borderBottom,
+.borderLeft,
+.borderRight {
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  @media screen and (min-width: 600px) {
+    border-width: 0.25rem;
+  }
+}
+
+.borderTop {
+  border-top-color: $sulfur;
+}
+
+.borderBottom {
+  border-bottom-color: $sulfur;
+}
+
+.borderRight {
+  border-right-color: $sulfur;
+}
+
+.borderLeft {
+  border-left-color: $sulfur;
 }
 
 .dualIndex {
@@ -173,6 +202,10 @@ $snake-start: #cd3569;
   background-repeat: no-repeat;
 }
 
+.sulfur {
+  background-color: $sulfur;
+}
+
 .snakeStart,
 .snakeEnd,
 .ladderStart,
@@ -251,7 +284,7 @@ $snake-start: #cd3569;
   @include flex-center;
   position: absolute;
   z-index: 6;
-  border: 1rem solid $basalt;
+  border: 1rem solid $sulfur;
   border-radius: 0.5rem;
   width: 90%;
   height: 70%;
@@ -270,7 +303,7 @@ $snake-start: #cd3569;
     }
   }
   h2 {
-    color: $basalt;
+    color: $sulfur;
     font-size: 2rem;
     margin-top: 1rem;
   }
@@ -283,7 +316,7 @@ $snake-start: #cd3569;
       }
     }
     h2 {
-      font-size: 4rem;
+      font-size: 3rem;
       margin-top: 2rem;
     }
     width: 90%;

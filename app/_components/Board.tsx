@@ -76,6 +76,75 @@ const Board: React.FC<BoardProps> = ({
     return lines;
   };
 
+  const generateSpiralBoard = (size: number) => {
+    const board = Array.from({ length: size }, () => Array(size).fill(null));
+    let num = 1;
+    let layers = Math.ceil(size / 2);
+    for (let layer = 0; layer < layers; layer++) {
+      for (let i = layer; i < size - layer; i++) {
+        board[layer][i] = num++;
+      }
+      for (let i = layer + 1; i < size - layer; i++) {
+        board[i][size - layer - 1] = num++;
+      }
+      for (let i = size - layer - 2; i >= layer; i--) {
+        board[size - layer - 1][i] = num++;
+      }
+      for (let i = size - layer - 2; i > layer; i--) {
+        board[i][layer] = num++;
+      }
+    }
+    return board.flat();
+  };
+
+  const calculateBorderClasses = useCallback((index: number) => {
+    let borderClass = '';
+    const boardSize = 10;
+    const spiralBoard = generateSpiralBoard(boardSize);
+    const position = spiralBoard.indexOf(index);
+
+    const row = Math.floor(position / boardSize);
+    const col = position % boardSize;
+
+    const nextPosition = spiralBoard.indexOf(index + 1);
+    const prevPosition = spiralBoard.indexOf(index - 1);
+
+    const nextRow = Math.floor(nextPosition / boardSize);
+    const nextCol = nextPosition % boardSize;
+
+    const prevRow = Math.floor(prevPosition / boardSize);
+    const prevCol = prevPosition % boardSize;
+
+    const isFirstTile = index === 1;
+    const isLastTile = index === 100;
+
+    // Determine if the current tile is a corner
+    const isTopLeftCorner = isFirstTile || (prevRow > row && prevCol > col);
+    const isTopRightCorner = isFirstTile || (prevRow > row && nextCol < col);
+    const isBottomLeftCorner = isLastTile || (nextRow < row && prevCol > col);
+    const isBottomRightCorner = isLastTile || (nextRow < row && nextCol < col);
+
+    if (
+      isFirstTile ||
+      isLastTile ||
+      isTopLeftCorner ||
+      isTopRightCorner ||
+      isBottomLeftCorner ||
+      isBottomRightCorner
+    ) {
+      borderClass = ` ${styles.borderTop} ${styles.borderBottom} ${styles.borderLeft} ${styles.borderRight}`;
+    } else {
+      if (row === prevRow || row === nextRow) {
+        borderClass += ` ${styles.borderTop} ${styles.borderBottom}`;
+      }
+      if (col === prevCol || col === nextCol) {
+        borderClass += ` ${styles.borderLeft} ${styles.borderRight}`;
+      }
+    }
+
+    return borderClass.trim();
+  }, []);
+
   const renderTile = useCallback(
     (index: number) => {
       let tileClass = '';
@@ -87,6 +156,8 @@ const Board: React.FC<BoardProps> = ({
       if (snakeEnd) tileClass = styles.snakeEnd;
       if (ladderStart) tileClass = styles.ladderStart;
       if (ladderEnd) tileClass = styles.ladderEnd;
+
+      const borderClasses = calculateBorderClasses(index);
 
       let content = (
         <div
@@ -117,6 +188,7 @@ const Board: React.FC<BoardProps> = ({
           {snakeStart && <span className={styles.end}>{snakeStart.end}</span>}
         </div>
       );
+
       if (index === playerPosition && index === aiPosition) {
         content = (
           <div className={styles.dualPlayer}>
@@ -134,13 +206,15 @@ const Board: React.FC<BoardProps> = ({
         <div
           id={`tile-${index}`}
           key={index}
-          className={`${styles.tile} ${tileClass}`}
+          className={`${styles.tile} ${tileClass} ${borderClasses} ${
+            [1, 100].includes(index) ? styles.sulfur : ''
+          }`}
         >
           {content}
         </div>
       );
     },
-    [aiPosition, ladders, playerPosition, snakes],
+    [aiPosition, calculateBorderClasses, ladders, playerPosition, snakes],
   );
 
   useEffect(() => {
@@ -161,10 +235,11 @@ const Board: React.FC<BoardProps> = ({
 
   useEffect(() => {
     if (!gameOver) {
-      const boardTiles = [];
-      for (let i = 100; i > 0; i--) {
-        boardTiles.push(renderTile(i));
-      }
+      const boardSize = 10;
+      const spiralBoard = generateSpiralBoard(boardSize);
+      const boardTiles = spiralBoard.map((tileNumber) =>
+        renderTile(tileNumber),
+      );
       setTiles(boardTiles);
     }
   }, [snakes, ladders, aiPosition, playerPosition, renderTile, gameOver]);
