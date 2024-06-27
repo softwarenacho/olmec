@@ -1,5 +1,6 @@
 $jade: #04a96d;
 $basalt: #4b4b4b;
+$sulfur: #fee082;
 
 @mixin flex-center {
   display: flex;
@@ -29,5 +30,69 @@ $basalt: #4b4b4b;
   background: url('/icons/pattern.svg') repeat;
   a {
     color: white;
+  }
+}
+
+.soundSwitch {
+  @include flex-center;
+  flex-direction: row;
+  justify-content: space-between;
+  position: absolute;
+  gap: 4rem;
+  margin: 2rem 0;
+  right: 2rem;
+  bottom: 0;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin-left: 36px;
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $basalt;
+    transition: 0.4s;
+    border-radius: 34px;
+    box-shadow: $basalt 2px 2px 0 0;
+    &:hover {
+      box-shadow: $basalt 4px 4px 0 0;
+      &:before {
+        box-shadow: $basalt 2px 2px 0 0;
+      }
+    }
+    &:before {
+      position: absolute;
+      content: '';
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+      box-shadow: $basalt 1px 1px 0 0;
+    }
+  }
+  img {
+    position: absolute;
+    left: -40px;
+  }
+  input:checked + .slider {
+    background-color: $sulfur;
+  }
+  input:checked + .slider:before {
+    transform: translateX(26px);
   }
 }

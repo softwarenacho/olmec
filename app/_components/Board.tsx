@@ -90,7 +90,6 @@ const Board = ({
     const isFirstTile = index === 1;
     const isLastTile = index === 100;
 
-    // Determine if the current tile is a corner
     const isTopLeftCorner = isFirstTile || (prevRow > row && prevCol > col);
     const isTopRightCorner = isFirstTile || (prevRow > row && nextCol < col);
     const isBottomLeftCorner = isLastTile || (nextRow < row && prevCol > col);
