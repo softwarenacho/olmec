@@ -14,7 +14,7 @@ function rgbToHex(rgb) {
 
 export function getGradientColor(index) {
   const startColor = [35, 200, 140];
-  const endColor = [0, 118, 58];
+  const endColor = [5, 168, 108];
 
   if (index < 1 || index > 100) {
     throw new Error('Index out of range. It should be between 1 and 100.');
