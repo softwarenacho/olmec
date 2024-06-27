@@ -13,13 +13,6 @@ $sulfur: #fee082;
   align-items: center;
 }
 
-@mixin shadow {
-  box-shadow: 2px 2px 2px $basalt;
-  &:hover {
-    box-shadow: 4px 4px 4px $basalt;
-  }
-}
-
 .board {
   display: grid;
   grid-template-columns: repeat(10, 2.5rem);
@@ -32,6 +25,10 @@ $sulfur: #fee082;
   max-width: 90vw;
   max-height: calc(100dvh - 12rem);
   overflow: scroll;
+  filter: drop-shadow(2px 2px 2px $basalt);
+  &:hover {
+    filter: drop-shadow(4px 4px 4px $basalt);
+  }
   @media screen and (min-width: 600px) {
     grid-template-columns: repeat(10, 3.5rem);
     grid-gap: 0.35rem;
@@ -54,7 +51,7 @@ $sulfur: #fee082;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.5rem;
+  font-size: 0.75rem;
   background: url('/icons/pattern.svg') repeat;
   background-color: $jade;
   background-position: center;
@@ -62,7 +59,9 @@ $sulfur: #fee082;
   border: 2px solid $jade;
   border-radius: 8px;
   z-index: 1;
-  @include shadow;
+  &:hover {
+    box-shadow: 1px 1px 2px $sulfur, -1px -1px 2px $sulfur;
+  }
   @media screen and (min-width: 600px) {
     border: 2px solid $jade;
     width: 3.5rem;
@@ -77,35 +76,8 @@ $sulfur: #fee082;
   &:has(.player),
   &:has(.ai) {
     z-index: 5;
+    box-shadow: 1px 1px 2px $sulfur, -1px -1px 2px $sulfur;
   }
-}
-
-.borderTop,
-.borderBottom,
-.borderLeft,
-.borderRight {
-  border-width: 2px;
-  border-style: solid;
-  border-color: transparent;
-  @media screen and (min-width: 600px) {
-    border-width: 0.25rem;
-  }
-}
-
-.borderTop {
-  border-top-color: $sulfur;
-}
-
-.borderBottom {
-  border-bottom-color: $sulfur;
-}
-
-.borderRight {
-  border-right-color: $sulfur;
-}
-
-.borderLeft {
-  border-left-color: $sulfur;
 }
 
 .dualIndex {
@@ -204,22 +176,61 @@ $sulfur: #fee082;
 
 .sulfur {
   background-color: $sulfur;
+  background-blend-mode: color-burn;
+}
+
+.borderTop,
+.borderBottom,
+.borderLeft,
+.borderRight {
+  border-width: 2px;
+  border-style: solid;
+  border-color: transparent;
+  @media screen and (min-width: 600px) {
+    border-width: 0.25rem;
+  }
+}
+
+.borderTop {
+  border-top-color: $sulfur;
+}
+
+.borderBottom {
+  border-bottom-color: $sulfur;
+}
+
+.borderRight {
+  border-right-color: $sulfur;
+}
+
+.borderLeft {
+  border-left-color: $sulfur;
 }
 
 .snakeStart,
 .snakeEnd,
 .ladderStart,
 .ladderEnd {
-  border: 2px solid;
   background-color: $jade;
-  @media screen and (min-width: 600px) {
-    border: 0.25rem solid;
-  }
   z-index: 3;
+  @media screen and (min-width: 600px) {
+    border-width: 0.25rem;
+  }
 }
 
 .snakeStart {
-  border-color: $snake-start;
+  &.borderTop {
+    border-top-color: $snake-start;
+  }
+  &.borderBottom {
+    border-bottom-color: $snake-start;
+  }
+  &.borderRight {
+    border-right-color: $snake-start;
+  }
+  &.borderLeft {
+    border-left-color: $snake-start;
+  }
   background: url('/icons/snake.png') repeat;
   background-position: center;
   background-size: contain;
@@ -230,9 +241,17 @@ $sulfur: #fee082;
 }
 
 .snakeEnd {
-  border-color: $snake-end;
-  span {
-    color: $snake-end;
+  &.borderTop {
+    border-top-color: $snake-end;
+  }
+  &.borderBottom {
+    border-bottom-color: $snake-end;
+  }
+  &.borderRight {
+    border-right-color: $snake-end;
+  }
+  &.borderLeft {
+    border-left-color: $snake-end;
   }
 }
 
@@ -241,16 +260,35 @@ $sulfur: #fee082;
   background-position: center;
   background-size: contain;
   background-color: $jade;
-  border-color: $ladder-end;
+  &.borderTop {
+    border-top-color: $ladder-end;
+  }
+  &.borderBottom {
+    border-bottom-color: $ladder-end;
+  }
+  &.borderRight {
+    border-right-color: $ladder-end;
+  }
+  &.borderLeft {
+    border-left-color: $ladder-end;
+  }
   span {
     color: $ladder-end;
   }
 }
 
 .ladderEnd {
-  border-color: $ladder-start;
-  span {
-    color: $ladder-start;
+  &.borderTop {
+    border-top-color: $ladder-start;
+  }
+  &.borderBottom {
+    border-bottom-color: $ladder-start;
+  }
+  &.borderRight {
+    border-right-color: $ladder-start;
+  }
+  &.borderLeft {
+    border-left-color: $ladder-start;
   }
 }
 

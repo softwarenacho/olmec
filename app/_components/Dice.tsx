@@ -76,7 +76,7 @@ const Dice = ({
   }
 
   return (
-    <div className={styles.diceContainer}>
+    <div className={`${styles.diceContainer}  ${styles[statusText]}`}>
       <Image
         priority
         src={diceSrc}

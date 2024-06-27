@@ -10,6 +10,10 @@ $basalt: #4b4b4b;
   border: 0.5rem solid $basalt;
   border-radius: 0.5rem;
   text-align: center;
+  filter: drop-shadow(4px 4px 4px $basalt) drop-shadow(-4px -4px 4px $basalt);
+  &:hover {
+    filter: drop-shadow(8px 8px 8px $basalt) drop-shadow(-8px -8px 8px $basalt);
+  }
   img {
     margin-bottom: 1rem;
   }

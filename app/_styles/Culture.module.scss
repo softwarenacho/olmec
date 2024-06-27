@@ -13,6 +13,10 @@ $basalt: #4b4b4b;
   border-radius: 0.5rem;
   border: 0.5rem solid $basalt;
   max-width: 60rem;
+  filter: drop-shadow(4px 4px 4px $basalt) drop-shadow(-4px -4px 4px $basalt);
+  &:hover {
+    filter: drop-shadow(8px 8px 8px $basalt) drop-shadow(-8px -8px 8px $basalt);
+  }
   h1 {
     margin-bottom: 2rem;
   }

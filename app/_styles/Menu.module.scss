@@ -1,5 +1,6 @@
 $jade: #04a96d;
 $basalt: #4b4b4b;
+$sulfur: #fee082;
 
 @mixin flex-center {
   display: flex;
@@ -23,6 +24,10 @@ $basalt: #4b4b4b;
   z-index: 10;
   border-left: 1rem solid $jade;
   padding-top: 5rem;
+  box-shadow: -4px 0 4px $basalt;
+  &:hover {
+    box-shadow: -8px 0 8px $basalt;
+  }
   li {
     cursor: pointer;
     list-style: none;
@@ -31,26 +36,30 @@ $basalt: #4b4b4b;
     margin-bottom: 2.5rem;
     font-weight: bold;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     gap: 1rem;
+    &:hover {
+      img {
+        filter: drop-shadow(2px 2px 2px $jade);
+        transform: scale(1.25);
+      }
+      a {
+        color: $sulfur;
+        font-size: 125%;
+      }
+    }
     a {
       font-weight: bold;
       color: $jade;
       white-space: nowrap;
-      &:hover {
-        color: white;
-      }
+      transition: all 1s ease;
+    }
+    img {
+      filter: drop-shadow(1px 1px 1px $jade);
+      transition: all 1s ease;
     }
   }
-}
-
-.sidebar.open {
-  right: 0;
-}
-
-.sidebarContent {
-  padding: 1rem;
 }
 
 .sidebarToggle {
@@ -59,6 +68,25 @@ $basalt: #4b4b4b;
   right: 1rem;
   cursor: pointer;
   z-index: 11;
+  filter: drop-shadow(-2px 2px 2px $basalt);
+  &:hover {
+    filter: drop-shadow(-4px 4px 4px $basalt);
+  }
+}
+
+.sidebar.open {
+  right: 0;
+}
+
+.sidebarToggle.open {
+  filter: drop-shadow(-2px 2px 2px $jade);
+  &:hover {
+    filter: drop-shadow(-4px 4px 4px $jade);
+  }
+}
+
+.sidebarContent {
+  padding: 1rem;
 }
 
 .close {
@@ -72,13 +100,17 @@ $basalt: #4b4b4b;
   border: 0.5rem solid $basalt;
   border-radius: 0.5rem;
   color: $basalt;
+  filter: drop-shadow(2px 2px 2px $basalt) drop-shadow(-2px -2px 2px $basalt);
+  &:hover {
+    filter: drop-shadow(4px 4px 4px $basalt) drop-shadow(-4px -4px 4px $basalt);
+  }
 }
 
 .modal {
   @include flex-center;
-  justify-content: flex-start;
   position: absolute;
+  top: 0;
   z-index: 10;
-  top: 20%;
-  overflow: hidden;
+  width: 100vw;
+  height: 100dvh;
 }

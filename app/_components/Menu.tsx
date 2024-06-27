@@ -20,7 +20,10 @@ const Menu = ({ resetBoard }: { resetBoard?: () => void }) => {
 
   return (
     <>
-      <div className={styles.sidebarToggle} onClick={toggleSidebar}>
+      <div
+        className={`${styles.sidebarToggle} ${sidebarOpen ? styles.open : ''}`}
+        onClick={toggleSidebar}
+      >
         {sidebarOpen && (
           <Image
             src='/icons/basalt.webp'

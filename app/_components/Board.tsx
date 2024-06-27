@@ -44,50 +44,6 @@ const Board = ({
     }
   };
 
-  // const getConnections = (
-  //   snakes: SnakeOrLadder[],
-  //   ladders: SnakeOrLadder[],
-  // ) => {
-  //   const lines: JSX.Element[] = [];
-  //   const offsetX = 250;
-  //   const offsetY = 100;
-  //   const createLine = (
-  //     element: SnakeOrLadder,
-  //     index: number,
-  //     className: string,
-  //   ) => {
-  //     const startElement = document.getElementById(`tile-${element.start}`);
-  //     const endElement = document.getElementById(`tile-${element.end}`);
-  //     if (startElement && endElement) {
-  //       const startRect = startElement.getBoundingClientRect();
-  //       const endRect = endElement.getBoundingClientRect();
-  //       return (
-  //         <line
-  //           key={`${className}-${index}`}
-  //           x1={startRect.x + startRect.width / 2 - offsetX}
-  //           y1={startRect.y + startRect.height / 2 - offsetY}
-  //           x2={endRect.x + endRect.width / 2 - offsetX}
-  //           y2={endRect.y + endRect.height / 2 - offsetY}
-  //           className={className}
-  //         />
-  //       );
-  //     }
-  //     return null;
-  //   };
-
-  //   ladders.forEach((ladder: SnakeOrLadder, index: number) => {
-  //     const line = createLine(ladder, index, styles.ladder);
-  //     if (line) lines.push(line);
-  //   });
-
-  //   snakes.forEach((snake: SnakeOrLadder, index: number) => {
-  //     const line = createLine(snake, index, styles.snake);
-  //     if (line) lines.push(line);
-  //   });
-
-  //   return lines;
-  // };
-
   const generateSpiralBoard = (size: number) => {
     const board = Array.from({ length: size }, () => Array(size).fill(null));
     let num = 1;
@@ -164,12 +120,12 @@ const Board = ({
       const snakeEnd = snakes.find((s) => s.end === index);
       const ladderStart = ladders.find((l) => l.start === index);
       const ladderEnd = ladders.find((l) => l.end === index);
-      if (snakeStart) tileClass = styles.snakeStart;
-      if (snakeEnd) tileClass = styles.snakeEnd;
-      if (ladderStart) tileClass = styles.ladderStart;
-      if (ladderEnd) tileClass = styles.ladderEnd;
-
       const borderClasses = calculateBorderClasses(index);
+
+      if (snakeStart) tileClass = `${styles.snakeStart} ${borderClasses}`;
+      if (snakeEnd) tileClass = `${styles.snakeEnd} ${borderClasses}`;
+      if (ladderStart) tileClass = `${styles.ladderStart} ${borderClasses}`;
+      if (ladderEnd) tileClass = `${styles.ladderEnd} ${borderClasses}`;
 
       let content = (
         <div
@@ -240,12 +196,6 @@ const Board = ({
     scrollPlayerIntoView();
   }, [playerPosition]);
 
-  // useEffect(() => {
-  //   const arrows = getConnections(snakes, ladders);
-  //   setArrows(arrows);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [tiles]);
-
   useEffect(() => {
     if (!gameOver) {
       const boardSize = 10;
@@ -288,15 +238,6 @@ const Board = ({
           <button onClick={resetBoard}>Reset</button>
         </div>
       )}
-      {/* {!gameOver && (
-        <svg
-          className={styles.connections}
-          width={boardRef.current?.offsetWidth}
-          height={boardRef.current?.offsetHeight}
-        >
-          {arrows}
-        </svg>
-      )} */}
       {tiles}
     </div>
   );

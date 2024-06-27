@@ -104,6 +104,10 @@ $basalt: #4b4b4b;
   border: 0.5rem solid $basalt;
   border-radius: 0.5rem;
   color: $basalt;
+  filter: drop-shadow(2px 2px 2px $basalt) drop-shadow(-2px -2px 2px $basalt);
+  &:hover {
+    filter: drop-shadow(4px 4px 4px $basalt) drop-shadow(-4px -4px 4px $basalt);
+  }
 }
 
 .footer {
@@ -141,9 +145,9 @@ $basalt: #4b4b4b;
 
 .modal {
   @include flex-center;
-  justify-content: flex-start;
   position: absolute;
+  top: 0;
   z-index: 10;
-  top: 20%;
-  overflow: hidden;
+  width: 100vw;
+  height: 100dvh;
 }

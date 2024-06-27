@@ -13,10 +13,21 @@ $basalt: #4b4b4b;
   background-color: $jade;
   border: 0.25rem solid $basalt;
   border-radius: 8px;
+  &.Roll {
+    animation: roll 1s ease-in-out infinite;
+  }
+  filter: drop-shadow(2px 2px 2px $basalt);
+  &:hover {
+    filter: drop-shadow(4px 4px 4px $basalt);
+  }
 }
 
 .dice {
   cursor: pointer;
+  filter: drop-shadow(2px 2px 2px $basalt);
+  &:hover {
+    filter: drop-shadow(4px 4px 4px $basalt);
+  }
 }
 
 .statusText {
@@ -28,14 +39,26 @@ $basalt: #4b4b4b;
 }
 
 .rolling {
-  animation: rolling-animation 0.1s infinite;
+  animation: rolling 0.1s infinite;
 }
 
-@keyframes rolling-animation {
+@keyframes rolling {
   0% {
     transform: rotate(0deg);
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes roll {
+  0%,
+  100% {
+    transform: scale(1);
+    background-color: $jade;
+  }
+  50% {
+    transform: scale(1.025);
+    background-color: lighten($jade, 5%);
   }
 }
