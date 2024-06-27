@@ -50,9 +50,9 @@ const Game: React.FC = () => {
   useEffect(() => {
     setSnakesAndLadders(generateSnakesAndLadders());
     const storedBgMusic = JSON.parse(
-      localStorage.getItem('bgMusicOn') || 'false',
+      localStorage.getItem('bgMusicOn') || 'true',
     );
-    const storedSfx = JSON.parse(localStorage.getItem('sfxOn') || 'false');
+    const storedSfx = JSON.parse(localStorage.getItem('sfxOn') || 'true');
     if (storedBgMusic !== null) {
       setBgMusicOn(JSON.parse(storedBgMusic));
     }
