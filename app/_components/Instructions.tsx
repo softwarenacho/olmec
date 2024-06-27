@@ -44,7 +44,9 @@ const Instructions = () => {
           Each game board is randomly generated, ensuring a unique experience
           every time.
         </li>
-        <li>Good luck and enjoy your journey to the top of the pyramid!</li>
+        <li>
+          <b>Good luck and enjoy your journey to the top of the pyramid!</b>
+        </li>
       </ol>
     </div>
   );

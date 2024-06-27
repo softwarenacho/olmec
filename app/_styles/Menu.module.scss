@@ -12,18 +12,13 @@ $sulfur: #fee082;
 .sidebar {
   position: fixed;
   top: 0;
-  right: -50%;
-  width: 50%;
-  @media screen and (min-width: 600px) {
-    right: -25%;
-    width: 25%;
-  }
-  height: 100%;
+  right: -20rem;
+  width: 20rem;
   background-color: $basalt;
   transition: right 0.3s ease-in-out;
   z-index: 10;
-  border-left: 1rem solid $jade;
-  padding-top: 5rem;
+  border: 1rem solid $jade;
+  padding: 2rem;
   li {
     cursor: pointer;
     list-style: none;
@@ -60,8 +55,8 @@ $sulfur: #fee082;
 
 .sidebarToggle {
   position: fixed;
-  top: 1rem;
-  right: 1rem;
+  top: 2rem;
+  right: 2rem;
   cursor: pointer;
   z-index: 11;
   filter: drop-shadow(-2px 2px 2px $basalt);
@@ -72,9 +67,9 @@ $sulfur: #fee082;
 
 .sidebar.open {
   right: 0;
-  box-shadow: -4px 0 4px $basalt;
+  box-shadow: -4px 4px 4px $basalt;
   &:hover {
-    box-shadow: -8px 0 8px $basalt;
+    box-shadow: -8px 8px 8px $basalt;
   }
 }
 

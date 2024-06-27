@@ -47,13 +47,8 @@ const Home = () => {
               width={64}
               height={64}
             />
-            <p>
-              Each game board is uniquely generated, providing a fresh challenge
-              every time you play. The board follows a spiral path, adding an
-              extra layer of strategy as you ascend. Avoid the serpents that
-              will drag you down and take advantage of the ladders to climb
-              faster. Reach the top before the Eagle warrior to win the game!
-            </p>
+            <p>Each game board is uniquely generated in a spiral path.</p>
+            <p>Reach the top before the Eagle warrior to win the game!</p>
             <Link className={styles.knowMoreButton} href='/game' role='button'>
               Play Now
             </Link>

@@ -3,7 +3,7 @@ $basalt: #4b4b4b;
 
 .container {
   max-width: 50rem;
-  max-height: 50%;
+  max-height: 75%;
   padding: 3rem 2rem;
   background-color: $jade;
   color: $basalt;
@@ -28,7 +28,7 @@ $basalt: #4b4b4b;
 .instructions {
   margin-top: 1rem;
   font-size: 1rem;
-  max-height: 50%;
+  max-height: 75%;
   overflow: scroll;
   list-style-type: none;
   text-align: center;

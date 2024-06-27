@@ -12,7 +12,10 @@ $basalt: #4b4b4b;
   justify-content: flex-start;
   border-radius: 0.5rem;
   border: 0.5rem solid $basalt;
-  max-width: 60rem;
+  max-width: 90%;
+  @media screen and (min-width: 600px) {
+    max-width: 60rem;
+  }
   filter: drop-shadow(4px 4px 4px $basalt) drop-shadow(-4px -4px 4px $basalt);
   &:hover {
     filter: drop-shadow(8px 8px 8px $basalt) drop-shadow(-8px -8px 8px $basalt);
@@ -22,6 +25,7 @@ $basalt: #4b4b4b;
   }
   ol {
     max-height: 32rem;
+    max-width: 90%;
     overflow: scroll;
   }
   p,
@@ -37,7 +41,10 @@ $basalt: #4b4b4b;
     img {
       margin-top: 2rem;
       margin-bottom: 2rem;
-      max-width: 400px;
+      max-width: 90%;
+      @media screen and (min-width: 600px) {
+        max-width: 400px;
+      }
       filter: drop-shadow(2px 2px 2px $basalt)
         drop-shadow(-2px -2px 2px $basalt);
     }
