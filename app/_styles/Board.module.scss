@@ -1,8 +1,8 @@
 $jade: #04a96d;
 $basalt: #4b4b4b;
-$ladder-start: #56c0d7;
+$ladder-start: #3c52a7;
 $ladder-end: #3c52a7;
-$snake-end: #c4b4b9;
+$snake-end: #b46f86;
 $snake-start: #b46f86;
 $sulfur: #fee082;
 
@@ -85,7 +85,7 @@ $sulfur: #fee082;
   span {
     display: flex;
     position: absolute;
-    color: $basalt;
+    color: white;
   }
 }
 
@@ -236,7 +236,7 @@ $sulfur: #fee082;
   background-size: contain;
   background-color: $jade;
   span {
-    color: $snake-start;
+    color: $snake-end;
   }
 }
 
@@ -252,6 +252,9 @@ $sulfur: #fee082;
   }
   &.borderLeft {
     border-left-color: $snake-end;
+  }
+  span {
+    color: $snake-start;
   }
 }
 
@@ -289,6 +292,9 @@ $sulfur: #fee082;
   }
   &.borderLeft {
     border-left-color: $ladder-start;
+  }
+  span {
+    color: $ladder-start;
   }
 }
 
@@ -365,6 +371,7 @@ $sulfur: #fee082;
     img {
       width: 50%;
       height: 50%;
+      animation: shake 2s ease-out infinite;
     }
   }
   h2 {
@@ -391,6 +398,32 @@ $sulfur: #fee082;
     height: 70%;
     top: 15%;
     left: 5%;
+  }
+}
+
+.moving {
+  position: relative;
+  animation: shake 1s ease-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
   }
 }
 

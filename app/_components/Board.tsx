@@ -8,6 +8,7 @@ import {
   useState,
 } from 'react';
 import styles from '../_styles/Board.module.scss';
+import { getGradientColor } from '../_utils/generateBackgroundColor';
 import { SnakeOrLadder } from '../_utils/generateBoard';
 
 interface BoardProps {
@@ -15,6 +16,8 @@ interface BoardProps {
   ladders: SnakeOrLadder[];
   playerPosition: number;
   aiPosition: number;
+  playerIsMoving: boolean;
+  aiIsMoving: boolean;
   gameOver: boolean;
   setGameOver: Dispatch<SetStateAction<boolean>>;
   resetBoard: () => void;
@@ -25,12 +28,13 @@ const Board = ({
   ladders,
   playerPosition,
   aiPosition,
+  playerIsMoving,
+  aiIsMoving,
   gameOver,
   setGameOver,
   resetBoard,
 }: BoardProps) => {
   const [tiles, setTiles] = useState<JSX.Element[]>([]);
-  const [arrows, setArrows] = useState<JSX.Element[]>([]);
   const playerRef = useRef<HTMLDivElement>(null);
   const boardRef = useRef<HTMLDivElement>(null);
 
@@ -160,14 +164,32 @@ const Board = ({
       if (index === playerPosition && index === aiPosition) {
         content = (
           <div className={styles.dualPlayer}>
-            <span className={styles.player} ref={playerRef}></span>
-            <span className={styles.ai}></span>
+            <span
+              className={`${styles.player} ${
+                playerIsMoving ? styles.moving : ''
+              }`}
+              ref={playerRef}
+            ></span>
+            <span
+              className={`${styles.ai} ${aiIsMoving ? styles.moving : ''}`}
+            ></span>
           </div>
         );
       } else if (index === playerPosition) {
-        content = <span className={styles.player} ref={playerRef}></span>;
+        content = (
+          <span
+            className={`${styles.player} ${
+              playerIsMoving ? styles.moving : ''
+            }`}
+            ref={playerRef}
+          ></span>
+        );
       } else if (index === aiPosition) {
-        content = <span className={styles.ai}></span>;
+        content = (
+          <span
+            className={`${styles.ai} ${aiIsMoving ? styles.moving : ''}`}
+          ></span>
+        );
       }
 
       return (
@@ -177,12 +199,23 @@ const Board = ({
           className={`${styles.tile} ${tileClass} ${borderClasses} ${
             [1, 100].includes(index) ? styles.sulfur : ''
           }`}
+          style={{
+            backgroundColor: getGradientColor(index),
+          }}
         >
           {content}
         </div>
       );
     },
-    [aiPosition, calculateBorderClasses, ladders, playerPosition, snakes],
+    [
+      aiIsMoving,
+      aiPosition,
+      calculateBorderClasses,
+      ladders,
+      playerIsMoving,
+      playerPosition,
+      snakes,
+    ],
   );
 
   useEffect(() => {

@@ -87,6 +87,8 @@ const Game: React.FC = () => {
         playerPosition={playerPosition}
         aiPosition={aiPosition}
         gameOver={gameOver}
+        playerIsMoving={playerIsMoving}
+        aiIsMoving={aiIsMoving}
         setGameOver={setGameOver}
         resetBoard={resetBoard}
       />
