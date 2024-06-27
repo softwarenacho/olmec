@@ -4,7 +4,7 @@
 
 Welcome to Olmec Game! This is a clone of the classic Snakes and Ladders game.
 
-![Game Board](/public/screenshots/Board 1564x1770.png)
+![Game Board](/public/screenshots/Board%201564x1770.png)
 
 ## Description
 
@@ -12,9 +12,9 @@ In this version, you control the mighty Jaguar warrior, navigating your way to t
 
 Roll the dice, overcome challenges, and race to victory in this exciting digital adaptation.
 
-![Game Won](/public/screenshots/Won 820x1508.png)
-
 ### Good luck and enjoy your journey to the top of the pyramid!
+
+![Game Won](/public/screenshots/Won%20820x1508.png)
 
 ## Features
 
