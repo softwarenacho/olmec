@@ -21,7 +21,7 @@ $sulfur: #fee082;
   width: fit-content;
   position: relative;
   background-color: $basalt;
-  border-radius: 8px;
+  border-radius: 1rem;
   max-width: 90vw;
   max-height: calc(100dvh - 12rem);
   overflow: scroll;
@@ -57,7 +57,7 @@ $sulfur: #fee082;
   background-position: center;
   background-size: contain;
   border: 2px solid $jade;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   z-index: 1;
   &:hover {
     box-shadow: 1px 1px 2px $sulfur, -1px -1px 2px $sulfur;
@@ -77,6 +77,16 @@ $sulfur: #fee082;
   &:has(.ai) {
     z-index: 5;
     box-shadow: 1px 1px 2px $sulfur, -1px -1px 2px $sulfur;
+  }
+}
+
+.pyramid {
+  background: url('/icons/pyramid.webp');
+  background-color: $sulfur !important;
+  background-position: center;
+  background-size: contain;
+  .index {
+    display: none;
   }
 }
 
@@ -167,6 +177,7 @@ $sulfur: #fee082;
   background-size: contain;
   background-repeat: no-repeat;
 }
+
 .ai {
   background: url('/icons/eagle.webp');
   background-position: center;
@@ -176,7 +187,6 @@ $sulfur: #fee082;
 
 .sulfur {
   background-color: $sulfur !important;
-  background-blend-mode: color-burn;
 }
 
 .borderTop,
@@ -231,37 +241,21 @@ $sulfur: #fee082;
   &.borderLeft {
     border-left-color: $snake-start;
   }
-  background: url('/icons/snake.png') repeat;
+  background: url('/icons/snake.webp') repeat;
   background-position: center;
   background-size: contain;
+  background-blend-mode: luminosity;
   background-color: $jade;
   span {
     color: $snake-end;
   }
 }
 
-.snakeEnd {
-  &.borderTop {
-    border-top-color: $snake-end;
-  }
-  &.borderBottom {
-    border-bottom-color: $snake-end;
-  }
-  &.borderRight {
-    border-right-color: $snake-end;
-  }
-  &.borderLeft {
-    border-left-color: $snake-end;
-  }
-  span {
-    color: $snake-start;
-  }
-}
-
 .ladderStart {
-  background: url('/icons/stair.png') repeat;
+  background: url('/icons/stair.webp') repeat;
   background-position: center;
   background-size: contain;
+  background-blend-mode: luminosity;
   background-color: $jade;
   &.borderTop {
     border-top-color: $ladder-end;
@@ -280,19 +274,15 @@ $sulfur: #fee082;
   }
 }
 
+.snakeEnd {
+  background-blend-mode: color;
+  span {
+    color: $snake-start;
+  }
+}
+
 .ladderEnd {
-  &.borderTop {
-    border-top-color: $ladder-start;
-  }
-  &.borderBottom {
-    border-bottom-color: $ladder-start;
-  }
-  &.borderRight {
-    border-right-color: $ladder-start;
-  }
-  &.borderLeft {
-    border-left-color: $ladder-start;
-  }
+  background-blend-mode: screen;
   span {
     color: $ladder-start;
   }
@@ -391,7 +381,7 @@ $sulfur: #fee082;
       }
     }
     h2 {
-      font-size: 3rem;
+      font-size: 2.5rem;
       margin-top: 2rem;
     }
     width: 90%;

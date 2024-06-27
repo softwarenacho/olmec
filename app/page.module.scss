@@ -1,5 +1,6 @@
 $jade: #04a96d;
 $basalt: #4b4b4b;
+$sulfur: #fee082;
 
 @mixin flex-center {
   display: flex;
@@ -97,7 +98,7 @@ $basalt: #4b4b4b;
 .close {
   margin-top: 1rem;
   margin-bottom: 1rem;
-  background-color: $jade;
+  background-color: $sulfur;
   cursor: pointer;
   font-size: 0.75rem;
   font-weight: bold;

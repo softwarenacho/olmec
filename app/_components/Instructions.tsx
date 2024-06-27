@@ -19,21 +19,21 @@ const Instructions = () => {
         <li>
           <Image
             className={styles.bg}
-            src='/icons/stair.png'
+            src='/icons/stair.webp'
             alt='Stair'
-            width={36}
-            height={36}
+            width={48}
+            height={48}
           />
           If you land on a ladder, your warrior will automatically move up to
           the ladder&apos;s end tile.
         </li>
         <li>
           <Image
-            src='/icons/snake.png'
-            className={styles.bg}
+            src='/icons/snake.webp'
+            className={styles.snake}
             alt='Snake'
-            width={36}
-            height={36}
+            width={48}
+            height={48}
           />
           If you land on a snake, your warrior will automatically slide down to
           the snake&apos;s end tile.

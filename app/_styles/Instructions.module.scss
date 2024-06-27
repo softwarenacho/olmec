@@ -1,5 +1,7 @@
 $jade: #04a96d;
 $basalt: #4b4b4b;
+$stair: #3c52a7;
+$snake: #b46f86;
 
 .container {
   max-width: 50rem;
@@ -26,24 +28,39 @@ $basalt: #4b4b4b;
 }
 
 .instructions {
+  color: white;
   margin-top: 1rem;
   font-size: 1rem;
-  max-height: 75%;
+  max-height: 80%;
   overflow: scroll;
   list-style-type: none;
   text-align: center;
   li {
-    img {
-      margin-right: 0.5rem;
-      margin-bottom: 0;
-    }
-    .bg {
-      background-color: $basalt;
-      border-radius: 0.5rem;
-    }
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 1rem;
+    img {
+      margin-right: 1rem;
+      margin-bottom: 0;
+    }
+    .bg,
+    .snake {
+      background-color: $jade;
+      border: 0.25rem solid;
+      border-radius: 0.5rem;
+    }
+    .bg {
+      border-top-color: $stair;
+      border-bottom-color: $stair;
+      border-left-color: $jade;
+      border-right-color: $jade;
+    }
+    .snake {
+      border-top-color: $jade;
+      border-bottom-color: $jade;
+      border-left-color: $snake;
+      border-right-color: $snake;
+    }
   }
 }

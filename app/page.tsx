@@ -48,7 +48,10 @@ const Home = () => {
               height={64}
             />
             <p>Each game board is uniquely generated in a spiral path.</p>
-            <p>Reach the top before the Eagle warrior to win the game!</p>
+            <p>
+              Roll your dice to reach the top before the Eagle warrior to win
+              the game!
+            </p>
             <Link className={styles.knowMoreButton} href='/game' role='button'>
               Play Now
             </Link>
