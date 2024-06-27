@@ -98,30 +98,11 @@ export const calculateBorderClasses = (index: number, styles: { [key: string]: s
   const prevRow = Math.floor(prevPosition / boardSize);
   const prevCol = prevPosition % boardSize;
 
-  const isFirstTile = index === 1;
-  const isLastTile = index === 100;
-
-  const isTopLeftCorner = isFirstTile || (prevRow > row && prevCol > col);
-  const isTopRightCorner = isFirstTile || (prevRow > row && nextCol < col);
-  const isBottomLeftCorner = isLastTile || (nextRow < row && prevCol > col);
-  const isBottomRightCorner = isLastTile || (nextRow < row && nextCol < col);
-
-  if (
-    isFirstTile ||
-    isLastTile ||
-    isTopLeftCorner ||
-    isTopRightCorner ||
-    isBottomLeftCorner ||
-    isBottomRightCorner
-  ) {
-    borderClass = ` ${styles.borderTop} ${styles.borderBottom} ${styles.borderLeft} ${styles.borderRight}`;
-  } else {
-    if (row === prevRow || row === nextRow) {
-      borderClass += ` ${styles.borderTop} ${styles.borderBottom}`;
-    }
-    if (col === prevCol || col === nextCol) {
-      borderClass += ` ${styles.borderLeft} ${styles.borderRight}`;
-    }
+  if (row === prevRow || row === nextRow) {
+    borderClass += ` ${styles.borderTop} ${styles.borderBottom}`;
+  }
+  if (col === prevCol || col === nextCol) {
+    borderClass += ` ${styles.borderLeft} ${styles.borderRight}`;
   }
 
   return borderClass.trim();
