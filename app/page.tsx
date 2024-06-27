@@ -19,7 +19,6 @@ const Home = () => {
         <div className={styles.olmecHead}></div>
         <Menu />
         <div className={styles.mainElement}>
-          <h1 className={styles.title}>Olmec</h1>
           <div className={styles.summary}>
             <p>
               Olmec is an exciting twist on the classic Snakes and Ladders game.
