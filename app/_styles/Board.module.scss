@@ -337,6 +337,10 @@ $sulfur: #fee082;
   top: 15%;
   left: 5%;
   background-color: $jade;
+  box-shadow: 4px 4px 4px $basalt, -4px -4px 4px $basalt;
+  &:hover {
+    box-shadow: 8px 8px 8px $basalt, -8px -8px 8px $basalt;
+  }
   button {
     background-color: $jade;
     margin-top: 2.5rem;
@@ -347,6 +351,10 @@ $sulfur: #fee082;
     padding: 1rem 2rem;
     border: 0.5rem solid $basalt;
     color: $basalt;
+    box-shadow: 1px 1px 1px $basalt, -1px -1px 1px $basalt;
+    &:hover {
+      box-shadow: 2px 2px 2px $basalt, -2px -2px 2px $basalt;
+    }
   }
   .images {
     @include flex-center;
@@ -360,8 +368,8 @@ $sulfur: #fee082;
     }
   }
   h2 {
-    color: $sulfur;
-    font-size: 2rem;
+    color: $basalt;
+    font-size: 1.5rem;
     margin-top: 1rem;
   }
   @media screen and (min-width: 600px) {

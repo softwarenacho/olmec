@@ -24,10 +24,6 @@ $sulfur: #fee082;
   z-index: 10;
   border-left: 1rem solid $jade;
   padding-top: 5rem;
-  box-shadow: -4px 0 4px $basalt;
-  &:hover {
-    box-shadow: -8px 0 8px $basalt;
-  }
   li {
     cursor: pointer;
     list-style: none;
@@ -76,6 +72,10 @@ $sulfur: #fee082;
 
 .sidebar.open {
   right: 0;
+  box-shadow: -4px 0 4px $basalt;
+  &:hover {
+    box-shadow: -8px 0 8px $basalt;
+  }
 }
 
 .sidebarToggle.open {

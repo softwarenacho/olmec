@@ -40,30 +40,36 @@
   ],
   "screenshots": [
     {
-      "src": "/screenshots/moving 847x454.webp",
-      "sizes": "847x454",
-      "type": "image/webp",
+      "src": "screenshots/Landing 1802x1042.png",
+      "sizes": "1802x1042",
+      "type": "image/png",
       "form_factor": "wide",
       "label": "Game Desktop"
     },
     {
-      "src": "/screenshots/almost 787x962.webp",
-      "sizes": "787x962",
-      "type": "image/webp",
+      "src": "screenshots/Landing 814x1794.png",
+      "sizes": "814x1794",
+      "type": "image/png",
       "form_factor": "narrow",
-      "label": "Game"
+      "label": "Game Mobile"
     },
     {
-      "src": "/screenshots/landing 1132x744.webp",
-      "sizes": "1132x744",
-      "type": "image/webp",
-      "label": "Game landing page"
+      "src": "screenshots/Won 820x1508.png",
+      "sizes": "820x1508",
+      "type": "image/png",
+      "label": "Game Won"
     },
     {
-      "src": "/screenshots/up 777x962.webp",
-      "sizes": "777x962",
-      "type": "image/webp",
-      "label": "Up"
+      "src": "screenshots/Board 1564x1770.png",
+      "sizes": "1564x1770",
+      "type": "image/png",
+      "label": "Board"
+    },
+    {
+      "src": "screenshots/Culture 1810x1564.png",
+      "sizes": "1810x1564",
+      "type": "image/png",
+      "label": "Board"
     }
   ],
   "shortcuts": [

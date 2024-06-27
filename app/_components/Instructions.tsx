@@ -9,12 +9,12 @@ const Instructions = () => {
       <ol className={styles.instructions}>
         <li>
           <Image src='/icons/dice-6.webp' alt='Dice' width={48} height={48} />
-          Click on the &quot;Roll Dice&quot; button to roll the dice and get a
-          number between 1 and 6.
+          Click on the Dice to roll it and get a number between 1 and 6.
         </li>
         <li>
           <Image src='/icons/jaguar.webp' alt='Jaguar' width={48} height={48} />
-          Move your Jaguar warrior forward according to the number you rolled.
+          Your Jaguar warrior will move forward according to the number you
+          rolled.
         </li>
         <li>
           <Image
