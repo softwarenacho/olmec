@@ -268,7 +268,7 @@ const Board = ({
             {playerPosition === 100 ? 'Jaguar' : 'Eagle'} Warrior Won
             {playerPosition === 100 ? '!!!' : ''}
           </h2>
-          <button onClick={resetBoard}>Reset</button>
+          <button onClick={resetBoard}>Play Again</button>
         </div>
       )}
       {tiles}
