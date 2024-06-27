@@ -95,7 +95,7 @@ const Menu = ({ resetBoard }: { resetBoard?: () => void }) => {
               <li onClick={resetBoard}>
                 <a>Play Again</a>
                 <Image
-                  src='/icons/Figure.webp'
+                  src='/icons/figure.webp'
                   alt='Jade Figure'
                   width={32}
                   height={32}

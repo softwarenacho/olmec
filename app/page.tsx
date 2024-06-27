@@ -31,7 +31,7 @@ const Home = () => {
                 height={32}
               />
               <Image
-                src='/icons/Figure.webp'
+                src='/icons/figure.webp'
                 alt='Jade Figure'
                 width={32}
                 height={32}
