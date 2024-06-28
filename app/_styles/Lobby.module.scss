@@ -4,9 +4,12 @@ $sulfur: #fee082;
 
 .lobby {
   position: relative;
-  background: $basalt;
   color: $jade;
   border-radius: 0.5rem;
+  background: url('/icons/pattern.svg') repeat;
+  background-position: center;
+  background-blend-mode: color-dodge;
+  background-color: $basalt;
   filter: drop-shadow(2px 2px 2px $basalt);
   &:hover {
     filter: drop-shadow(4px 4px 4px $basalt);

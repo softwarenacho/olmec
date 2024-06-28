@@ -39,6 +39,7 @@ Roll the dice, overcome challenges, and race to victory in this exciting digital
 - **React**
 - **TypeScript**
 - **Serwist**
+- **Supabase**
 
 ## Getting Started
 
@@ -66,7 +67,7 @@ You can find the project running on `localhost:3000`
 
 ## To Do
 
-- Multiplayer
+- Multiplayer (WIP)
 
 ## License
 

@@ -10,6 +10,7 @@ const Lobby = ({
   setGameReady,
   startGame,
   resetGame,
+  players,
 }: {
   multiplayer: Player;
   setGameStart: Dispatch<SetStateAction<boolean>>;
@@ -17,8 +18,9 @@ const Lobby = ({
   setGameReady: Dispatch<SetStateAction<boolean>>;
   resetGame: () => void;
   startGame: boolean;
+  players: any[];
 }) => {
-  const players: Player[] = [multiplayer];
+  // console.log('🚀 ~ players:', players);
   const [playerReady, setPlayerReady] = useState<boolean>(false);
   const [showActions, setShowActions] = useState<boolean>(true);
 
@@ -52,16 +54,7 @@ const Lobby = ({
       <div className={styles.players}>
         <div className={styles.head}>
           <p className={styles.names}>{multiplayer?.room}</p>
-          {!startGame && (
-            <p className={styles.ready}>
-              <Image
-                src='/icons/ready.webp'
-                alt='Players Ready'
-                width={24}
-                height={24}
-              />
-            </p>
-          )}
+          {!startGame && <p className={styles.ready}>Status</p>}
           {players.every((player) => player.position) && (
             <p className={styles.position}>
               <Image
