@@ -101,7 +101,6 @@ const Multiplayer = ({
       .from('players')
       .insert({ name, avatar, position: 0, room, ready: false })
       .select();
-    console.log('🚀 ~ createPlayer ~ error:', error, data);
     if (!error) {
       setPlayers([...players, data[0]]);
     } else {
@@ -149,6 +148,12 @@ const Multiplayer = ({
     } else {
       createRoom();
     }
+  };
+
+  const isSelectedByPlayers = (image: string) => {
+    const filtered = players.filter((p) => p.room === room && p.name !== name);
+    const found = filtered.find((p) => p.avatar === image);
+    return found?.avatar;
   };
 
   return (
@@ -227,15 +232,15 @@ const Multiplayer = ({
             <Image
               key={image}
               className={`${avatar === image ? styles.selected : ''} ${
-                players.find((p) => p.name === name)?.avatar !== image
-                  ? styles.otherPlayer
-                  : ''
+                isSelectedByPlayers(image) ? styles.otherPlayer : ''
               }`}
               src={`/players/${image}`}
               alt={`Avatar ${image}`}
               onClick={() => {
-                setAvatar(image);
-                setChangeAvatar(false);
+                if (!isSelectedByPlayers(image)) {
+                  setAvatar(image);
+                  setChangeAvatar(false);
+                }
               }}
               width={64}
               height={64}

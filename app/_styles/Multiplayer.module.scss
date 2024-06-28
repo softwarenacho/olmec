@@ -120,16 +120,21 @@ $sulfur: #fee082;
     background-position: center;
     background-size: contain;
     padding: 0.5rem;
-    &:hover {
+    &:not(.otherPlayer):hover {
       box-shadow: 2px 2px 2px $jade, -2px -2px 2px $jade;
       background-color: $snake;
       border-color: $ladder;
     }
-  }
-  .selected {
-    background-color: $sulfur;
-    border-color: $jade;
-    box-shadow: 2px 2px 2px $sulfur, -2px -2px 2px $sulfur;
+    &.selected {
+      background-color: $sulfur;
+      border-color: $jade;
+      box-shadow: 2px 2px 2px $sulfur, -2px -2px 2px $sulfur;
+    }
+    &.otherPlayer {
+      border: 0.25rem solid $basalt;
+      background: $basalt;
+      opacity: 0.5;
+    }
   }
 }
 
