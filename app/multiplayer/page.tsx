@@ -7,8 +7,8 @@ import styles from '../_styles/Game.module.scss';
 
 const GamePage = () => {
   const [avatar, setAvatar] = useState<string>('jaguar.webp');
-  const [name, setName] = useState<string>('waffles');
-  const [room, setRoom] = useState<string>('nacho');
+  const [name, setName] = useState<string>('');
+  const [room, setRoom] = useState<string>('');
   const [multiplayer, setMultiplayer] = useState<Player>({});
   const [gameReady, setGameReady] = useState<boolean>(false);
 
