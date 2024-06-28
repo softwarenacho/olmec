@@ -17,7 +17,7 @@ const Game = ({
   setMultiplayer,
 }: {
   multiplayer?: Player;
-  setMultiplayer: Dispatch<SetStateAction<Player>>;
+  setMultiplayer?: Dispatch<SetStateAction<Player>>;
 }) => {
   const [playerPosition, setPlayerPosition] = useState(1);
   const [aiPosition, setAiPosition] = useState(multiplayer?.room ? 0 : 1);
@@ -120,7 +120,7 @@ const Game = ({
     const interval = setInterval(() => {
       newPosition++;
       setPosition(newPosition);
-      if (multiplayer?.room) {
+      if (setMultiplayer) {
         setMultiplayer({
           ...multiplayer,
           position: newPosition,
@@ -143,7 +143,7 @@ const Game = ({
             if (sfxOn) upSound();
             newPosition = ladder.end;
           }
-          if (multiplayer?.room) {
+          if (setMultiplayer) {
             setMultiplayer({
               ...multiplayer,
               position: newPosition,
@@ -160,7 +160,7 @@ const Game = ({
     setSnakesAndLadders(generateSnakesAndLadders());
     setPlayerPosition(1);
     if (!multiplayer?.room) setAiPosition(1);
-    if (multiplayer?.room) {
+    if (setMultiplayer) {
       setMultiplayer({
         ...multiplayer,
         position: 1,
