@@ -9,11 +9,9 @@ import { Player } from './Multiplayer';
 
 const Menu = ({
   resetBoard,
-  resetRoom,
   multiplayer,
 }: {
   resetBoard?: () => void;
-  resetRoom?: () => void;
   multiplayer?: Player;
 }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -100,23 +98,12 @@ const Menu = ({
                 height={32}
               />
             </li>
-            {resetBoard && (
+            {!multiplayer?.room && resetBoard && (
               <li onClick={resetBoard}>
-                <a>Reset Board</a>
+                <a>Reset Game</a>
                 <Image
                   src='/players/kunz.webp'
                   alt='Jade Figure'
-                  width={32}
-                  height={32}
-                />
-              </li>
-            )}
-            {multiplayer?.room && (
-              <li onClick={resetRoom}>
-                <a>Close Room</a>
-                <Image
-                  src='/icons/house.webp'
-                  alt='Room'
                   width={32}
                   height={32}
                 />

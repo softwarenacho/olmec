@@ -6,6 +6,8 @@ export interface Player {
   name?: string;
   room?: string;
   avatar?: string;
+  ready?: boolean;
+  position?: number;
 }
 
 interface MultiplayerInterface {
@@ -66,6 +68,8 @@ const Multiplayer = ({
       name,
       room,
       avatar,
+      ready: false,
+      position: 0,
     });
     setGameReady(true);
   };
@@ -82,7 +86,7 @@ const Multiplayer = ({
       />
       <div className={styles.inputs}>
         <label>
-          <div className={styles.decorated}>
+          <div className={styles.left}>
             <Image
               className={styles.wall}
               src={`/icons/wall-basalt.webp`}
@@ -115,20 +119,20 @@ const Multiplayer = ({
           <span>Avatar</span>
         </label>
         <label>
-          <div className={styles.decorated}>
-            <Image
-              className={styles.wall}
-              src={`/icons/wall-jade.webp`}
-              alt={`Wall Jade`}
-              width={32}
-              height={32}
-            />
+          <div className={styles.right}>
             <input
               type='text'
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
               }}
+            />
+            <Image
+              className={styles.wall}
+              src={`/icons/wall-jade.webp`}
+              alt={`Wall Jade`}
+              width={32}
+              height={32}
             />
           </div>
           <span>Player Name</span>

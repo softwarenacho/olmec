@@ -55,7 +55,8 @@ $sulfur: #fee082;
   }
 }
 
-.decorated {
+.left,
+.right {
   @include flex-center;
   flex-direction: row;
   img {
@@ -64,9 +65,26 @@ $sulfur: #fee082;
   input {
     border-color: 0.1rem solid $jade;
     height: 1.9rem;
+    width: 10rem;
+  }
+}
+
+.left {
+  input {
     margin-left: -2rem;
     padding-left: 2.5rem;
-    width: 10rem;
+    padding-right: 0.5rem;
+  }
+}
+
+.right {
+  img {
+    transform: scaleX(-1);
+  }
+  input {
+    margin-right: -2rem;
+    padding-left: 0.5rem;
+    padding-right: 2.5rem;
   }
 }
 

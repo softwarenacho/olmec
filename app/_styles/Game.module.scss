@@ -15,6 +15,10 @@ $sulfur: #fee082;
   align-items: center;
   justify-content: center;
   height: 100%;
+  &.multi {
+    height: unset;
+    margin-top: 2rem;
+  }
 }
 
 .main {
@@ -42,6 +46,12 @@ $sulfur: #fee082;
   margin: 2rem 0;
   right: 2rem;
   bottom: 0;
+}
+
+.switchMulti {
+  position: relative;
+  right: unset;
+  bottom: unset;
 }
 
 .switch {

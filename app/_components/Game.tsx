@@ -14,10 +14,10 @@ import { Player } from './Multiplayer';
 
 const Game = ({
   multiplayer,
-  setGameReady,
+  setMultiplayer,
 }: {
   multiplayer?: Player;
-  setGameReady?: Dispatch<SetStateAction<boolean>>;
+  setMultiplayer: Dispatch<SetStateAction<Player>>;
 }) => {
   const [playerPosition, setPlayerPosition] = useState(1);
   const [aiPosition, setAiPosition] = useState(multiplayer?.room ? 0 : 1);
@@ -120,6 +120,12 @@ const Game = ({
     const interval = setInterval(() => {
       newPosition++;
       setPosition(newPosition);
+      if (multiplayer?.room) {
+        setMultiplayer({
+          ...multiplayer,
+          position: newPosition,
+        });
+      }
       if (newPosition === position + roll || newPosition >= 100) {
         clearInterval(interval);
         setTimeout(() => {
@@ -137,6 +143,12 @@ const Game = ({
             if (sfxOn) upSound();
             newPosition = ladder.end;
           }
+          if (multiplayer?.room) {
+            setMultiplayer({
+              ...multiplayer,
+              position: newPosition,
+            });
+          }
           setPosition(newPosition);
           callback();
         }, 500);
@@ -146,25 +158,23 @@ const Game = ({
 
   const resetBoard = () => {
     setSnakesAndLadders(generateSnakesAndLadders());
-    if (!multiplayer?.room) setAiPosition(1);
     setPlayerPosition(1);
+    if (!multiplayer?.room) setAiPosition(1);
+    if (multiplayer?.room) {
+      setMultiplayer({
+        ...multiplayer,
+        position: 1,
+      });
+    }
     setGameOver(false);
     stopBgSound();
     stopWonSound();
     if (bgMusicOn) playBgSound();
   };
 
-  const resetRoom = () => {
-    setGameReady && setGameReady(false);
-  };
-
   return (
-    <section className={styles.game}>
-      <Menu
-        resetBoard={resetBoard}
-        resetRoom={resetRoom}
-        multiplayer={multiplayer}
-      />
+    <section className={`${styles.game} ${styles.multi}`}>
+      <Menu resetBoard={resetBoard} multiplayer={multiplayer} />
       <Board
         player={multiplayer}
         snakes={snakesAndLadders.snakes}
@@ -184,8 +194,11 @@ const Game = ({
         aiIsMoving={aiIsMoving}
         gameOver={gameOver}
       />
-
-      <div className={styles.soundSwitch}>
+      <div
+        className={`${styles.soundSwitch} ${
+          multiplayer?.ready ? styles.switchMulti : ''
+        }`}
+      >
         <label className={styles.switch}>
           <input type='checkbox' checked={bgMusicOn} onChange={toggleBgMusic} />
           <span className={styles.slider}></span>

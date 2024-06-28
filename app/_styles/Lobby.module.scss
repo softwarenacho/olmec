@@ -1,0 +1,143 @@
+$jade: #04a96d;
+$basalt: #4b4b4b;
+$sulfur: #fee082;
+
+.lobby {
+  position: relative;
+  background: $basalt;
+  color: $jade;
+  border-radius: 0.5rem;
+  filter: drop-shadow(2px 2px 2px $basalt);
+  &:hover {
+    filter: drop-shadow(4px 4px 4px $basalt);
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  button {
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: $basalt;
+    background: $jade;
+    border: 0.25rem solid $sulfur;
+    &.close {
+      color: $basalt;
+      background: $sulfur;
+      border: 0.25rem solid $jade;
+    }
+  }
+}
+
+.caret {
+  position: absolute;
+  cursor: pointer;
+  right: 1rem;
+  top: 1.25rem;
+  filter: drop-shadow(-1px -1px 1px $basalt);
+  &:hover {
+    filter: drop-shadow(-2px -2px 2px $basalt);
+  }
+  &.down {
+    transform: rotate(180deg);
+  }
+}
+
+.players {
+  background-color: $jade;
+  border-radius: 0.5rem;
+  p {
+    padding: 1rem;
+    color: $basalt;
+    &.names {
+      width: 12rem;
+    }
+    &.ready {
+      width: 8rem;
+    }
+    &.position {
+      font-weight: bold;
+      width: 4rem;
+    }
+  }
+  .head {
+    border: 0.25rem solid $basalt;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    p {
+      font-weight: bold;
+    }
+  }
+  .player {
+    border-left: 0.25rem solid $basalt;
+    border-right: 0.25rem solid $basalt;
+    border-bottom: 0.25rem solid $basalt;
+  }
+  .head,
+  .player {
+    display: flex;
+    padding-right: 3rem;
+    p,
+    label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+  }
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $basalt;
+    transition: 0.4s;
+    border-radius: 34px;
+    box-shadow: $basalt 2px 2px 0 0;
+    &:hover {
+      box-shadow: $basalt 4px 4px 0 0;
+      &:before {
+        box-shadow: $basalt 2px 2px 0 0;
+      }
+    }
+    &:before {
+      position: absolute;
+      content: '';
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+      box-shadow: $basalt 1px 1px 0 0;
+    }
+  }
+  input:checked + .slider {
+    background-color: $sulfur;
+  }
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+}
