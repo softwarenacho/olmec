@@ -62,13 +62,13 @@ const Dice = ({
 
   let diceSrc;
   if (rolling) {
-    diceSrc = `/icons/dice${result ? `-${result}` : ''}.webp`;
+    diceSrc = `/dice/dice${result ? `-${result}` : ''}.webp`;
   } else if (statusText === 'Roll') {
-    diceSrc = '/icons/dice.webp';
+    diceSrc = '/dice/dice.webp';
   } else if (result !== null) {
-    diceSrc = `/icons/dice-${result}.webp`;
+    diceSrc = `/dice/dice-${result}.webp`;
   } else {
-    diceSrc = '/icons/dice.webp';
+    diceSrc = '/dice/dice.webp';
   }
 
   if (gameOver) {

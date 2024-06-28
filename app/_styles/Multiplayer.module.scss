@@ -1,0 +1,119 @@
+$jade: #04a96d;
+$basalt: #4b4b4b;
+$ladder: #3c52a7;
+$snake: #b46f86;
+$sulfur: #fee082;
+
+@mixin flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.multi {
+  @include flex-center;
+  position: absolute;
+  top: 20%;
+  width: 90%;
+  background: $basalt;
+  padding: 2rem;
+  gap: 1rem;
+  color: white;
+  border: 0.5rem solid $jade;
+  border-radius: 0.5rem;
+  z-index: 10;
+  box-shadow: 2px 2px 2px $basalt, -2px -2px 2px $basalt;
+  &:hover {
+    box-shadow: 4px 4px 4px $basalt, -4px -4px 4px $basalt;
+  }
+}
+
+.inputs {
+  @include flex-center;
+  flex-direction: row;
+  width: 100%;
+  gap: 1rem;
+  label {
+    @include flex-center;
+    gap: 1rem;
+    cursor: pointer;
+    .selected {
+      border: 0.1rem solid $sulfur;
+      padding: 0.25rem;
+      background: url('/icons/pattern.svg') repeat;
+      background-color: $jade;
+      background-position: center;
+      background-size: contain;
+    }
+    &.change {
+      .selected {
+        border: 0.1rem solid $jade;
+        background-color: $sulfur;
+      }
+    }
+  }
+}
+
+.decorated {
+  @include flex-center;
+  flex-direction: row;
+  img {
+    z-index: 11;
+  }
+  input {
+    border-color: 0.1rem solid $jade;
+    height: 1.9rem;
+    margin-left: -2rem;
+    padding-left: 2.5rem;
+    width: 10rem;
+  }
+}
+
+.actions {
+  margin-top: 2rem;
+  button {
+    cursor: pointer;
+    padding: 1rem 4rem;
+    font-weight: bold;
+    color: $basalt;
+    background: $jade;
+    border: 0.25rem solid $sulfur;
+  }
+}
+
+.players {
+  @include flex-center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  img {
+    cursor: pointer;
+    border: 0.25rem solid $sulfur;
+    border-radius: 0.25rem;
+    background: url('/icons/pattern.svg') repeat;
+    background-color: $jade;
+    background-position: center;
+    background-size: contain;
+    padding: 0.5rem;
+    &:hover {
+      box-shadow: 2px 2px 2px $jade, -2px -2px 2px $jade;
+      background-color: $snake;
+      border-color: $ladder;
+    }
+  }
+  .selected {
+    background-color: $sulfur;
+    border-color: $jade;
+    box-shadow: 2px 2px 2px $sulfur, -2px -2px 2px $sulfur;
+  }
+}
+
+.base {
+  @include flex-center;
+  height: 8rem;
+  width: 16rem;
+  background: url('/icons/pottery.webp') no-repeat;
+  background-position: center;
+  background-size: cover;
+}

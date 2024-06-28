@@ -5,8 +5,17 @@ import { useState } from 'react';
 import styles from '../_styles/Menu.module.scss';
 import Culture from './Culture';
 import Instructions from './Instructions';
+import { Player } from './Multiplayer';
 
-const Menu = ({ resetBoard }: { resetBoard?: () => void }) => {
+const Menu = ({
+  resetBoard,
+  resetRoom,
+  multiplayer,
+}: {
+  resetBoard?: () => void;
+  resetRoom?: () => void;
+  multiplayer?: Player;
+}) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showRules, setShowRules] = useState<boolean>(false);
   const [showCulture, setShowCulture] = useState<boolean>(false);
@@ -45,7 +54,7 @@ const Menu = ({ resetBoard }: { resetBoard?: () => void }) => {
         <div className={styles.sidebarContent}>
           <ul>
             <li>
-              {pathname !== '/game' ? (
+              {!['/game', '/multiplayer'].includes(pathname) ? (
                 <Link href='/game' role='button'>
                   Play Game
                 </Link>
@@ -55,7 +64,7 @@ const Menu = ({ resetBoard }: { resetBoard?: () => void }) => {
                 </Link>
               )}
               <Image
-                src='/icons/head.webp'
+                src='/players/head.webp'
                 alt='Olmec Head'
                 width={32}
                 height={32}
@@ -93,10 +102,21 @@ const Menu = ({ resetBoard }: { resetBoard?: () => void }) => {
             </li>
             {resetBoard && (
               <li onClick={resetBoard}>
-                <a>Reset Game</a>
+                <a>Reset Board</a>
                 <Image
-                  src='/icons/figure.webp'
+                  src='/players/kunz.webp'
                   alt='Jade Figure'
+                  width={32}
+                  height={32}
+                />
+              </li>
+            )}
+            {multiplayer?.room && (
+              <li onClick={resetRoom}>
+                <a>Close Room</a>
+                <Image
+                  src='/icons/house.webp'
+                  alt='Room'
                   width={32}
                   height={32}
                 />

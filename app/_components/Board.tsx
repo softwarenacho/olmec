@@ -14,8 +14,10 @@ import {
   calculateBorderClasses,
   generateSpiralBoard,
 } from '../_utils/generateBoard';
+import { Player } from './Multiplayer';
 
 interface BoardProps {
+  player?: Player;
   snakes: SnakeOrLadder[];
   ladders: SnakeOrLadder[];
   playerPosition: number;
@@ -28,6 +30,7 @@ interface BoardProps {
 }
 
 const Board = ({
+  player,
   snakes,
   ladders,
   playerPosition,
@@ -51,6 +54,22 @@ const Board = ({
       });
     }
   };
+
+  const playerTile = useCallback(
+    () => (
+      <span
+        className={`${styles.player} ${playerIsMoving ? styles.moving : ''}`}
+        style={{
+          background: `url('/players/${player?.avatar || 'jaguar.webp'}')`,
+          backgroundPosition: 'center',
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+        }}
+        ref={playerRef}
+      ></span>
+    ),
+    [player?.avatar, playerIsMoving],
+  );
 
   const renderTile = useCallback(
     (index: number) => {
@@ -99,26 +118,14 @@ const Board = ({
       if (index === playerPosition && index === aiPosition) {
         content = (
           <div className={styles.dualPlayer}>
-            <span
-              className={`${styles.player} ${
-                playerIsMoving ? styles.moving : ''
-              }`}
-              ref={playerRef}
-            ></span>
+            {playerTile()}
             <span
               className={`${styles.ai} ${aiIsMoving ? styles.moving : ''}`}
             ></span>
           </div>
         );
       } else if (index === playerPosition) {
-        content = (
-          <span
-            className={`${styles.player} ${
-              playerIsMoving ? styles.moving : ''
-            }`}
-            ref={playerRef}
-          ></span>
-        );
+        content = playerTile();
       } else if (index === aiPosition) {
         content = (
           <span
@@ -142,7 +149,7 @@ const Board = ({
         </div>
       );
     },
-    [aiIsMoving, aiPosition, ladders, playerIsMoving, playerPosition, snakes],
+    [aiIsMoving, aiPosition, ladders, playerPosition, playerTile, snakes],
   );
 
   useEffect(() => {
@@ -179,7 +186,11 @@ const Board = ({
               height={100}
             />
             <Image
-              src={`/icons/${playerPosition === 100 ? 'jaguar' : 'eagle'}.webp`}
+              src={`/players/${
+                playerPosition === 100
+                  ? player?.avatar || 'jaguar.webp'
+                  : 'eagle.webp'
+              }`}
               alt='Player'
               width={200}
               height={200}
@@ -192,7 +203,8 @@ const Board = ({
             />
           </div>
           <h2>
-            {playerPosition === 100 ? 'Jaguar' : 'Eagle'} Warrior Won
+            {playerPosition === 100 ? player?.name || 'Jaguar' : 'Eagle'}{' '}
+            Warrior Won
             {playerPosition === 100 ? '!!!' : ''}
           </h2>
           <button onClick={resetBoard}>Play Again</button>

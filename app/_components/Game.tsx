@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styles from '../_styles/Game.module.scss';
 import {
   SnakeOrLadder,
@@ -10,14 +10,17 @@ import useBgSound from '../_utils/useBackground';
 import Board from './Board';
 import Dice from './Dice';
 import Menu from './Menu';
+import { Player } from './Multiplayer';
 
-const Game: React.FC = () => {
+const Game = ({
+  multiplayer,
+  setGameReady,
+}: {
+  multiplayer?: Player;
+  setGameReady: Dispatch<SetStateAction<boolean>>;
+}) => {
   const [playerPosition, setPlayerPosition] = useState(1);
-  const [aiPosition, setAiPosition] = useState(1);
-  const [snakesAndLadders, setSnakesAndLadders] = useState<{
-    snakes: SnakeOrLadder[];
-    ladders: SnakeOrLadder[];
-  }>({ snakes: [], ladders: [] });
+  const [aiPosition, setAiPosition] = useState(multiplayer?.room ? 0 : 1);
   const [isAnimating, setIsAnimating] = useState(false);
   const [resetDice, setResetDice] = useState(false);
   const [playerIsMoving, setPlayerIsMoving] = useState(false);
@@ -25,6 +28,10 @@ const Game: React.FC = () => {
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [bgMusicOn, setBgMusicOn] = useState(false);
   const [sfxOn, setSfxOn] = useState(false);
+  const [snakesAndLadders, setSnakesAndLadders] = useState<{
+    snakes: SnakeOrLadder[];
+    ladders: SnakeOrLadder[];
+  }>({ snakes: [], ladders: [] });
 
   const { play: upSound } = useAudio('/sounds/up.mp3');
   const { play: downSound } = useAudio('/sounds/down.mp3');
@@ -86,15 +93,20 @@ const Game: React.FC = () => {
     setPlayerIsMoving(true);
     movePlayer(playerPosition, setPlayerPosition, result, () => {
       setPlayerIsMoving(false);
-      setAiIsMoving(true);
-      const aiRoll = Math.floor(Math.random() * 6) + 1;
-      movePlayer(aiPosition, setAiPosition, aiRoll, () => {
-        setAiIsMoving(false);
+      if (!multiplayer?.room) {
+        setAiIsMoving(true);
+        const aiRoll = Math.floor(Math.random() * 6) + 1;
+        movePlayer(aiPosition, setAiPosition, aiRoll, () => {
+          setAiIsMoving(false);
+          setIsAnimating(false);
+          setTimeout(() => {
+            setResetDice(true);
+          }, result * 200);
+        });
+      } else {
         setIsAnimating(false);
-        setTimeout(() => {
-          setResetDice(true);
-        }, result * 200);
-      });
+        setResetDice(true);
+      }
     });
   };
 
@@ -134,18 +146,27 @@ const Game: React.FC = () => {
 
   const resetBoard = () => {
     setSnakesAndLadders(generateSnakesAndLadders());
+    if (!multiplayer?.room) setAiPosition(1);
     setPlayerPosition(1);
-    setAiPosition(1);
     setGameOver(false);
     stopBgSound();
     stopWonSound();
     if (bgMusicOn) playBgSound();
   };
 
+  const resetRoom = () => {
+    setGameReady(false);
+  };
+
   return (
-    <div className={styles.game}>
-      <Menu resetBoard={resetBoard} />
+    <section className={styles.game}>
+      <Menu
+        resetBoard={resetBoard}
+        resetRoom={resetRoom}
+        multiplayer={multiplayer}
+      />
       <Board
+        player={multiplayer}
         snakes={snakesAndLadders.snakes}
         ladders={snakesAndLadders.ladders}
         playerPosition={playerPosition}
@@ -186,7 +207,7 @@ const Game: React.FC = () => {
           />
         </label>
       </div>
-    </div>
+    </section>
   );
 };
 

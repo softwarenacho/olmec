@@ -79,7 +79,19 @@
       "description": "Game",
       "icons": [
         {
-          "src": "/icons/jaguar.webp",
+          "src": "/players/jaguar.webp",
+          "sizes": "512x512",
+          "type": "image/webp"
+        }
+      ]
+    },
+    {
+      "name": "Multiplayer",
+      "url": "/multiplayer",
+      "description": "Multiplayer",
+      "icons": [
+        {
+          "src": "/players/chac.webp",
           "sizes": "512x512",
           "type": "image/webp"
         }

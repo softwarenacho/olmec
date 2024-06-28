@@ -8,11 +8,16 @@ const Instructions = () => {
       <h2 className={styles.subtitle}>How to Play Olmec</h2>
       <ol className={styles.instructions}>
         <li>
-          <Image src='/icons/dice-6.webp' alt='Dice' width={48} height={48} />
+          <Image src='/dice/dice-6.webp' alt='Dice' width={48} height={48} />
           Click on the Dice to roll it and get a number between 1 and 6.
         </li>
         <li>
-          <Image src='/icons/jaguar.webp' alt='Jaguar' width={48} height={48} />
+          <Image
+            src='/players/jaguar.webp'
+            alt='Jaguar'
+            width={48}
+            height={48}
+          />
           Your Jaguar warrior will move forward according to the number you
           rolled.
         </li>

@@ -18,7 +18,7 @@ const Home = () => {
         <div className={styles.backgroundPattern}></div>
         <div className={styles.olmecHead}></div>
         <Menu />
-        <div className={styles.mainElement}>
+        <div className={styles.container}>
           <div className={styles.summary}>
             <p>
               Olmec is an exciting twist on the classic Snakes and Ladders game.
@@ -31,7 +31,7 @@ const Home = () => {
                 height={32}
               />
               <Image
-                src='/icons/figure.webp'
+                src='/players/kunz.webp'
                 alt='Jade Figure'
                 width={32}
                 height={32}
@@ -42,7 +42,7 @@ const Home = () => {
               your way to the top of the pyramid.
             </p>
             <Image
-              src='/icons/jaguar.webp'
+              src='/players/jaguar.webp'
               alt='Jaguar Warrior'
               width={64}
               height={64}
@@ -52,9 +52,14 @@ const Home = () => {
               Roll your dice to reach the top before the Eagle warrior to win
               the game!
             </p>
-            <Link className={styles.knowMoreButton} href='/game' role='button'>
-              Play Now
-            </Link>
+            <div className={styles.actions}>
+              <Link className={styles.cpu} href='/game' role='button'>
+                Play vs CPU
+              </Link>
+              <Link className={styles.multi} href='/multiplayer' role='button'>
+                Play with Friends
+              </Link>
+            </div>
           </div>
         </div>
         {(showRules || showCulture) && (

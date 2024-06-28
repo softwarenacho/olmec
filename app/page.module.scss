@@ -33,7 +33,7 @@ $sulfur: #fee082;
   opacity: 0.1;
 }
 
-.mainElement {
+.container {
   position: relative;
   text-align: center;
   padding: 0 1rem;
@@ -41,7 +41,7 @@ $sulfur: #fee082;
 }
 
 .olmecHead {
-  background: url(/icons/olmec.png) no-repeat center center;
+  background: url('/icons/olmec.png') no-repeat center center;
   background-size: cover;
   background-position-y: 50%;
   height: 10rem;
@@ -82,17 +82,30 @@ $sulfur: #fee082;
   }
 }
 
-.knowMoreButton {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  background-color: $jade;
+.actions {
+  @include flex-center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.cpu,
+.multi {
   cursor: pointer;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   padding: 1rem 2rem;
   border: 0.5rem solid $basalt;
   border-radius: 0.5rem;
   color: $basalt;
+}
+
+.cpu {
+  background-color: $jade;
+}
+
+.multi {
+  background-color: $sulfur;
 }
 
 .close {
