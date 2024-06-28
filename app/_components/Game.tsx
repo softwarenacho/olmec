@@ -17,7 +17,7 @@ const Game = ({
   setGameReady,
 }: {
   multiplayer?: Player;
-  setGameReady: Dispatch<SetStateAction<boolean>>;
+  setGameReady?: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [playerPosition, setPlayerPosition] = useState(1);
   const [aiPosition, setAiPosition] = useState(multiplayer?.room ? 0 : 1);
@@ -155,7 +155,7 @@ const Game = ({
   };
 
   const resetRoom = () => {
-    setGameReady(false);
+    setGameReady && setGameReady(false);
   };
 
   return (
