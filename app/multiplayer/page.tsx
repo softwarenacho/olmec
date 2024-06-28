@@ -43,6 +43,14 @@ const GamePage = () => {
     });
   };
 
+  useEffect(() => {
+    const player = players.find((p) => p.name === name);
+    if (player) {
+      setAvatar(player.avatar);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [players, name]);
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <main className={styles.main}>

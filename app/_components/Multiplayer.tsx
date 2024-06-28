@@ -1,11 +1,5 @@
 import Image from 'next/image';
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import styles from '../_styles/Multiplayer.module.scss';
 import { supabase } from '../_utils/supabaseClient';
 
@@ -156,14 +150,6 @@ const Multiplayer = ({
     }
   };
 
-  useEffect(() => {
-    const player = playerExists(name);
-    if (player) {
-      setAvatar(player.avatar);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name]);
-
   return (
     <section className={styles.multi}>
       <Image
@@ -239,7 +225,11 @@ const Multiplayer = ({
           {images.map((image: string) => (
             <Image
               key={image}
-              className={avatar === image ? styles.selected : ''}
+              className={`${avatar === image ? styles.selected : ''} ${
+                players.find((p) => p.name === name)?.avatar !== image
+                  ? styles.otherPlayer
+                  : ''
+              }`}
               src={`/players/${image}`}
               alt={`Avatar ${image}`}
               onClick={() => {
