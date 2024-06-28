@@ -101,8 +101,9 @@ const Multiplayer = ({
       .from('players')
       .insert({ name, avatar, position: 0, room, ready: false })
       .select();
+    console.log('🚀 ~ createPlayer ~ error:', error, data);
     if (!error) {
-      setPlayers([...players, data]);
+      setPlayers([...players, data[0]]);
     } else {
       alert('ERROR CREATING PLAYER');
     }
