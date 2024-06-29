@@ -9,7 +9,9 @@ const Lobby = ({
   setGameStart,
   setMultiplayer,
   setGameReady,
+  setPlayers,
   startGame,
+  updatePosition,
   resetGame,
   players,
 }: {
@@ -17,6 +19,8 @@ const Lobby = ({
   setGameStart: Dispatch<SetStateAction<boolean>>;
   setMultiplayer: Dispatch<SetStateAction<Player>>;
   setGameReady: Dispatch<SetStateAction<boolean>>;
+  setPlayers: Dispatch<SetStateAction<any[]>>;
+  updatePosition: (n: number) => void;
   resetGame: () => void;
   startGame: boolean;
   players: any[];
@@ -40,6 +44,7 @@ const Lobby = ({
       position: playerReady ? 1 : 0,
       ready: playerReady,
     });
+    updatePosition(playerReady ? 1 : 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playerReady]);
 
@@ -50,6 +55,37 @@ const Lobby = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [players]);
+
+  useEffect(() => {
+    const channel = supabase.channel(multiplayer.room || 'default');
+    channel
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'players' },
+        (payload: any) => {
+          const changed = players.filter((p) => p.name === payload.new.name);
+          const others = players.filter((p) => p.name !== payload.new.name);
+          const updatedPlayer = {
+            ...changed[0],
+            avatar: payload.new.avatar,
+            position: payload.new.position,
+            ready: payload.new.ready,
+          };
+          const newPlayers = [...others, updatedPlayer];
+          setPlayers(newPlayers);
+        },
+      )
+      .subscribe((status) => {
+        if (status === 'SUBSCRIBED') {
+          channel.send({
+            type: 'broadcast',
+            event: 'cursor-pos',
+            payload: { x: Math.random(), y: Math.random() },
+          });
+        }
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={styles.lobby}>

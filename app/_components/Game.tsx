@@ -15,9 +15,13 @@ import { Player } from './Multiplayer';
 const Game = ({
   multiplayer,
   setMultiplayer,
+  updatePosition,
+  players,
 }: {
   multiplayer?: Player;
   setMultiplayer?: Dispatch<SetStateAction<Player>>;
+  updatePosition?: (n: number) => void;
+  players: any[];
 }) => {
   const [playerPosition, setPlayerPosition] = useState(1);
   const [aiPosition, setAiPosition] = useState(multiplayer?.room ? 0 : 1);
@@ -120,6 +124,7 @@ const Game = ({
     const interval = setInterval(() => {
       newPosition++;
       setPosition(newPosition);
+      updatePosition && updatePosition(newPosition);
       if (setMultiplayer) {
         setMultiplayer({
           ...multiplayer,
@@ -149,6 +154,7 @@ const Game = ({
               position: newPosition,
             });
           }
+          updatePosition && updatePosition(newPosition);
           setPosition(newPosition);
           callback();
         }, 500);
@@ -177,6 +183,7 @@ const Game = ({
       <Menu resetBoard={resetBoard} multiplayer={multiplayer} />
       <Board
         player={multiplayer}
+        players={players}
         snakes={snakesAndLadders.snakes}
         ladders={snakesAndLadders.ladders}
         playerPosition={playerPosition}

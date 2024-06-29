@@ -9,7 +9,7 @@ import { supabase } from '../_utils/supabaseClient';
 
 const GamePage = () => {
   const [avatar, setAvatar] = useState<string>('jaguar.webp');
-  const [name, setName] = useState<string>('nacho');
+  const [name, setName] = useState<string>('');
   const [room, setRoom] = useState<string>('waffles');
   const [rooms, setRooms] = useState<any[]>([]);
   const [players, setPlayers] = useState<any[]>([]);
@@ -29,6 +29,16 @@ const GamePage = () => {
     setPlayers(data || []);
   };
 
+  const updatePosition = async (position: number) => {
+    const { error } = await supabase
+      .from('players')
+      .update({ position })
+      .eq('name', multiplayer.name || '');
+    if (error) {
+      alert('ERROR UPDATING POSITION');
+    }
+  };
+
   useEffect(() => {
     getRooms();
     getPlayers();
@@ -45,7 +55,7 @@ const GamePage = () => {
 
   useEffect(() => {
     const player = players.find((p) => p.name === name);
-    if (player) {
+    if (player && player.avatar !== avatar) {
       setAvatar(player.avatar);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,17 +66,24 @@ const GamePage = () => {
       <main className={styles.main}>
         {gameReady && (
           <Lobby
-            players={players}
+            updatePosition={updatePosition}
+            players={players.filter((p) => p.room == room)}
             resetGame={resetGame}
             multiplayer={multiplayer}
             setMultiplayer={setMultiplayer}
+            setPlayers={setPlayers}
             startGame={startGame}
             setGameStart={setGameStart}
             setGameReady={setGameReady}
           />
         )}
         {startGame && (
-          <Game multiplayer={multiplayer} setMultiplayer={setMultiplayer} />
+          <Game
+            players={players.filter((p) => p.room == room)}
+            multiplayer={multiplayer}
+            setMultiplayer={setMultiplayer}
+            updatePosition={updatePosition}
+          />
         )}
         {!gameReady && !startGame && (
           <Multiplayer
