@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styles from '../_styles/Lobby.module.scss';
+import { supabase } from '../_utils/supabaseClient';
 import { Player } from './Multiplayer';
 
 const Lobby = ({
@@ -20,26 +21,35 @@ const Lobby = ({
   startGame: boolean;
   players: any[];
 }) => {
-  // console.log('🚀 ~ players:', players);
   const [playerReady, setPlayerReady] = useState<boolean>(false);
   const [showActions, setShowActions] = useState<boolean>(true);
 
-  useEffect(() => {
-    if (playerReady) {
-      setMultiplayer({
-        ...multiplayer,
-        position: 1,
-        ready: true,
-      });
-    } else {
-      setMultiplayer({
-        ...multiplayer,
-        position: 0,
-        ready: false,
-      });
+  const updateReadiness = async (ready: boolean) => {
+    const { error } = await supabase
+      .from('players')
+      .update({ ready })
+      .eq('name', multiplayer.name || '');
+    if (!error) {
+      setPlayerReady(ready);
     }
+  };
+
+  useEffect(() => {
+    setMultiplayer({
+      ...multiplayer,
+      position: playerReady ? 1 : 0,
+      ready: playerReady,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playerReady]);
+
+  useEffect(() => {
+    const player = players.find((p) => multiplayer.name === p.name);
+    if (player) {
+      setPlayerReady(player.ready);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [players]);
 
   return (
     <div className={styles.lobby}>
@@ -51,11 +61,13 @@ const Lobby = ({
         height={24}
         onClick={() => setShowActions(!showActions)}
       />
-      <div className={styles.players}>
+      <div
+        className={`${styles.players} ${showActions ? '' : styles.minimized}`}
+      >
         <div className={styles.head}>
           <p className={styles.names}>{multiplayer?.room}</p>
           {!startGame && <p className={styles.ready}>Status</p>}
-          {players.every((player) => player.position) && (
+          {players.filter((player) => player.ready).length >= 2 && (
             <p className={styles.position}>
               <Image
                 src='/icons/position.webp'
@@ -66,54 +78,57 @@ const Lobby = ({
             </p>
           )}
         </div>
-        {players.map((player) => (
-          <div className={styles.player} key={player.name}>
-            <p className={styles.names}>
-              <Image
-                src={`/players/${player.avatar}`}
-                alt={`Avatar ${player.avatar}`}
-                width={32}
-                height={32}
-              />
-              <span>{player.name}</span>
-            </p>
-            {!startGame && (
-              <p className={styles.ready}>
-                {player.name === multiplayer.name ? (
-                  <label className={styles.switch}>
-                    <input
-                      type='checkbox'
-                      checked={playerReady}
-                      onChange={(e) => {
-                        setPlayerReady(e.target.checked);
-                      }}
-                    />
-                    <span className={styles.slider}></span>
-                  </label>
-                ) : (
-                  <span>{player.ready ? 'Ready' : 'Waiting'}</span>
-                )}
+        {players
+          .filter((p) => (showActions && !startGame ? true : p.ready))
+          .map((player) => (
+            <div className={styles.player} key={player.name}>
+              <p className={styles.names}>
+                <Image
+                  src={`/players/${player.avatar}`}
+                  alt={`Avatar ${player.avatar}`}
+                  width={32}
+                  height={32}
+                />
+                <span>{player.name}</span>
               </p>
-            )}
-            {players.every((player) => player.position) && (
-              <p className={styles.position}>{player.position}</p>
-            )}
-          </div>
-        ))}
+              {!startGame && (
+                <p className={styles.ready}>
+                  {player.name === multiplayer.name ? (
+                    <label className={styles.switch}>
+                      <input
+                        type='checkbox'
+                        checked={playerReady}
+                        onChange={(e) => {
+                          updateReadiness(e.target.checked);
+                        }}
+                      />
+                      <span className={styles.slider}></span>
+                    </label>
+                  ) : (
+                    <span>{player.ready ? 'Ready' : 'Waiting'}</span>
+                  )}
+                </p>
+              )}
+              {players.filter((player) => player.ready).length >= 2 && (
+                <p className={styles.position}>{player.position}</p>
+              )}
+            </div>
+          ))}
       </div>
       {showActions && (
         <>
           <div className={styles.actions}>
-            {!startGame && players.every((player) => player.ready) && (
-              <button
-                onClick={() => {
-                  setGameStart(true);
-                  setShowActions(false);
-                }}
-              >
-                Start Game
-              </button>
-            )}
+            {!startGame &&
+              players.filter((player) => player.ready).length >= 2 && (
+                <button
+                  onClick={() => {
+                    setGameStart(true);
+                    setShowActions(false);
+                  }}
+                >
+                  Start Game
+                </button>
+              )}
             {startGame && <button onClick={resetGame}>Reset Game</button>}
             <button
               className={styles.close}

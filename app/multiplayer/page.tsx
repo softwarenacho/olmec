@@ -25,7 +25,7 @@ const GamePage = () => {
   const getPlayers = async () => {
     const { data } = await supabase
       .from('players')
-      .select(`name, avatar, room`);
+      .select(`name, avatar, room, ready, position`);
     setPlayers(data || []);
   };
 

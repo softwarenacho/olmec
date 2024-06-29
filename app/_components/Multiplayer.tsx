@@ -131,11 +131,12 @@ const Multiplayer = ({
   };
 
   const setBase = () => {
+    const player = players.find((p) => p.name === name);
     setMultiplayer({
       name,
       room,
       avatar,
-      ready: false,
+      ready: player ? player.ready : false,
       position: 0,
     });
     setGameReady(true);
