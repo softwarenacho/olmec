@@ -53,6 +53,7 @@ export type Database = {
           id: number
           name: string
           owner: string
+          ready: boolean
           winner: string | null
         }
         Insert: {
@@ -60,6 +61,7 @@ export type Database = {
           id?: number
           name?: string
           owner?: string
+          ready?: boolean
           winner?: string | null
         }
         Update: {
@@ -67,6 +69,7 @@ export type Database = {
           id?: number
           name?: string
           owner?: string
+          ready?: boolean
           winner?: string | null
         }
         Relationships: []

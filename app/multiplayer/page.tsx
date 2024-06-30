@@ -9,7 +9,7 @@ import { supabase } from '../_utils/supabaseClient';
 
 const GamePage = () => {
   const [avatar, setAvatar] = useState<string>('jaguar.webp');
-  const [name, setName] = useState<string>('');
+  const [name, setName] = useState<string>('oli');
   const [room, setRoom] = useState<string>('waffles');
   const [rooms, setRooms] = useState<any[]>([]);
   const [players, setPlayers] = useState<any[]>([]);
@@ -18,8 +18,9 @@ const GamePage = () => {
   const [startGame, setGameStart] = useState<boolean>(false);
 
   const getRooms = async () => {
-    const { data } = await supabase.from('rooms').select(`name`);
+    const { data } = await supabase.from('rooms').select(`name, owner`);
     setRooms(data || []);
+    // console.log('🚀 ~ getRooms ~ data:', data);
   };
 
   const getPlayers = async () => {
@@ -68,6 +69,8 @@ const GamePage = () => {
           <Lobby
             updatePosition={updatePosition}
             players={players.filter((p) => p.room == room)}
+            room={rooms.find((r) => r.name === multiplayer.room)}
+            rooms={rooms}
             resetGame={resetGame}
             multiplayer={multiplayer}
             setMultiplayer={setMultiplayer}

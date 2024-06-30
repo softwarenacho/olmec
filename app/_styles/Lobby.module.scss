@@ -60,7 +60,7 @@ $sulfur: #fee082;
     padding: 1rem;
     color: $basalt;
     &.names {
-      width: 12rem;
+      width: 10rem;
     }
     &.ready {
       width: 8rem;
@@ -82,6 +82,12 @@ $sulfur: #fee082;
     border-left: 0.25rem solid $basalt;
     border-right: 0.25rem solid $basalt;
     border-bottom: 0.25rem solid $basalt;
+    .names {
+      justify-content: flex-end;
+      span {
+        text-align: right;
+      }
+    }
   }
   .head,
   .player {
@@ -95,6 +101,11 @@ $sulfur: #fee082;
       gap: 1rem;
     }
   }
+}
+
+.wait {
+  margin-top: 1rem;
+  text-align: center;
 }
 
 .minimized {
@@ -117,6 +128,7 @@ $sulfur: #fee082;
       color: $basalt;
       padding: 0.25rem;
       &.names {
+        text-align: right;
         gap: 0.25rem;
         width: unset;
       }

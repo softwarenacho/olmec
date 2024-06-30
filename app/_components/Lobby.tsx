@@ -14,6 +14,8 @@ const Lobby = ({
   updatePosition,
   resetGame,
   players,
+  rooms,
+  room,
 }: {
   multiplayer: Player;
   setGameStart: Dispatch<SetStateAction<boolean>>;
@@ -24,7 +26,11 @@ const Lobby = ({
   resetGame: () => void;
   startGame: boolean;
   players: any[];
+  rooms: any[];
+  room: any;
 }) => {
+  const isOwner = room.owner === multiplayer.name;
+  console.log('🚀 ~ room:', room, isOwner);
   const [playerReady, setPlayerReady] = useState<boolean>(false);
   const [showActions, setShowActions] = useState<boolean>(true);
 
@@ -58,51 +64,64 @@ const Lobby = ({
 
   useEffect(() => {
     const channel = supabase.channel(multiplayer.room || 'default');
-    channel
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'players' },
-        (payload: any) => {
-          const changed = players.filter((p) => p.name === payload.new.name);
-          const others = players.filter((p) => p.name !== payload.new.name);
-          const updatedPlayer = {
-            ...changed[0],
-            avatar: payload.new.avatar,
-            position: payload.new.position,
-            ready: payload.new.ready,
-          };
-          const newPlayers = [...others, updatedPlayer];
-          setPlayers(newPlayers);
-        },
-      )
-      .subscribe((status) => {
-        if (status === 'SUBSCRIBED') {
-          channel.send({
-            type: 'broadcast',
-            event: 'cursor-pos',
-            payload: { x: Math.random(), y: Math.random() },
-          });
-        }
-      });
+    // Subscribe to players
+    channel.on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'players' },
+      (payload: any) => {
+        const changed = players.filter((p) => p.name === payload.new.name);
+        const others = players.filter((p) => p.name !== payload.new.name);
+        const updatedPlayer = {
+          ...changed[0],
+          avatar: payload.new.avatar,
+          position: payload.new.position,
+          ready: payload.new.ready,
+        };
+        const newPlayers = [...others, updatedPlayer];
+        setPlayers(newPlayers);
+      },
+    );
+    // Subscribe to room
+    channel.on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'rooms' },
+      (payload: any) => {
+        console.log('🚀 ~ useEffect ~ payload:', payload);
+        const changed = rooms.filter((r) => r.name === payload.new.name);
+        console.log('🚀 ~ useEffect ~ changed:', changed);
+        const others = rooms.filter((p) => p.name !== payload.new.name);
+        console.log('🚀 ~ useEffect ~ others:', others);
+        // const updatedPlayer = {
+        //   ...changed[0],
+        //   avatar: payload.new.avatar,
+        //   position: payload.new.position,
+        //   ready: payload.new.ready,
+        // };
+        // const newPlayers = [...others, updatedPlayer];
+        // setPlayers(newPlayers);
+      },
+    );
+    // eslin
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className={styles.lobby}>
-      <Image
-        src='/icons/up.webp'
-        alt='Toggle Menu'
-        className={`${styles.caret} ${!showActions ? styles.down : ''}`}
-        width={24}
-        height={24}
-        onClick={() => setShowActions(!showActions)}
-      />
+      {isOwner && (
+        <Image
+          src='/icons/up.webp'
+          alt='Toggle Menu'
+          className={`${styles.caret} ${!showActions ? styles.down : ''}`}
+          width={24}
+          height={24}
+          onClick={() => setShowActions(!showActions)}
+        />
+      )}
       <div
         className={`${styles.players} ${showActions ? '' : styles.minimized}`}
       >
         <div className={styles.head}>
           <p className={styles.names}>{multiplayer?.room}</p>
-          {!startGame && <p className={styles.ready}>Status</p>}
           {players.filter((player) => player.ready).length >= 2 && (
             <p className={styles.position}>
               <Image
@@ -113,20 +132,24 @@ const Lobby = ({
               />
             </p>
           )}
+          {!startGame && <p className={styles.ready}>Status</p>}
         </div>
         {players
           .filter((p) => (showActions && !startGame ? true : p.ready))
           .map((player) => (
             <div className={styles.player} key={player.name}>
               <p className={styles.names}>
+                <span>{player.name}</span>
                 <Image
                   src={`/players/${player.avatar}`}
                   alt={`Avatar ${player.avatar}`}
                   width={32}
                   height={32}
                 />
-                <span>{player.name}</span>
               </p>
+              {players.filter((player) => player.ready).length >= 2 && (
+                <p className={styles.position}>{player.position}</p>
+              )}
               {!startGame && (
                 <p className={styles.ready}>
                   {player.name === multiplayer.name ? (
@@ -145,16 +168,17 @@ const Lobby = ({
                   )}
                 </p>
               )}
-              {players.filter((player) => player.ready).length >= 2 && (
-                <p className={styles.position}>{player.position}</p>
-              )}
             </div>
           ))}
       </div>
       {showActions && (
         <>
+          {!startGame && !isOwner && (
+            <p className={styles.wait}>Wait for owner to start</p>
+          )}
           <div className={styles.actions}>
             {!startGame &&
+              isOwner &&
               players.filter((player) => player.ready).length >= 2 && (
                 <button
                   onClick={() => {
@@ -171,9 +195,10 @@ const Lobby = ({
               onClick={() => {
                 setGameReady(false);
                 setGameStart(false);
+                updateReadiness(false);
               }}
             >
-              Close Room
+              {isOwner ? 'Close Room' : 'Exit Room'}
             </button>
           </div>
         </>
