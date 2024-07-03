@@ -35,22 +35,22 @@ const Lobby = ({
   const [showActions, setShowActions] = useState<boolean>(true);
 
   const updateReadiness = async (ready: boolean) => {
+    console.log('🚀 ~ updateReadiness ~ ready:', ready);
     const { error } = await supabase
       .from('players')
       .update({ ready })
       .eq('name', multiplayer.name || '');
-    if (!error) {
-      setPlayerReady(ready);
-    }
+    console.log('🚀 ~ updateReadiness ~ error:', error);
+    setMultiplayer({
+      ...multiplayer,
+      position: ready ? 1 : 0,
+      ready: ready,
+    });
+    updatePosition(ready ? 1 : 0);
   };
 
   useEffect(() => {
-    setMultiplayer({
-      ...multiplayer,
-      position: playerReady ? 1 : 0,
-      ready: playerReady,
-    });
-    updatePosition(playerReady ? 1 : 0);
+    console.log('🚀 ~ useEffect ~ playerReady:', playerReady);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playerReady]);
 
@@ -69,6 +69,7 @@ const Lobby = ({
       'postgres_changes',
       { event: '*', schema: 'public', table: 'players' },
       (payload: any) => {
+        console.log('🚀 ~ useEffect ~ payload:', payload);
         const changed = players.filter((p) => p.name === payload.new.name);
         const others = players.filter((p) => p.name !== payload.new.name);
         const updatedPlayer = {
@@ -82,25 +83,25 @@ const Lobby = ({
       },
     );
     // Subscribe to room
-    channel.on(
-      'postgres_changes',
-      { event: '*', schema: 'public', table: 'rooms' },
-      (payload: any) => {
-        console.log('🚀 ~ useEffect ~ payload:', payload);
-        const changed = rooms.filter((r) => r.name === payload.new.name);
-        console.log('🚀 ~ useEffect ~ changed:', changed);
-        const others = rooms.filter((p) => p.name !== payload.new.name);
-        console.log('🚀 ~ useEffect ~ others:', others);
-        // const updatedPlayer = {
-        //   ...changed[0],
-        //   avatar: payload.new.avatar,
-        //   position: payload.new.position,
-        //   ready: payload.new.ready,
-        // };
-        // const newPlayers = [...others, updatedPlayer];
-        // setPlayers(newPlayers);
-      },
-    );
+    // channel.on(
+    //   'postgres_changes',
+    //   { event: '*', schema: 'public', table: 'rooms' },
+    //   (payload: any) => {
+    //     console.log('🚀 ~ useEffect ~ payload:', payload);
+    //     const changed = rooms.filter((r) => r.name === payload.new.name);
+    //     console.log('🚀 ~ useEffect ~ changed:', changed);
+    //     const others = rooms.filter((p) => p.name !== payload.new.name);
+    //     console.log('🚀 ~ useEffect ~ others:', others);
+    //     // const updatedPlayer = {
+    //     //   ...changed[0],
+    //     //   avatar: payload.new.avatar,
+    //     //   position: payload.new.position,
+    //     //   ready: payload.new.ready,
+    //     // };
+    //     // const newPlayers = [...others, updatedPlayer];
+    //     // setPlayers(newPlayers);
+    //   },
+    // );
     // eslin
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -156,9 +157,9 @@ const Lobby = ({
                     <label className={styles.switch}>
                       <input
                         type='checkbox'
-                        checked={playerReady}
-                        onChange={(e) => {
-                          updateReadiness(e.target.checked);
+                        checked={multiplayer.ready}
+                        onChange={() => {
+                          updateReadiness(!multiplayer.ready);
                         }}
                       />
                       <span className={styles.slider}></span>
