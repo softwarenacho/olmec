@@ -16,11 +16,11 @@ const GamePage = () => {
   const [multiplayer, setMultiplayer] = useState<Player>({});
   const [gameReady, setGameReady] = useState<boolean>(false);
   const [startGame, setGameStart] = useState<boolean>(false);
+  const [showActions, setShowActions] = useState<boolean>(true);
 
   const getRooms = async () => {
-    const { data } = await supabase.from('rooms').select(`name, owner`);
+    const { data } = await supabase.from('rooms').select(`name, owner, ready`);
     setRooms(data || []);
-    // console.log('🚀 ~ getRooms ~ data:', data);
   };
 
   const getPlayers = async () => {
@@ -40,12 +40,13 @@ const GamePage = () => {
     }
   };
 
-  useEffect(() => {
-    getRooms();
-    getPlayers();
-  }, []);
-
-  const resetGame = () => {
+  const resetGame = async () => {
+    const gamePlayers = players
+      .filter((p) => p.room == room)
+      .filter((p) => p.ready);
+    await Promise.all(
+      gamePlayers.map((player: any) => resetPlayer(player.name)),
+    );
     setGameStart(false);
     setMultiplayer({
       ...multiplayer,
@@ -53,6 +54,64 @@ const GamePage = () => {
       ready: true,
     });
   };
+
+  const resetPlayer = async (name: string) => {
+    await supabase
+      .from('players')
+      .update({ position: 1, ready: false })
+      .eq('name', name || '');
+  };
+
+  const updateReadiness = async (ready: boolean) => {
+    const { error } = await supabase
+      .from('players')
+      .update({ ready })
+      .eq('name', multiplayer.name || '');
+    if (!error) {
+      setMultiplayer({
+        ...multiplayer,
+        position: ready ? 1 : 0,
+        ready: ready,
+      });
+      updatePosition(ready ? 1 : 0);
+    }
+  };
+
+  const roomSubscription = (payload: any) => {
+    const changed: any = rooms.find((r) => r.name === payload.new.name);
+    const others = rooms.filter((p) => p.name !== payload.new.name);
+    if (changed && changed.ready !== startGame) {
+      setGameStart(changed.ready);
+      setShowActions(!changed.ready);
+      const newRooms = [...others, changed];
+      setRooms(newRooms);
+    }
+  };
+
+  const playersSubscription = (payload: any) => {
+    console.log('🚀 ~ playersSubscription ~ payload:', payload);
+    const changed = players.filter((p) => p.name === payload.new.name);
+    const others = players.filter((p) => p.name !== payload.new.name);
+    const updatedPlayer = {
+      ...changed[0],
+      avatar: payload.new.avatar,
+      position: payload.new.position,
+      ready: payload.new.ready,
+    };
+    const newPlayers = [...others, updatedPlayer];
+    setPlayers(newPlayers);
+  };
+
+  useEffect(() => {
+    const roomReadiness = async (ready: boolean) => {
+      await supabase
+        .from('rooms')
+        .update({ ready: !!ready })
+        .eq('name', multiplayer.room || '');
+    };
+    roomReadiness(startGame);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startGame]);
 
   useEffect(() => {
     const player = players.find((p) => p.name === name);
@@ -62,11 +121,51 @@ const GamePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [players, name]);
 
+  useEffect(() => {
+    const channel = supabase.channel(multiplayer.room || 'default');
+    channel
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'players',
+        },
+        (payload: any) => playersSubscription(payload),
+      )
+      .subscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const channel = supabase.channel(multiplayer.room || 'default');
+    channel
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'rooms',
+        },
+        (payload: any) => roomSubscription(payload),
+      )
+      .subscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    getRooms();
+    getPlayers();
+  }, []);
+
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <main className={styles.main}>
         {gameReady && (
           <Lobby
+            showActions={showActions}
+            setShowActions={setShowActions}
+            updateReadiness={updateReadiness}
             updatePosition={updatePosition}
             players={players.filter((p) => p.room == room)}
             room={rooms.find((r) => r.name === multiplayer.room)}
@@ -75,6 +174,7 @@ const GamePage = () => {
             multiplayer={multiplayer}
             setMultiplayer={setMultiplayer}
             setPlayers={setPlayers}
+            setRooms={setRooms}
             startGame={startGame}
             setGameStart={setGameStart}
             setGameReady={setGameReady}
