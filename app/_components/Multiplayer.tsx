@@ -1,6 +1,7 @@
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import styles from '../_styles/Multiplayer.module.scss';
+import { supabase } from '../_utils/supabaseClient';
 
 export interface Player {
   name?: string;
@@ -15,6 +16,10 @@ interface MultiplayerInterface {
   setAvatar: Dispatch<SetStateAction<string>>;
   name: string;
   setName: Dispatch<SetStateAction<string>>;
+  rooms: any[];
+  setRooms: Dispatch<SetStateAction<any[]>>;
+  players: any[];
+  setPlayers: Dispatch<SetStateAction<any[]>>;
   room: string;
   setRoom: Dispatch<SetStateAction<string>>;
   setMultiplayer: Dispatch<SetStateAction<Player>>;
@@ -26,8 +31,12 @@ const Multiplayer = ({
   setAvatar,
   name,
   setName,
+  rooms,
   room,
+  players,
   setRoom,
+  setRooms,
+  setPlayers,
   setMultiplayer,
   setGameReady,
 }: MultiplayerInterface) => {
@@ -63,30 +72,107 @@ const Multiplayer = ({
 
   const [changeAvatar, setChangeAvatar] = useState<boolean>(false);
 
-  const createOrConnect = () => {
+  const roomExists = useCallback(() => {
+    return rooms.find((r) => r.name === room);
+  }, [room, rooms]);
+
+  const playerExists = useCallback(
+    (n: string) => {
+      return players.find((p: any) => p.name === n);
+    },
+    [players],
+  );
+
+  const createRoom = async () => {
+    const { data, error } = await supabase
+      .from('rooms')
+      .insert({ name: room, owner: name })
+      .select();
+    if (!error) {
+      setRooms(data);
+      setBase();
+    } else {
+      alert('ERROR CREATING ROOM');
+    }
+  };
+
+  const createPlayer = async () => {
+    const { data, error } = await supabase
+      .from('players')
+      .insert({ name, avatar, position: 0, room, ready: false })
+      .select();
+    if (!error) {
+      setPlayers([...players, data[0]]);
+    } else {
+      alert('ERROR CREATING PLAYER');
+    }
+  };
+
+  const updatePlayer = async () => {
+    const { data, error } = await supabase
+      .from('players')
+      .update({ room, avatar })
+      .eq('name', name)
+      .select();
+    if (!error) {
+      const filterPlayers = players.filter((p) => p.name !== name);
+      setPlayers([...filterPlayers, data[0]]);
+    } else {
+      alert('ERROR SELECTING PLAYER');
+    }
+  };
+
+  const handlePlayer = async () => {
+    if (!playerExists(name)) {
+      createPlayer();
+    } else {
+      updatePlayer();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  };
+
+  const setBase = () => {
+    const player = players.find((p) => p.name === name);
     setMultiplayer({
       name,
       room,
       avatar,
-      ready: false,
+      ready: player ? player.ready : false,
       position: 0,
     });
     setGameReady(true);
+  };
+
+  const createOrConnect = async () => {
+    handlePlayer();
+    if (roomExists()) {
+      setBase();
+    } else {
+      createRoom();
+    }
+  };
+
+  const isSelectedByPlayers = (image: string) => {
+    const filtered = players.filter((p) => p.room === room && p.name !== name);
+    const found = filtered.find((p) => p.avatar === image);
+    return found?.avatar;
   };
 
   return (
     <section className={styles.multi}>
       <Image
         className={styles.top}
-        src={`/icons/teotihuacan.webp`}
-        alt={`Teotihuacan`}
+        src={`/icons/water.webp`}
+        alt={`Water`}
         width={48}
         height={48}
         priority
       />
       <div className={styles.inputs}>
         <label>
-          <div className={styles.left}>
+          <div
+            className={`${styles.left} ${roomExists() ? styles.exists : ''}`}
+          >
             <Image
               className={styles.wall}
               src={`/icons/wall-basalt.webp`}
@@ -119,7 +205,11 @@ const Multiplayer = ({
           <span>Avatar</span>
         </label>
         <label>
-          <div className={styles.right}>
+          <div
+            className={`${styles.right} ${
+              playerExists(name) ? styles.exists : ''
+            }`}
+          >
             <input
               type='text'
               value={name}
@@ -143,12 +233,16 @@ const Multiplayer = ({
           {images.map((image: string) => (
             <Image
               key={image}
-              className={avatar === image ? styles.selected : ''}
+              className={`${avatar === image ? styles.selected : ''} ${
+                isSelectedByPlayers(image) ? styles.otherPlayer : ''
+              }`}
               src={`/players/${image}`}
               alt={`Avatar ${image}`}
               onClick={() => {
-                setAvatar(image);
-                setChangeAvatar(false);
+                if (!isSelectedByPlayers(image)) {
+                  setAvatar(image);
+                  setChangeAvatar(false);
+                }
               }}
               width={64}
               height={64}
@@ -159,12 +253,8 @@ const Multiplayer = ({
       {(!name || !room) && <div className={styles.base}></div>}
       {name && room && (
         <div className={styles.actions}>
-          <button
-            onClick={() => {
-              createOrConnect();
-            }}
-          >
-            Start Game
+          <button onClick={createOrConnect}>
+            {roomExists() ? 'Connect to Room' : 'Create Room'}
           </button>
         </div>
       )}

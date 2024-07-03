@@ -16,13 +16,16 @@ $sulfur: #fee082;
   position: absolute;
   top: 20%;
   width: 90%;
-  background: $basalt;
   padding: 2rem;
   gap: 1rem;
   color: white;
   border: 0.5rem solid $jade;
   border-radius: 0.5rem;
   z-index: 10;
+  background: url('/icons/pattern.svg') repeat;
+  background-position: center;
+  background-blend-mode: color-dodge;
+  background-color: $basalt;
   box-shadow: 2px 2px 2px $basalt, -2px -2px 2px $basalt;
   &:hover {
     box-shadow: 4px 4px 4px $basalt, -4px -4px 4px $basalt;
@@ -45,6 +48,9 @@ $sulfur: #fee082;
       background-color: $jade;
       background-position: center;
       background-size: contain;
+    }
+    .exists {
+      background: $jade;
     }
     &.change {
       .selected {
@@ -114,16 +120,21 @@ $sulfur: #fee082;
     background-position: center;
     background-size: contain;
     padding: 0.5rem;
-    &:hover {
+    &:not(.otherPlayer):hover {
       box-shadow: 2px 2px 2px $jade, -2px -2px 2px $jade;
       background-color: $snake;
       border-color: $ladder;
     }
-  }
-  .selected {
-    background-color: $sulfur;
-    border-color: $jade;
-    box-shadow: 2px 2px 2px $sulfur, -2px -2px 2px $sulfur;
+    &.selected {
+      background-color: $sulfur;
+      border-color: $jade;
+      box-shadow: 2px 2px 2px $sulfur, -2px -2px 2px $sulfur;
+    }
+    &.otherPlayer {
+      border: 0.25rem solid $basalt;
+      background: $basalt;
+      opacity: 0.5;
+    }
   }
 }
 

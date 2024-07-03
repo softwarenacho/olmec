@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styles from '../_styles/Lobby.module.scss';
+import { supabase } from '../_utils/supabaseClient';
 import { Player } from './Multiplayer';
 
 const Lobby = ({
@@ -8,61 +9,132 @@ const Lobby = ({
   setGameStart,
   setMultiplayer,
   setGameReady,
+  setPlayers,
   startGame,
+  updatePosition,
   resetGame,
+  players,
+  rooms,
+  room,
 }: {
   multiplayer: Player;
   setGameStart: Dispatch<SetStateAction<boolean>>;
   setMultiplayer: Dispatch<SetStateAction<Player>>;
   setGameReady: Dispatch<SetStateAction<boolean>>;
+  setPlayers: Dispatch<SetStateAction<any[]>>;
+  updatePosition: (n: number) => void;
   resetGame: () => void;
   startGame: boolean;
+  players: any[];
+  rooms: any[];
+  room: any;
 }) => {
-  const players: Player[] = [multiplayer];
+  const isOwner = room.owner === multiplayer.name;
   const [playerReady, setPlayerReady] = useState<boolean>(false);
   const [showActions, setShowActions] = useState<boolean>(true);
 
-  useEffect(() => {
-    if (playerReady) {
+  const updateReadiness = async (ready: boolean) => {
+    const { error } = await supabase
+      .from('players')
+      .update({ ready })
+      .eq('name', multiplayer.name || '');
+    if (!error) {
       setMultiplayer({
         ...multiplayer,
-        position: 1,
-        ready: true,
+        position: ready ? 1 : 0,
+        ready: ready,
       });
-    } else {
-      setMultiplayer({
-        ...multiplayer,
-        position: 0,
-        ready: false,
-      });
+      updatePosition(ready ? 1 : 0);
     }
+  };
+
+  useEffect(() => {
+    const player = players.find((p) => multiplayer.name === p.name);
+    if (player) {
+      setPlayerReady(player.ready);
+    }
+    console.log('🚀 ~ players:', players);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playerReady]);
+  }, [players]);
+
+  const playersSubscription = (payload: any) => {
+    console.log('🚀 ~ useEffect ~ payload:', payload);
+    const changed = players.filter((p) => p.name === payload.new.name);
+    const others = players.filter((p) => p.name !== payload.new.name);
+    const updatedPlayer = {
+      ...changed[0],
+      avatar: payload.new.avatar,
+      position: payload.new.position,
+      ready: payload.new.ready,
+    };
+    const newPlayers = [...others, updatedPlayer];
+    setPlayers(newPlayers);
+  };
+
+  useEffect(() => {
+    const channel = supabase.channel(multiplayer.room || 'default');
+    // Subscribe to players
+    channel
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'players' },
+        (payload: any) => playersSubscription(payload),
+      )
+      .subscribe();
+    // Subscribe to room
+    // channel.on(
+    //   'postgres_changes',
+    //   { event: '*', schema: 'public', table: 'rooms' },
+    //   (payload: any) => {
+    //     console.log('🚀 ~ useEffect ~ payload:', payload);
+    //     const changed = rooms.filter((r) => r.name === payload.new.name);
+    //     console.log('🚀 ~ useEffect ~ changed:', changed);
+    //     const others = rooms.filter((p) => p.name !== payload.new.name);
+    //     console.log('🚀 ~ useEffect ~ others:', others);
+    //     // const updatedPlayer = {
+    //     //   ...changed[0],
+    //     //   avatar: payload.new.avatar,
+    //     //   position: payload.new.position,
+    //     //   ready: payload.new.ready,
+    //     // };
+    //     // const newPlayers = [...others, updatedPlayer];
+    //     // setPlayers(newPlayers);
+    //   },
+    // );
+    // eslin
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const sort = (a: any, b: any) => {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  };
 
   return (
     <div className={styles.lobby}>
-      <Image
-        src='/icons/up.webp'
-        alt='Toggle Menu'
-        className={`${styles.caret} ${!showActions ? styles.down : ''}`}
-        width={24}
-        height={24}
-        onClick={() => setShowActions(!showActions)}
-      />
-      <div className={styles.players}>
+      {isOwner && (
+        <Image
+          src='/icons/up.webp'
+          alt='Toggle Menu'
+          className={`${styles.caret} ${!showActions ? styles.down : ''}`}
+          width={24}
+          height={24}
+          onClick={() => setShowActions(!showActions)}
+        />
+      )}
+      <div
+        className={`${styles.players} ${showActions ? '' : styles.minimized}`}
+      >
         <div className={styles.head}>
           <p className={styles.names}>{multiplayer?.room}</p>
-          {!startGame && (
-            <p className={styles.ready}>
-              <Image
-                src='/icons/ready.webp'
-                alt='Players Ready'
-                width={24}
-                height={24}
-              />
-            </p>
-          )}
-          {players.every((player) => player.position) && (
+          {players.filter((player) => player.ready).length >= 2 && (
             <p className={styles.position}>
               <Image
                 src='/icons/position.webp'
@@ -72,64 +144,74 @@ const Lobby = ({
               />
             </p>
           )}
+          {!startGame && <p className={styles.ready}>Status</p>}
         </div>
-        {players.map((player) => (
-          <div className={styles.player} key={player.name}>
-            <p className={styles.names}>
-              <Image
-                src={`/players/${player.avatar}`}
-                alt={`Avatar ${player.avatar}`}
-                width={32}
-                height={32}
-              />
-              <span>{player.name}</span>
-            </p>
-            {!startGame && (
-              <p className={styles.ready}>
-                {player.name === multiplayer.name ? (
-                  <label className={styles.switch}>
-                    <input
-                      type='checkbox'
-                      checked={playerReady}
-                      onChange={(e) => {
-                        setPlayerReady(e.target.checked);
-                      }}
-                    />
-                    <span className={styles.slider}></span>
-                  </label>
-                ) : (
-                  <span>{player.ready ? 'Ready' : 'Waiting'}</span>
-                )}
+        {players
+          .filter((p) => (showActions && !startGame ? true : p.ready))
+          .sort(sort)
+          .map((player) => (
+            <div className={styles.player} key={player.name}>
+              <p className={styles.names}>
+                <span>{player.name}</span>
+                <Image
+                  src={`/players/${player.avatar}`}
+                  alt={`Avatar ${player.avatar}`}
+                  width={32}
+                  height={32}
+                />
               </p>
-            )}
-            {players.every((player) => player.position) && (
-              <p className={styles.position}>{player.position}</p>
-            )}
-          </div>
-        ))}
+              {players.filter((player) => player.ready).length >= 2 && (
+                <p className={styles.position}>{player.position}</p>
+              )}
+              {!startGame && (
+                <p className={styles.ready}>
+                  {player.name === multiplayer.name ? (
+                    <label className={styles.switch}>
+                      <input
+                        type='checkbox'
+                        checked={multiplayer.ready}
+                        onChange={() => {
+                          updateReadiness(!multiplayer.ready);
+                        }}
+                      />
+                      <span className={styles.slider}></span>
+                    </label>
+                  ) : (
+                    <span>{player.ready ? 'Ready' : 'Waiting'}</span>
+                  )}
+                </p>
+              )}
+            </div>
+          ))}
       </div>
       {showActions && (
         <>
+          {!startGame && !isOwner && (
+            <p className={styles.wait}>Wait for owner to start</p>
+          )}
           <div className={styles.actions}>
-            {!startGame && players.every((player) => player.ready) && (
-              <button
-                onClick={() => {
-                  setGameStart(true);
-                  setShowActions(false);
-                }}
-              >
-                Start Game
-              </button>
-            )}
+            {!startGame &&
+              isOwner &&
+              players.filter((p) => p.ready).length >= 2 && (
+                <button
+                  onClick={() => {
+                    setGameStart(true);
+                    setShowActions(false);
+                  }}
+                >
+                  Start Game
+                </button>
+              )}
             {startGame && <button onClick={resetGame}>Reset Game</button>}
             <button
               className={styles.close}
               onClick={() => {
                 setGameReady(false);
                 setGameStart(false);
+                updateReadiness(false);
               }}
             >
-              Close Room
+              {isOwner ? 'Close Room' : 'Exit Room'}
             </button>
           </div>
         </>

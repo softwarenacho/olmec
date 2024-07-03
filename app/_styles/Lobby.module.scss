@@ -4,9 +4,12 @@ $sulfur: #fee082;
 
 .lobby {
   position: relative;
-  background: $basalt;
   color: $jade;
   border-radius: 0.5rem;
+  background: url('/icons/pattern.svg') repeat;
+  background-position: center;
+  background-blend-mode: color-dodge;
+  background-color: $basalt;
   filter: drop-shadow(2px 2px 2px $basalt);
   &:hover {
     filter: drop-shadow(4px 4px 4px $basalt);
@@ -57,7 +60,7 @@ $sulfur: #fee082;
     padding: 1rem;
     color: $basalt;
     &.names {
-      width: 12rem;
+      width: 10rem;
     }
     &.ready {
       width: 8rem;
@@ -79,6 +82,12 @@ $sulfur: #fee082;
     border-left: 0.25rem solid $basalt;
     border-right: 0.25rem solid $basalt;
     border-bottom: 0.25rem solid $basalt;
+    .names {
+      justify-content: flex-end;
+      span {
+        text-align: right;
+      }
+    }
   }
   .head,
   .player {
@@ -90,6 +99,46 @@ $sulfur: #fee082;
       justify-content: center;
       align-items: center;
       gap: 1rem;
+    }
+  }
+}
+
+.wait {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.minimized {
+  border: 0.25rem solid $basalt;
+  border-radius: 0.25rem;
+  max-width: 50rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 1rem;
+  padding-right: 3rem;
+  .head {
+    display: none;
+  }
+  .player {
+    border: none;
+    flex-direction: row;
+    padding-right: 0;
+    p {
+      color: $basalt;
+      padding: 0.25rem;
+      &.names {
+        text-align: right;
+        gap: 0.25rem;
+        width: unset;
+      }
+      &.ready {
+        width: unset;
+      }
+      &.position {
+        margin-left: 0.25rem;
+        width: unset;
+      }
     }
   }
 }

@@ -90,6 +90,23 @@ $sulfur: #fee082;
   }
 }
 
+.multiplayer {
+  @include flex-center;
+  span {
+    display: flex;
+    position: absolute;
+    color: white;
+  }
+  .player {
+    width: 2rem;
+    height: 2rem;
+    @media screen and (min-width: 600px) {
+      width: 4rem;
+      height: 4rem;
+    }
+  }
+}
+
 .dualIndex {
   @include flex-center;
   span {

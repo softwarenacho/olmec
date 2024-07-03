@@ -18,6 +18,7 @@ import { Player } from './Multiplayer';
 
 interface BoardProps {
   player?: Player;
+  players?: any[];
   snakes: SnakeOrLadder[];
   ladders: SnakeOrLadder[];
   playerPosition: number;
@@ -31,6 +32,7 @@ interface BoardProps {
 
 const Board = ({
   player,
+  players,
   snakes,
   ladders,
   playerPosition,
@@ -69,6 +71,26 @@ const Board = ({
       ></span>
     ),
     [player?.avatar, playerIsMoving],
+  );
+
+  const playersTile = useCallback(
+    (p: any, index: number) => {
+      if (p.position !== index) return null;
+      if (p.name === player?.name) return playerTile();
+      return (
+        <span
+          key={p.name}
+          className={`${styles.player} ${playerIsMoving ? styles.moving : ''}`}
+          style={{
+            background: `url('/players/${p?.avatar || 'jaguar.webp'}')`,
+            backgroundPosition: 'center',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+          }}
+        ></span>
+      );
+    },
+    [player?.name, playerIsMoving, playerTile],
   );
 
   const renderTile = useCallback(
@@ -115,7 +137,14 @@ const Board = ({
         </div>
       );
 
-      if (index === playerPosition && index === aiPosition) {
+      if (players) {
+        content = (
+          <div className={styles.multiplayer}>
+            <span className={styles.index}>{index}</span>
+            {players.map((p) => playersTile(p, index))}
+          </div>
+        );
+      } else if (index === playerPosition && index === aiPosition) {
         content = (
           <div className={styles.dualPlayer}>
             {playerTile()}
@@ -149,7 +178,16 @@ const Board = ({
         </div>
       );
     },
-    [aiIsMoving, aiPosition, ladders, playerPosition, playerTile, snakes],
+    [
+      aiIsMoving,
+      aiPosition,
+      ladders,
+      playerPosition,
+      playerTile,
+      players,
+      playersTile,
+      snakes,
+    ],
   );
 
   useEffect(() => {
