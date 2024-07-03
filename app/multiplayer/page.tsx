@@ -134,6 +134,9 @@ const GamePage = () => {
         (payload: any) => playersSubscription(payload),
       )
       .subscribe();
+    return () => {
+      channel.unsubscribe();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -150,6 +153,9 @@ const GamePage = () => {
         (payload: any) => roomSubscription(payload),
       )
       .subscribe();
+    return () => {
+      channel.unsubscribe();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
