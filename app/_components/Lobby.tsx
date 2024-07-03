@@ -30,58 +30,57 @@ const Lobby = ({
   room: any;
 }) => {
   const isOwner = room.owner === multiplayer.name;
-  console.log('🚀 ~ room:', room, isOwner);
   const [playerReady, setPlayerReady] = useState<boolean>(false);
   const [showActions, setShowActions] = useState<boolean>(true);
 
   const updateReadiness = async (ready: boolean) => {
-    console.log('🚀 ~ updateReadiness ~ ready:', ready);
     const { error } = await supabase
       .from('players')
       .update({ ready })
       .eq('name', multiplayer.name || '');
-    console.log('🚀 ~ updateReadiness ~ error:', error);
-    setMultiplayer({
-      ...multiplayer,
-      position: ready ? 1 : 0,
-      ready: ready,
-    });
-    updatePosition(ready ? 1 : 0);
+    if (!error) {
+      setMultiplayer({
+        ...multiplayer,
+        position: ready ? 1 : 0,
+        ready: ready,
+      });
+      updatePosition(ready ? 1 : 0);
+    }
   };
-
-  useEffect(() => {
-    console.log('🚀 ~ useEffect ~ playerReady:', playerReady);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playerReady]);
 
   useEffect(() => {
     const player = players.find((p) => multiplayer.name === p.name);
     if (player) {
       setPlayerReady(player.ready);
     }
+    console.log('🚀 ~ players:', players);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [players]);
+
+  const playersSubscription = (payload: any) => {
+    console.log('🚀 ~ useEffect ~ payload:', payload);
+    const changed = players.filter((p) => p.name === payload.new.name);
+    const others = players.filter((p) => p.name !== payload.new.name);
+    const updatedPlayer = {
+      ...changed[0],
+      avatar: payload.new.avatar,
+      position: payload.new.position,
+      ready: payload.new.ready,
+    };
+    const newPlayers = [...others, updatedPlayer];
+    setPlayers(newPlayers);
+  };
 
   useEffect(() => {
     const channel = supabase.channel(multiplayer.room || 'default');
     // Subscribe to players
-    channel.on(
-      'postgres_changes',
-      { event: '*', schema: 'public', table: 'players' },
-      (payload: any) => {
-        console.log('🚀 ~ useEffect ~ payload:', payload);
-        const changed = players.filter((p) => p.name === payload.new.name);
-        const others = players.filter((p) => p.name !== payload.new.name);
-        const updatedPlayer = {
-          ...changed[0],
-          avatar: payload.new.avatar,
-          position: payload.new.position,
-          ready: payload.new.ready,
-        };
-        const newPlayers = [...others, updatedPlayer];
-        setPlayers(newPlayers);
-      },
-    );
+    channel
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'players' },
+        (payload: any) => playersSubscription(payload),
+      )
+      .subscribe();
     // Subscribe to room
     // channel.on(
     //   'postgres_changes',
@@ -105,6 +104,18 @@ const Lobby = ({
     // eslin
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const sort = (a: any, b: any) => {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  };
 
   return (
     <div className={styles.lobby}>
@@ -137,6 +148,7 @@ const Lobby = ({
         </div>
         {players
           .filter((p) => (showActions && !startGame ? true : p.ready))
+          .sort(sort)
           .map((player) => (
             <div className={styles.player} key={player.name}>
               <p className={styles.names}>
@@ -180,7 +192,7 @@ const Lobby = ({
           <div className={styles.actions}>
             {!startGame &&
               isOwner &&
-              players.filter((player) => player.ready).length >= 2 && (
+              players.filter((p) => p.ready).length >= 2 && (
                 <button
                   onClick={() => {
                     setGameStart(true);

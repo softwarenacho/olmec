@@ -21,7 +21,7 @@ const Game = ({
   multiplayer?: Player;
   setMultiplayer?: Dispatch<SetStateAction<Player>>;
   updatePosition?: (n: number) => void;
-  players: any[];
+  players?: any[];
 }) => {
   const [playerPosition, setPlayerPosition] = useState(1);
   const [aiPosition, setAiPosition] = useState(multiplayer?.room ? 0 : 1);
