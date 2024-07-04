@@ -1,109 +1,42 @@
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import styles from '../_styles/Lobby.module.scss';
-import { supabase } from '../_utils/supabaseClient';
 import { Player } from './Multiplayer';
 
 const Lobby = ({
   multiplayer,
+  showActions,
+  setShowActions,
   setGameStart,
   setMultiplayer,
   setGameReady,
   setPlayers,
   startGame,
+  setRooms,
   updatePosition,
   resetGame,
+  updateReadiness,
   players,
   rooms,
   room,
 }: {
   multiplayer: Player;
+  showActions: boolean;
+  setShowActions: Dispatch<SetStateAction<boolean>>;
   setGameStart: Dispatch<SetStateAction<boolean>>;
   setMultiplayer: Dispatch<SetStateAction<Player>>;
   setGameReady: Dispatch<SetStateAction<boolean>>;
   setPlayers: Dispatch<SetStateAction<any[]>>;
+  setRooms: Dispatch<SetStateAction<any[]>>;
   updatePosition: (n: number) => void;
   resetGame: () => void;
+  updateReadiness: (ready: boolean) => void;
   startGame: boolean;
   players: any[];
   rooms: any[];
   room: any;
 }) => {
   const isOwner = room.owner === multiplayer.name;
-  const [playerReady, setPlayerReady] = useState<boolean>(false);
-  const [showActions, setShowActions] = useState<boolean>(true);
-
-  const updateReadiness = async (ready: boolean) => {
-    const { error } = await supabase
-      .from('players')
-      .update({ ready })
-      .eq('name', multiplayer.name || '');
-    if (!error) {
-      setMultiplayer({
-        ...multiplayer,
-        position: ready ? 1 : 0,
-        ready: ready,
-      });
-      updatePosition(ready ? 1 : 0);
-    }
-  };
-
-  useEffect(() => {
-    const player = players.find((p) => multiplayer.name === p.name);
-    if (player) {
-      setPlayerReady(player.ready);
-    }
-    console.log('🚀 ~ players:', players);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [players]);
-
-  const playersSubscription = (payload: any) => {
-    console.log('🚀 ~ useEffect ~ payload:', payload);
-    const changed = players.filter((p) => p.name === payload.new.name);
-    const others = players.filter((p) => p.name !== payload.new.name);
-    const updatedPlayer = {
-      ...changed[0],
-      avatar: payload.new.avatar,
-      position: payload.new.position,
-      ready: payload.new.ready,
-    };
-    const newPlayers = [...others, updatedPlayer];
-    setPlayers(newPlayers);
-  };
-
-  useEffect(() => {
-    const channel = supabase.channel(multiplayer.room || 'default');
-    // Subscribe to players
-    channel
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'players' },
-        (payload: any) => playersSubscription(payload),
-      )
-      .subscribe();
-    // Subscribe to room
-    // channel.on(
-    //   'postgres_changes',
-    //   { event: '*', schema: 'public', table: 'rooms' },
-    //   (payload: any) => {
-    //     console.log('🚀 ~ useEffect ~ payload:', payload);
-    //     const changed = rooms.filter((r) => r.name === payload.new.name);
-    //     console.log('🚀 ~ useEffect ~ changed:', changed);
-    //     const others = rooms.filter((p) => p.name !== payload.new.name);
-    //     console.log('🚀 ~ useEffect ~ others:', others);
-    //     // const updatedPlayer = {
-    //     //   ...changed[0],
-    //     //   avatar: payload.new.avatar,
-    //     //   position: payload.new.position,
-    //     //   ready: payload.new.ready,
-    //     // };
-    //     // const newPlayers = [...others, updatedPlayer];
-    //     // setPlayers(newPlayers);
-    //   },
-    // );
-    // eslin
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const sort = (a: any, b: any) => {
     const nameA = a.name.toUpperCase();
@@ -190,18 +123,16 @@ const Lobby = ({
             <p className={styles.wait}>Wait for owner to start</p>
           )}
           <div className={styles.actions}>
-            {!startGame &&
-              isOwner &&
-              players.filter((p) => p.ready).length >= 2 && (
-                <button
-                  onClick={() => {
-                    setGameStart(true);
-                    setShowActions(false);
-                  }}
-                >
-                  Start Game
-                </button>
-              )}
+            {!startGame && isOwner && (
+              <button
+                onClick={() => {
+                  setGameStart(true);
+                  setShowActions(false);
+                }}
+              >
+                Start Game
+              </button>
+            )}
             {startGame && <button onClick={resetGame}>Reset Game</button>}
             <button
               className={styles.close}

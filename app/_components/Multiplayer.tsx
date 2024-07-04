@@ -138,7 +138,7 @@ const Multiplayer = ({
       room,
       avatar,
       ready: player ? player.ready : false,
-      position: 0,
+      position: 1,
     });
     setGameReady(true);
   };

@@ -60,6 +60,7 @@ const Board = ({
   const playerTile = useCallback(
     () => (
       <span
+        key={`player-tile-${player?.name}`}
         className={`${styles.player} ${playerIsMoving ? styles.moving : ''}`}
         style={{
           background: `url('/players/${player?.avatar || 'jaguar.webp'}')`,
@@ -70,7 +71,7 @@ const Board = ({
         ref={playerRef}
       ></span>
     ),
-    [player?.avatar, playerIsMoving],
+    [player?.avatar, player?.name, playerIsMoving],
   );
 
   const playersTile = useCallback(
@@ -79,7 +80,7 @@ const Board = ({
       if (p.name === player?.name) return playerTile();
       return (
         <span
-          key={p.name}
+          key={`${p.name}-${index}`}
           className={`${styles.player} ${playerIsMoving ? styles.moving : ''}`}
           style={{
             background: `url('/players/${p?.avatar || 'jaguar.webp'}')`,
@@ -166,7 +167,7 @@ const Board = ({
       return (
         <div
           id={`tile-${index}`}
-          key={index}
+          key={`tile-${index}`}
           className={`${styles.tile} ${tileClass} ${borderClasses} ${
             index === 100 ? styles.pyramid : ''
           } ${index === 1 ? styles.sulfur : ''}`}
